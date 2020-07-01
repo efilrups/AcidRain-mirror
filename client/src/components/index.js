@@ -1,0 +1,8 @@
+export { default as gameOver } from './gameOver'
+export { default as guestLogin } from './guestLogin'
+export { default as userLogin } from './userLogin'
+export { default as myPage } from './myPage'
+export { default as playStage } from './playStage'
+export { default as ranking } from './ranking'
+export { default as selectStage } from './selectStage'
+export { default as signup } from './signup'
