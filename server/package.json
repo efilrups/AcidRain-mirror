@@ -1,0 +1,25 @@
+{
+  "name": "acid-rain-server",
+  "version": "1.0.0",
+  "description": "Implement acid rain server",
+  "main": "basic-server.js",
+  "scripts": {
+    "start": "node basic-server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^6.2.4"
+  },
+  "devDependencies": {
+    "eslint": "^7.3.1",
+    "sequelize-cli": "^6.1.0"
+  }
+}
