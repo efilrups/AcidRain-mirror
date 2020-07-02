@@ -1,0 +1,19 @@
+# Floobits
+.floo
+.floobit
+.floo
+.flooignore
+
+### macOS ###
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# Dependency directories
+node_modules/
+
+# dotenv environment variables file
+.env
+
+# code editro
+.vscode/
