@@ -1,9 +1,9 @@
-const { mypage, signup, selectstage, playstage, rank, login, guest, gameover } = require("../models");
+const { users, guests, playlogs, stages } = require("../models");
 
 module.exports = {
     mypage: {
         get: function (req, res) {
-            mypage.findAll({
+            users.findAll({
                 where: {
                     nickname: req.body.nickname
                 }
