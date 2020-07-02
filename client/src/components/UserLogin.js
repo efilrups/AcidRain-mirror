@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 
-export class playStage extends Component {
+class UserLogin extends Component {
     render() {
         return (
             <div>
-                <gameOver/>
+                
             </div>
         )
     }
 }
 
-export default playStage  
+export default UserLogin

@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import nav from './pages/nav'
-import login from './pages/login'
+import { Nav, Login } from './pages'
 
 class App extends Component {
   render() {
     return (
       <div>
-        <nav/>
-        <login/>
+        <Nav/>
+        <Login/>
       </div>
     )
   }

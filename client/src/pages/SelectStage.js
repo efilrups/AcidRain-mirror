@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom';
 
-export class selectStage extends Component {
+class SelectStage extends Component {
     render() {
         return (
             <div>
@@ -11,4 +11,4 @@ export class selectStage extends Component {
     }
 }
 
-export default selectStage
+export default SelectStage

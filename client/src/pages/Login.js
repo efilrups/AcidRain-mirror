@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { Switch, Route} from "react-router-dom";
-import { userLogin, guestLogin, signup } from '../components'
-export class login extends Component {
+import { UserLogin, GuestLogin, Signup } from '../components'
+class Login extends Component {
     render() {
         return (
             <div>
                <Switch>
-                <userLogin/>
-                <guestLogin/>
-                <signup/>
+                <UserLogin/>
+                <GuestLogin/>
+                <Signup/>
 
                 <Route path='/selectstage'></Route>
                </Switch> 
@@ -17,5 +17,5 @@ export class login extends Component {
     }
 }
 
-export default login
+export default Login
 

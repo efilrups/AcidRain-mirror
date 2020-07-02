@@ -1,4 +1,4 @@
-export { default as login } from './login'
-export { default as nav } from './nav'
-export { default as playStage } from './playStage'
-export { default as selectStage } from './selectStage'
+export { default as Login } from './Login'
+export { default as Nav } from './Nav'
+export { default as PlayStage } from './PlayStage'
+export { default as SelectStage } from './SelectStage'
