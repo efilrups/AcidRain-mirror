@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 
-class PlayStage extends Component {
+class Play extends Component {
     render() {
         return (
             <div>
-                
+
             </div>
         )
     }
 }
 
-export default PlayStage
+export default Play
