@@ -14,8 +14,8 @@ module.exports = {
       contents: {
         type: Sequelize.STRING
       },
-      createdby: {
-        type: Sequelize.INTEGER
+      userid: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

@@ -15,13 +15,13 @@ module.exports = {
         type: Sequelize.STRING
       },
       userid: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       stageid: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       guestid: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
