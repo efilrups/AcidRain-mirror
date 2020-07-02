@@ -3,14 +3,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 
-const signupRouter = require("./routes/signupRouter");
-const mypageRouter = require("./routes/mypageRouter");
-const selectstageRouter = require("./routes/selectstageRouter");
-const playstageRouter = require("./routes/playstageRouter");
-const rankRouter = require("./routes/rankRouter");
-const loginRouter = require("./routes/loginRouter");
-const guestRouter = require("./routes/guestRouter");
-const gameoverRouter = require("./routes/gameoverRouter");
+const router = require("./routes.js");
 
 const cors = require("cors");
 
@@ -41,6 +34,10 @@ app.use(
     })
   );
 
+  // use 를 router로 바꾸기
+  // router.js를 만들어서 controller
+
+/*
 app.use("/signup", signupRouter)
 
 app.use("/mypage", mypageRouter)
@@ -56,6 +53,9 @@ app.use("/login", loginRouter)
 app.use("/guest", guestRouter)
 
 app.use("/gameover", gameoverRouter)
+*/
+
+app.use("/main", router)
 
 app.set('port', port);
 app.listen(app.get('port'), () => {
