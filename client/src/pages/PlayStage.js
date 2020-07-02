@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom';
-// import { GameOver } from '../components'
+import { GameOver, Play } from '../components'
 
 class PlayStage extends Component {
   constructor(props) {
@@ -57,6 +57,7 @@ Enter를 누르면 게임이 시작됩니다.
 
         <div className='gameBoard' style={{display:'none'}} ref={ref=>this.gameBoard=ref}>
           게임 드응자앙!
+          <Play/>
           <input
             type='button'
             value='되돌아가기'
