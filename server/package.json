@@ -4,7 +4,7 @@
   "description": "Implement acid rain server",
   "main": "basic-server.js",
   "scripts": {
-    "start": "node basic-server.js"
+    "start": "nodemon basic-server.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "express-session": "^1.17.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.1.0",
+    "nodemon": "^2.0.4",
     "sequelize": "^6.2.4"
   },
   "devDependencies": {
