@@ -21,21 +21,22 @@ class Ranking extends Component {
                     "created_at": '2020-07-03'
                 },
                 {
-                "id": 2,
-                "nickname": 'testname2',
-                "stageName": 'stage1',
-                "score": 600,
-                "created_at": '2020-07-03'
+                    "id": 2,
+                    "nickname": 'testname2',
+                    "stageName": 'stage1',
+                    "score": 600,
+                    "created_at": '2020-07-03'
                 }
             ]
         }
     }
 
     async componentDidMount() {
-        // await axios.get('https://localhost:5000 /rank')
-        //     .then(res => {
-        //         this.setState({ rankingOfTop10: res.data })
-        //     })
+        await axios.get('http://localhost:5000/main/rank')
+            .then(res => {
+                console.log(res.data)
+                this.setState({ rankingOfTop10: res.data })
+            })
     }
 
     render() {
@@ -53,11 +54,11 @@ class Ranking extends Component {
 
                     <fieldset>
                         <BootstrapTable data={this.state.rankingOfTop10} bordered={false}>
-                            <TableHeaderColumn dataField='id'  headerAlign="center" dataAlign='center'  isKey={true} thStyle={ { 'fontSize': '1rem' } }>순위</TableHeaderColumn>
-                            <TableHeaderColumn dataField='nickname'  headerAlign="center" dataAlign='center' thStyle={ { 'fontSize': '1rem' } }>이름</TableHeaderColumn>
-                            <TableHeaderColumn dataField='stageName'  headerAlign="center" dataAlign='center' thStyle={ { 'fontSize': '1rem' } }>스테이지</TableHeaderColumn>
-                            <TableHeaderColumn dataField='score'  headerAlign="center" dataAlign='center' thStyle={ { 'fontSize': '1rem' } } >점수</TableHeaderColumn>
-                            <TableHeaderColumn dataField='created_at'  headerAlign="center" dataAlign='center' thStyle={ { 'fontSize': '1rem' } } >일자</TableHeaderColumn>
+                            <TableHeaderColumn dataField='id' headerAlign="center" dataAlign='center' isKey={true} thStyle={{ 'fontSize': '1rem' }}>순위</TableHeaderColumn>
+                            <TableHeaderColumn dataField='nickname' headerAlign="center" dataAlign='center' thStyle={{ 'fontSize': '1rem' }}>이름</TableHeaderColumn>
+                            <TableHeaderColumn dataField='stageName' headerAlign="center" dataAlign='center' thStyle={{ 'fontSize': '1rem' }}>스테이지</TableHeaderColumn>
+                            <TableHeaderColumn dataField='score' headerAlign="center" dataAlign='center' thStyle={{ 'fontSize': '1rem' }} >점수</TableHeaderColumn>
+                            <TableHeaderColumn dataField='created_at' headerAlign="center" dataAlign='center' thStyle={{ 'fontSize': '1rem' }} >일자</TableHeaderColumn>
                         </BootstrapTable>
 
                         <div className="field-row" style={{ justifyContent: 'center' }}>
