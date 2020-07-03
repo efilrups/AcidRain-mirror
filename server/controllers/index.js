@@ -68,28 +68,55 @@ module.exports = {
     },
     signup: {
         // 이건 왜 안되지 post라서 그런가.... 
-        post: function (req, res) {
-            users.build({
+        post: async function (req, res) {
+            await users.create({ 
                 email: req.body.email,
                 password: req.body.password,
-                nickname: req.body.nickname
-            }, {
-                fields: ["email", "password", "nickname"]
+                nickname: req.body.nickname,
             })
-            .then((data) => {
-                if (data) {
-                    res.status(404).send({    
+            .then(user => {
+                console.log(user)
+                res.send(user.get({
+                    plain: true
+                }))
+                if (!user) {
+                    res.status(404).send({ 
                         "message": "회원가입에 실패하였습니다"
                     });
                 } else {
                     console.log('sdf')
-                    res.status(200).send({    
-                        "email": req.body.email, 
-                        "nickname": req.body.nickname,
-                        "message": "회원가입에 성공하였습니다"
-                    });
+                    res.status(200).send(user);
                 }
-              });
+              })
+            // function a (queryInterface, Sequelize) {
+            //      queryInterface.bulkInsert('users', [{
+            //       email: req.body.email,
+            //       password: req.body.password,
+            //       nickname: req.body.nickname,
+            //       createdAt: new Date(),
+            //       updatedAt: new Date()
+            //     }], {});
+            // }
+
+            // const setNewUser = async() => {
+            //     var newUser = {
+            //         email: req.body.email,
+            //         password: req.body.password,
+            //         nickname: req.body.nickname,
+            //     }
+            //     const user = await users.create(newUser);
+
+            //     if (!user) {
+            //         res.status(404).send({ 
+            //             "message": "회원가입에 실패하였습니다"
+            //         });
+            //     } else {
+            //         console.log('sdf')
+            //         res.status(200).send(user);
+            //     }
+            //   }
+
+            //   setNewUser();
         }
     },
     selectstage: {
