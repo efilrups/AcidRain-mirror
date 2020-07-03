@@ -136,6 +136,9 @@ module.exports = {
                     })
                 }
               })
+        },
+        post: async function(req, res) {
+
         }
     },
     // 닉네임, 스테이지, 점수, 일자
