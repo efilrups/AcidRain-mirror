@@ -5,9 +5,7 @@ class App extends Component {
   state = {
     userId: '',
     selectedStageName: 'test',
-    stageContents: [],
-    missedCode: [],
-    score: '',
+    stageContents: []
   }
 
   clickStage = (name) => {
@@ -22,13 +20,12 @@ class App extends Component {
 
 
   render() {
-    const { userId, selectedStageName, stageContents, missedCode, score } = this.state
+    const { userId, selectedStageName, stageContents } = this.state
     return (
       <div>
         <Route path='/' render={() => <Nav />} />
         <Route path='/' render={() => <Login userId={userId} selectedStageName={selectedStageName}
-          stageContents={stageContents} missedCode={missedCode} score={score}
-          clickStage={this.clickStage} getContents={this.getContents} />} />
+          stageContents={stageContents}  clickStage={this.clickStage} getContents={this.getContents} />} />
       </div>
     )
   }

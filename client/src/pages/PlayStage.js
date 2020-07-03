@@ -46,7 +46,7 @@ Enter를 누르면 게임이 시작됩니다.
       </div>
     )
 
-    const { userId, selectedStageName, stageContents, missedCode, score } = this.props
+    const { userId, selectedStageName, stageContents } = this.props
 
     return (
       <div className="playStage">
@@ -54,7 +54,7 @@ Enter를 누르면 게임이 시작됩니다.
         {
           this.state.isPlaying
             ? <Play isPlayingToggle={this.isPlayingToggle} enterkey={this.enterkey} userId={userId}
-            selectedStageName={selectedStageName} stageContents={stageContents} missedCode={missedCode} score={score} />
+            selectedStageName={selectedStageName} stageContents={stageContents} />
             : gameRule
         }
 
