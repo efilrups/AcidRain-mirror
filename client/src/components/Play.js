@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import  GameOver  from './GameOver'
+
 class Play extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +20,6 @@ class Play extends Component {
       end : false,
       RAIN_MAX : 15,
       score : 0,
-      missedCode: []
     }
 
     // canvas 관련 초기화
@@ -33,11 +33,11 @@ class Play extends Component {
       fontSize : 15,
       fontName : 'arial'
     };
+    this.missedCode = [];
 
     this.start = this.start.bind(this);
     this.draw = this.draw.bind(this);
     this.deleteCode = this.deleteCode.bind(this);
-    this.postGameResult = this.postGameResult.bind(this);
   }
 
   // canvas에 그려질 내용들 설정
@@ -112,6 +112,7 @@ class Play extends Component {
       if (this.randomArr[i].y > this.canvas.height - (this.font.fontSize/ 10)) {
         if (this.randomArr[i].code !== '') {
           this.life -= 1;
+          this.missedCode.push(this.randomArr[i].code);
         }
         this.randomArr[i].code = '';
       }
@@ -121,7 +122,7 @@ class Play extends Component {
       this.randomArr[i].y += this.font.fontSize;
     }
 
-    // ph바 그라데이션 설정 및 그리기
+    // ph바 그라데이션 설정
     let gra = this.ctx.createLinearGradient(200, 5, 400, 5)
     gra.addColorStop(0, 'rgb(247, 44, 31)');
     gra.addColorStop(0.4, 'rgb(247, 187, 31)');
@@ -129,6 +130,7 @@ class Play extends Component {
     gra.addColorStop(0.7, 'rgb(14, 207, 23)');
     gra.addColorStop(1, 'rgb(14, 67, 201)');
 
+    // ph바 그리기
     this.ctx.fillText(`ph.${this.life + 1}`, 150, this.font.fontSize + 5);
     this.ctx.fillRect(195, 5, 210, 20);
     this.ctx.fillStyle = gra;
@@ -152,16 +154,9 @@ class Play extends Component {
 
   }
 
-  postGameResult () {
-    const { score } = this.state
-    console.log(score);
-    // axios.post('http://localhost:5000/main/playstage')
-    this.state.gameOverToggle();
-  }
-
   render() {
     const {userId, selectedStageName, stageContents } = this.props
-    const { score, missedCode } = this.state
+    const { score } = this.state
 
     const gameEnd = (
       <input
@@ -194,9 +189,13 @@ class Play extends Component {
           onMouseUp={this.state.isPlayingToggle}
           onKeyUp={this.state.enterkey} />
 
+        {
+          this.state.end
+          ? <GameOver userId={userId} selectedStageName={selectedStageName}
+            stageContents={stageContents} score={score} missedCode={this.missedCode}  />
+          : ''
+        }
 
-        <GameOver userId={userId} selectedStageName={selectedStageName}
-          stageContents={stageContents} score={score} missedCode={missedCode}  />
 
       </div>
     )

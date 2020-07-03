@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
 import { Play } from '../components'
+import './css/PlayStage.css'
+import "98.css"
 
 class PlayStage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       gameStart : false,
-      gameOver : false,
+      // gameOver : false,
     }
     //이벤트 처리 함수들
     this.enterkey = this.enterkey.bind(this);
     this.gameStartToggle = this.gameStartToggle.bind(this);
-    this.gameOverToggle = this.gameOverToggle.bind(this);
+    // this.gameOverToggle = this.gameOverToggle.bind(this);
   }
   componentDidMount() {
     this.inputStart.focus();
@@ -26,19 +28,18 @@ class PlayStage extends Component {
   }
   gameStartToggle () {
     console.log('Game Start');
-    this.setState({
-      gameStart: !this.state.gameStart
-    });
+    this.setState(current =>({
+      gameStart: !current.gameStart
+    }));
   }
-  gameOverToggle () {
-    console.log('Game Over');
-
-    this.setState({
-      gameStart: !this.state.gameStart,
-      gameOver: !this.state.gameOver
-    });
-
-  }
+  // gameOverToggle () {
+  //   console.log('Game Over');
+  //
+  //   this.setState(current=>({
+  //     gameStart: !current.gameStart,
+  //     gameOver: !current.gameOver
+  //   }));
+  // }
 
   render() {
     const gameRule = (
@@ -65,11 +66,11 @@ class PlayStage extends Component {
     const { userId, selectedStageName, stageContents } = this.props
 
     return (
-      <div className="window playStage">
+      <div className="window PlayStage-window">
 
         {
           this.state.gameStart
-            ? <Play isPlayingToggle={this.isPlayingToggle} enterkey={this.enterkey} userId={userId}
+            ? <Play gameStartToggle={this.gameStartToggle} enterkey={this.enterkey} userId={userId}
             selectedStageName={selectedStageName} stageContents={stageContents} />
             : gameRule
         }
