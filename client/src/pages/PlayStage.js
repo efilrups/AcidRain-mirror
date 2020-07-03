@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom';
-import { GameOver, Play } from '../components'
+import { Play } from '../components'
 
 class PlayStage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isPlaying : false,
+      isPlaying: false,
     }
     //이벤트 처리 함수들
     this.enterkey = this.enterkey.bind(this);
@@ -21,7 +20,7 @@ class PlayStage extends Component {
       console.log('---')
     }
   }
-  isPlayingToggle () {
+  isPlayingToggle() {
     console.log('hiiiiii');
     this.setState({
       isPlaying: !this.state.isPlaying
@@ -32,7 +31,7 @@ class PlayStage extends Component {
     const gameRule = (
       <div className='gameRule'>
         <pre>
-        {`
+          {`
 산성비 - ph.GGANG
 시작 버튼을 누르거나
 Enter를 누르면 게임이 시작됩니다.
@@ -47,16 +46,20 @@ Enter를 누르면 게임이 시작됩니다.
       </div>
     )
 
+    const { userId, selectedStageName, stageContents } = this.props
+
     return (
       <div className="playStage">
 
         {
           this.state.isPlaying
-          ? <Play isPlayingToggle={this.isPlayingToggle} enterkey={this.enterkey}/>
-          : gameRule
+            ? <Play isPlayingToggle={this.isPlayingToggle} enterkey={this.enterkey} userId={userId}
+            selectedStageName={selectedStageName} stageContents={stageContents} />
+            : gameRule
         }
 
         {/* <GameOver/> */}
+
       </div>
     )
   }

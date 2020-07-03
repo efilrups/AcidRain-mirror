@@ -1,24 +1,25 @@
 import React, { Component } from 'react'
-
-
+import { Route } from 'react-router-dom'
+import  GameOver  from './GameOver'
 class Play extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
-      contents : [
-          'function foo()',
-          'let x = 0',
-          'Math.floor()',
-          'setTimeout(function, 1000)',
-          'array.push()',
-          'Boolean(10 > 9)',
-          'if (day == "Monday"){ return true }'
+      contents: [
+        'function foo()',
+        'let x = 0',
+        'Math.floor()',
+        'setTimeout(function, 1000)',
+        'array.push()',
+        'Boolean(10 > 9)',
+        'if (day == "Monday"){ return true }'
       ],
       isPlayingToggle : props.isPlayingToggle,
       enterkey : props.enterkey,
       end : false,
       RAIN_MAX : 15,
-      score : 0
+      score : 0,
+      missedCode: []
     }
 
     // canvas 관련 초기화
@@ -39,11 +40,11 @@ class Play extends Component {
   }
 
   // canvas에 그려질 내용들 설정
-  componentDidMount () {
+  componentDidMount() {
     this.canvas = document.getElementById('canvas');
     this.ctx = this.canvas.getContext('2d');
 
-    const { contents, RAIN_MAX }  = this.state;
+    const { contents, RAIN_MAX } = this.state;
 
     this.ctx.font = `${this.font.fontSize}px ${this.font.fontName}`;
 
@@ -55,7 +56,7 @@ class Play extends Component {
       let x = Math.round(Math.random() * (this.canvas.width - 50))
 
       // '출력 시작지점(x) + 코드의 길이' 가 캔버스 가로보다 크면 넘치는 만큼 x를 줄여줌
-      if ( x + contentInfo.width > this.canvas.width) {
+      if (x + contentInfo.width > this.canvas.width) {
         x -= (x + contentInfo.width - this.canvas.width);
       }
 
@@ -71,9 +72,9 @@ class Play extends Component {
     this.start();
   }
 
-  start () {
+  start() {
     const { RAIN_MAX } = this.state;
-    let move = setInterval(function() {
+    let move = setInterval(function () {
       // 한 번도 안내려보냈으면 무조건 한 번 내려보내고 아니면 45퍼의 확률로 내려보내지 않음
       if (this.rain_count === 0) {
         this.rain_count++;
@@ -92,11 +93,11 @@ class Play extends Component {
           end : !state.end
         }))
         clearInterval(move);
-        }
+      }
     }.bind(this), 1000);
   }
 
-  draw () {
+  draw() {
     this.ctx.fillStyle = 'gray';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = 'black';
@@ -133,7 +134,7 @@ class Play extends Component {
     this.ctx.fillRect(200, 7, this.life * 20, 16);
   }
 
-  deleteCode (event) {
+  deleteCode(event) {
     if (event.key === 'Enter') {
       let targetIndex = this.randomArr.findIndex( obj => event.target.value === obj.code );
       console.log('--OUt---targetIndex---', targetIndex);
@@ -151,6 +152,9 @@ class Play extends Component {
   }
 
   render() {
+    const {userId, selectedStageName, stageContents } = this.props
+    const { score, missedCode } = this.state
+
     const gameEnd = (
       <input
         type='text'
@@ -181,6 +185,10 @@ class Play extends Component {
           onMouseUp={this.state.isPlayingToggle}
           onKeyUp={this.state.enterkey} />
 
+
+        <GameOver userId={userId} selectedStageName={selectedStageName}
+          stageContents={stageContents} score={score} missedCode={missedCode}  />
+          
       </div>
     )
   }
