@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom'
 class App extends Component {
   state = {
     //제일 첫번째 stage이름을 넣어줌 
-    selectedStageName : 'stage1',
+    selectedStageName : 'test',
     stageContents : [],
   }
 
