@@ -22,6 +22,7 @@ class Ranking extends Component {
     async componentDidMount() {
         await axios.get('http://localhost:5000/main/rank')
             .then(res => {
+                // console.log(res.data)
                 this.setState({ rankingOfTop10: res.data })
             })
     }
@@ -30,7 +31,7 @@ class Ranking extends Component {
         //react-bootstrap-table을 이용하여 table을 구현, data를 지정하고 키 값을 지정하면 저절로 표를 구현할 수 있음 
         return (
 
-            <div className="window">
+            <div className="window Ranking-window">
                 <div className="title-bar">
                     <div className="title-bar-text">Acid rain</div>
                     <div className="title-bar-controls">
@@ -44,8 +45,8 @@ class Ranking extends Component {
                     <div className="field-row" style={{ justifyContent: 'center' }}>
                         <BootstrapTable data={this.state.rankingOfTop10} 
                         bordered={false}
-                        headerStyle={{'border-bottom':'black 0.05rem solid', 'margin-bottom':'1rem', 'margin-top':'1rem', 'padding-bottom':'1rem'}}
-                        containerStyle={{ 'border-bottom': 'black solid 0.05rem', 'padding-bottom':'1rem'}}
+                        headerStyle={{'borderBottom':'black 0.05rem solid', 'marginBottom':'1rem', 'marginTop':'1rem', 'paddingBottom':'1rem'}}
+                        containerStyle={{ 'borderBottom': 'black solid 0.05rem', 'paddingBottom':'1rem'}}
                         // tableStyle={ { 'border': 'blue solid 1px'  } }
                         >
                             <TableHeaderColumn  dataField='id' dataAlign='center' isKey={true} tdStyle={{  'fontSize': '1rem',paddingRight:'2rem'}} thStyle={{ 'fontSize': '1rem',paddingLeft:'1rem' ,paddingRight:'2rem' }}>순위</TableHeaderColumn>

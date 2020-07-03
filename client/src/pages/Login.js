@@ -13,7 +13,7 @@ class Login extends Component {
     }
 
     render() {
-        const { selectedStageName, clickStage,  getContent } = this.props;
+        const { userId, selectedStageName, stageContents, missedCode, score, clickStage,  getContent } = this.props;
         return (
             <div>
             Login Route 확인용
@@ -22,7 +22,9 @@ class Login extends Component {
                 <Signup/>
 
                 <Switch>
-                <Route path='/playstage' component={PlayStage}></Route>
+                <Route path='/playstage' render={()=><PlayStage userId={userId} selectedStageName={selectedStageName} 
+                    stageContents={stageContents} missedCode={missedCode} score={score} 
+                />}/>
                 <Route path='/selectstage' render={() => <SelectStage selectedStageName={selectedStageName} clickStage={clickStage}  getContent={getContent}/>}/>
                 </Switch>
             </div>

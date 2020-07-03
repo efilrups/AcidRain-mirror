@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom';
-import { GameOver, Play } from '../components'
+import { Play } from '../components'
 
 class PlayStage extends Component {
   constructor(props) {
@@ -63,19 +62,20 @@ class PlayStage extends Component {
       </div>
     )
 
+    const { userId, selectedStageName, stageContents } = this.props
+
     return (
       <div className="window playStage">
 
         {
           this.state.gameStart
-          ? <Play gameOverToggle={this.gameOverToggle} enterkey={this.enterkey}/>
-          : gameRule
+            ? <Play isPlayingToggle={this.isPlayingToggle} enterkey={this.enterkey} userId={userId}
+            selectedStageName={selectedStageName} stageContents={stageContents} />
+            : gameRule
         }
-        {
-          this.state.gameOver
-          ? <GameOver/>
-          : ''
-        }
+
+        {/* <GameOver/> */}
+
       </div>
     )
   }
