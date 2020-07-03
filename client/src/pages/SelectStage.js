@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { StageListEntry } from '../components';
 import './css/SelectStage.css'
 import "98.css"
@@ -62,10 +62,6 @@ class SelectStage extends Component {
                             }}>플레이</button>
                         </div>
                     </fieldset>
-
-
-
-                    <Route path='/playstage'></Route>
                 </div>
             </div>
 
