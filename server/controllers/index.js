@@ -141,6 +141,7 @@ module.exports = {
     // 닉네임, 스테이지, 점수, 일자
     rank: {
         get: (async (req, res) => {
+            
             let ranks = await playlogs.findAll({
               attributes: ['score', 'createdat'],
               include: [{

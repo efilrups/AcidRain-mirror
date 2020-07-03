@@ -1,0 +1,33 @@
+.window{
+    position: absolute;
+    top:50%;
+    left:50%;
+    height:26rem;
+    width:34rem;
+    margin:-13rem 0 0 -17rem;
+}
+
+.title{
+    font-size:1rem;
+    color: blue;
+}
+
+.description{
+    font-size:1rem;
+    text-align:center;
+    font-weight:bold;
+}
+
+button{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    cursor:pointer;
+}
+
+fieldset{
+    height:19.8rem
+}
+
+hr{
+    color:black;
+}
