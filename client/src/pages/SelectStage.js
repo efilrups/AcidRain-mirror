@@ -31,7 +31,7 @@ class SelectStage extends Component {
     render() {
      const {clickStage,selectedStageName} = this.props
       return (
-            <div className="window">
+            <div className="window SelectStage-window">
                 <div className="window-body">
                     <p className="title" style={{ textAlign: "center" }}>스테이지 선택</p>
 
