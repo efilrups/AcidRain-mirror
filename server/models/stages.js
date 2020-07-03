@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       stages.belongsTo(models.users, { foreignKey: 'userid' })
+      stages.hasMany(models.playlogs)
     }
   };
   stages.init({

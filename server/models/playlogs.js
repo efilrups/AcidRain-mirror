@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      playlogs.belongsTo(models.users, { foreignKey: "userid" })
-      playlogs.belongsTo(models.stages, { foreignKey: "stageid" })
-      playlogs.belongsTo(models.guests, { foreignKey: "guestid" })
+      playlogs.belongsTo(models.users, { foreignKey: 'userid' })
+      playlogs.belongsTo(models.stages, { foreignKey: 'stageid' })
+      playlogs.belongsTo(models.guests, { foreignKey: 'guestid' })
     }
   };
   playlogs.init({

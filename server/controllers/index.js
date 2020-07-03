@@ -1,56 +1,69 @@
 const { users, guests, playlogs, stages } = require("../models");
 
 module.exports = {
+
+  // users, playlogs
     mypage: {
-        get: function (req, res) {
-            users.findOne({
+        get: async function (req, res) {
+            let checkUser = await users.findAll({
+                attributes: ["email", "nickname"],
                 where: {
-                    nickname: req.body.nickname
+                    nickname: 'oyeon' //req.body.nickname
+                },
+                include: [{
+                  model: playlogs,
+                  attributes: ["score", "missedcode"],
+                  include: [{
+                    model: stages,
+                    attributes: ["stagename"]
+                  }]
                 }
+              ]
             })
-            .then(data => {
-                console.log(data)
-                if (!data) {
-                    return res.status(404).send({    
-                        "message": "정보가 존재하지 않습니다"
-                    });
-                } else {
-                    res.status(200).send({
-                        "nickname": data.nickname,
-                        // playLog에서 join된 값을 적어줘야 하는데
-                        "playLog": [
-                            // {
-                            //     "stage": 
-                            //     "score":
-                            //     "missedCode":
-                            // }
-                        ]
-                    });
+            let result = []
+            checkUser.forEach(ele => {
+              let obj = {
+                'email': ele.email,
+                'nickname': ele.nickname,
+                'playlogs': []
+              }
+              ele.playlogs.forEach(log => {
+                let logEle = {
+                  'score' : log.score,
+                  'missedcode' : log.missedcode,
+                  'stagename' : log.stage.stagename
                 }
-            })
+                obj.playlogs.push(logEle)
+              })
+              result.push(obj)
+            });
+
+            if(checkUser){
+              // res.send(checkUser)
+              res.send(result)
+            } else {
+              res.status(404).send("정보가 존재하지 않습니다");
+            }
         },
         post: function (req, res) {
             // * 여기서 들어온 req를 확인해서 원래 닉네임이 뭔지 찾아서 그 닉네임을 새로운 닉네임으로 바꿔주어야 하는데
             // * email, password를 req.body에 추가해야할지 생각해보기
             // * 로그인이 된 상태다?
-            users.findOne({
+            // * 클라이언트에서 oldnickname 이랑 newnickname을 따로 받아올 것
+            users.update({
+                nickname: req.body.newnickname
+            }, {
                 where: {
-                    nickname: req.body.nickname
+                    nickname: req.body.oldnickname
                 }
             })
-            .then(results => {
-                results.dataValues.id
-            })
-    
-            users.update({
-                nickname: req.body.nickname
-            })
             .then(data => {
-                if (!data) {
-                    // 여기서 들어오는 err 값이 뭐지? 모델에서 닉네임 비교해서 똑같은게 있으면 에러를 가지고 오는 건가
-                    return res.status(404).send("이미 존재하는 닉네임입니다");
+                console.log(data)
+                if (data[0] === 1) {
+                    // 중복된 닉네임 추가하기
+                    return res.status(200).send("닉네임이 변경되었습니다");
                 } else {
-                    res.status(200).send("닉네임이 변경되었습니다");
+                    res.status(404).send("존재하지 않는 닉네임입니다");
                 }
             })
         }
@@ -58,10 +71,12 @@ module.exports = {
     signup: {
         // 이건 왜 안되지 post라서 그런가.... 
         post: function (req, res) {
-            users.create({
+            users.build({
                 email: req.body.email,
                 password: req.body.password,
                 nickname: req.body.nickName
+            }, {
+                fields: ["email", "password", "nickname"]
             })
             .then((data) => {
                 if (data) {
@@ -103,7 +118,8 @@ module.exports = {
                 res.status(200).send(result)
             }
         }
-    },
+      },
+    
     playstage: {
         get: function (req, res){
             stages.findOne({
@@ -122,36 +138,35 @@ module.exports = {
               })
         }
     },
+    // 닉네임, 스테이지, 점수, 일자
     rank: {
-        get: function (req, res){
-            playlogs.findAll({
-                where: {
-                    //users table이랑 join 해서 수정
-                    userid: '1'//req.body.id
-                }
+        get: (async (req, res) => {
+            let ranks = await playlogs.findAll({
+              attributes: ['score', 'createdat'],
+              include: [{
+                model: stages,
+                attributes: ["stagename"]
+              },{
+                model: users,
+                attributes: ["nickname"]
+              },{
+                model: guests,
+                attributes: ["nickname"]
+              }]
             })
-            .then(data => {
-                console.log(data)
-                if (!data) {
-                    res.status(404).send({    
-                        "message": "정보를 가져올 수 없습니다"
-                    });
-                } else {
-                    res.status(200).send({  
-                        //playLog도 여러개가 나와야 하는데. . . . 어뜨케?  배열 반복문으로 해볼까
-                        //그래서 playlog 테이블에 추가하려는데 안된다 자꾸
-                        "playLog": [
-                                    //   {
-                                    //       "nickname": req.body.nickName
-                                    //       "stageName":
-                                    //       "score":
-                                    //       "created_at":
-                                    //   }
-                                    ]
-                    })
-                }
-            })
-        }
+            // stage객체의 stagename을 꺼내고
+            // 만약에 guest가 null이라면 user객체의 nickname을 꺼내고, 아니라면 반대로
+            let result = []
+            ranks.forEach(ele => {
+              result.push({
+                'score': ele.score,
+                'stagename': ele.stage.stagename,
+                'createdat': ele.createdat,
+                'nickname': ele.guest === null ? ele.user.nickname : ele.guest.nickname
+              })
+            });
+            res.status(200).send(result)
+        })
     },
     login: {
         //로그인이 post가 맞나..? 그럴려면 디비에 전달해주는게 있어야하는데 (세션)
@@ -198,6 +213,7 @@ module.exports = {
             })
         }
     },
+    // users, playlogs
     gameover: {
         post: function (req, res){
             playlogs.create({
