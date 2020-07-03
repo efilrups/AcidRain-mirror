@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
-<<<<<<< HEAD
-const axios = require('axios');
-
-=======
 import { Route } from 'react-router-dom'
 import  GameOver  from './GameOver'
->>>>>>> bcd3d19870fd48109f7a67d19878997379e0c06b
 class Play extends Component {
   constructor(props) {
     super(props);
@@ -99,21 +94,12 @@ class Play extends Component {
           end : !state.end
         }))
         clearInterval(move);
-<<<<<<< HEAD
         }
     }.bind(this), 500);
   }
 
   draw () {
     this.ctx.fillStyle = 'rgb(179, 179, 179)';
-=======
-      }
-    }.bind(this), 1000);
-  }
-
-  draw() {
-    this.ctx.fillStyle = 'gray';
->>>>>>> bcd3d19870fd48109f7a67d19878997379e0c06b
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = 'black';
     this.ctx.fillText(`점수 : ${this.score}`, 10, this.font.fontSize + 5 );
@@ -201,9 +187,6 @@ class Play extends Component {
             />
           }
         </div>
-<<<<<<< HEAD
-        {/* {this.state.end ? this.postGameResult() : ''} */}
-=======
 
         <input
           type='button'
@@ -214,8 +197,7 @@ class Play extends Component {
 
         <GameOver userId={userId} selectedStageName={selectedStageName}
           stageContents={stageContents} score={score} missedCode={missedCode}  />
-          
->>>>>>> bcd3d19870fd48109f7a67d19878997379e0c06b
+
       </div>
     )
   }
