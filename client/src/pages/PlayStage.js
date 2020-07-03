@@ -8,12 +8,10 @@ class PlayStage extends Component {
     super(props);
     this.state = {
       gameStart : false,
-      // gameOver : false,
     }
     //이벤트 처리 함수들
     this.enterkey = this.enterkey.bind(this);
     this.gameStartToggle = this.gameStartToggle.bind(this);
-    // this.gameOverToggle = this.gameOverToggle.bind(this);
   }
   componentDidMount() {
     this.inputStart.focus();
@@ -32,14 +30,6 @@ class PlayStage extends Component {
       gameStart: !current.gameStart
     }));
   }
-  // gameOverToggle () {
-  //   console.log('Game Over');
-  //
-  //   this.setState(current=>({
-  //     gameStart: !current.gameStart,
-  //     gameOver: !current.gameOver
-  //   }));
-  // }
 
   render() {
     const gameRule = (
@@ -70,12 +60,9 @@ class PlayStage extends Component {
 
         {
           this.state.gameStart
-            ? <Play gameStartToggle={this.gameStartToggle} enterkey={this.enterkey} userId={userId}
-            selectedStageName={selectedStageName} stageContents={stageContents} />
+            ? <Play userId={userId} selectedStageName={selectedStageName} stageContents={stageContents} />
             : gameRule
         }
-
-        {/* <GameOver/> */}
 
       </div>
     )

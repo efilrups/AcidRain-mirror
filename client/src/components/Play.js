@@ -15,8 +15,6 @@ class Play extends Component {
         'Boolean(10 > 9)',
         'if (day == "Monday"){ return true }'
       ],
-      gameOverToggle : props.gameOverToggle,
-      enterkey : props.enterkey,
       end : false,
       RAIN_MAX : 15,
       score : 0,
@@ -104,9 +102,7 @@ class Play extends Component {
     this.ctx.fillStyle = 'black';
     this.ctx.fillText(`점수 : ${this.score}`, 10, this.font.fontSize + 5 );
 
-    // this.ctx.fillStyle = 'red';
-    // this.ctx.fillRect(0, this.canvas.height - 3 - this.font.fontSize, 600, 2);
-    // console.log('==============================');
+    // 내려가기 시작한 코드들을 하나씩 그리기
     for (let i = 0; i < this.rain_count; i++) {
       // 코드가 캔버스의 제일 아래에 내려가면 코드를 지운다.
       if (this.randomArr[i].y > this.canvas.height - (this.font.fontSize/ 10)) {
@@ -117,6 +113,7 @@ class Play extends Component {
         this.randomArr[i].code = '';
       }
 
+      // 코드 그리고 다음에 그릴 위치 내리기
       this.ctx.fillStyle = 'black';
       this.ctx.fillText(this.randomArr[i].code, this.randomArr[i].x , this.randomArr[i].y)
       this.randomArr[i].y += this.font.fontSize;
@@ -140,12 +137,10 @@ class Play extends Component {
   deleteCode(event) {
     if (event.key === 'Enter') {
       let targetIndex = this.randomArr.findIndex( obj => event.target.value === obj.code );
-      console.log('--OUt---targetIndex---', targetIndex);
+      console.log('다시 해보시죠');
       if (targetIndex !== -1 && this.randomArr[targetIndex].code !== '') {
         this.randomArr[targetIndex].code = '';
-        console.log('this.state.score---',this.state.score);
-        console.log('--In---targetIndex---', targetIndex);
-        // this.setState((state) =>({ score : state.score + 1 }));
+        console.log('지우기 성공!');
         this.score++;
         this.draw();
       }
@@ -182,12 +177,6 @@ class Play extends Component {
             />
           }
         </div>
-
-        <input
-          type='button'
-          value='되돌아가기'
-          onMouseUp={this.state.isPlayingToggle}
-          onKeyUp={this.state.enterkey} />
 
         {
           this.state.end
