@@ -36,10 +36,6 @@ module.exports = (sequelize, DataTypes) => {
     guestid: {
       type: DataTypes.INTEGER,
       allowNull: true
-    },
-    createdat: {
-      type: DataTypes.DATE,
-      defaultValue: sequelize.literal('NOW()')
     }
   }, {
     // Other model options go here

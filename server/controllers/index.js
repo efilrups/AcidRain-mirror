@@ -137,6 +137,8 @@ module.exports = {
                 }
               })
         },
+        // 게임의 결과를 회원과 비회원 따로 관리
+        // gameover와 무엇이 다를까?
         post: async function(req, res) {
 
         }
@@ -146,7 +148,7 @@ module.exports = {
         get: (async (req, res) => {
             
             let ranks = await playlogs.findAll({
-              attributes: ['score', 'createdat'],
+              attributes: ['id', 'score', 'createdat'],
               include: [{
                 model: stages,
                 attributes: ["stagename"]
@@ -156,7 +158,11 @@ module.exports = {
               },{
                 model: guests,
                 attributes: ["nickname"]
-              }]
+              }],
+              order: [
+                // ['createdat', 'DESC'],
+                ['createdat', 'ASC'],
+              ]
             })
             // stage객체의 stagename을 꺼내고
             // 만약에 guest가 null이라면 user객체의 nickname을 꺼내고, 아니라면 반대로
@@ -217,31 +223,20 @@ module.exports = {
             })
         }
     },
-    // users, playlogs
     gameover: {
-        post: function (req, res){
-            playlogs.create({
-                // userid에 join해서 넣어야함
-                userid: req.body.email,
-                missedCode: req.body.missedCode,
-                score: req.body.score,
-                stagename: req.body.stageName
-            })
-            .then((data, err) => {
-                if (err) {
-                    res.status(404).send({    
-                        "message": "저장되지 않았습니다"
-                    })
-                } else {
-                    res.status(200).send({    
-                        "stageName": data.stagename,
-                        "score": data.score,
-                        "missedCode": data.missedCode,
-                        "userid": data.userid,
-                        "message": "게임정보를 성공적으로 저장하였습니다"
-                    })
-                }
-            })
+      post: async function (req, res){
+        if(req.body.userid){
+          console.log('회원입니다')
         }
+        
+        let result = await playlogs.create({
+          score: req.body.score,
+          stageid: req.body.stageid,
+          userid: req.body.userid,
+          guestid: req.body.guestid,
+          missedcode: req.body.missedCode,
+        })
+        res.send(result)
+      }
     }
 }
