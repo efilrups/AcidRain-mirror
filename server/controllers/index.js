@@ -8,7 +8,7 @@ module.exports = {
             let checkUser = await users.findAll({
                 attributes: ["email", "nickname"],
                 where: {
-                    nickname: 'oyeon' //req.body.nickname
+                    nickname: req.body.nickname
                 },
                 include: [{
                   model: playlogs,
@@ -46,15 +46,13 @@ module.exports = {
             }
         },
         post: function (req, res) {
-            // * 여기서 들어온 req를 확인해서 원래 닉네임이 뭔지 찾아서 그 닉네임을 새로운 닉네임으로 바꿔주어야 하는데
-            // * email, password를 req.body에 추가해야할지 생각해보기
-            // * 로그인이 된 상태다?
+            // * 여기서 req.body.nickname은 oldnickname을 말함
             // * 클라이언트에서 oldnickname 이랑 newnickname을 따로 받아올 것
             users.update({
                 nickname: req.body.newnickname
             }, {
                 where: {
-                    nickname: req.body.oldnickname
+                    nickname: req.body.nickname
                 }
             })
             .then(data => {
@@ -74,7 +72,7 @@ module.exports = {
             users.build({
                 email: req.body.email,
                 password: req.body.password,
-                nickname: req.body.nickName
+                nickname: req.body.nickname
             }, {
                 fields: ["email", "password", "nickname"]
             })
@@ -87,7 +85,7 @@ module.exports = {
                     console.log('sdf')
                     res.status(200).send({    
                         "email": req.body.email, 
-                        "nickname": req.body.nickName,
+                        "nickname": req.body.nickname,
                         "message": "회원가입에 성공하였습니다"
                     });
                 }
@@ -179,7 +177,6 @@ module.exports = {
         })
     },
     login: {
-        //로그인이 post가 맞나..? 그럴려면 디비에 전달해주는게 있어야하는데 (세션)
         post: function (req, res){
             users.findOne({
                 where: {
@@ -228,7 +225,7 @@ module.exports = {
         if(req.body.userid){
           console.log('회원입니다')
         }
-        
+
         let result = await playlogs.create({
           score: req.body.score,
           stageid: req.body.stageid,
