@@ -3,25 +3,37 @@ const { users, guests, playlogs, stages } = require("../models");
 module.exports = {
     mypage: {
         get: function (req, res) {
-            users.findAll({
+            users.findOne({
                 where: {
                     nickname: req.body.nickname
                 }
-            }).then((data, err) => {
+            })
+            .then(data => {
                 console.log(data)
-                if (err) {
-                    return res.status(404).send("정보가 존재하지 않습니다");
+                if (!data) {
+                    return res.status(404).send({    
+                        "message": "정보가 존재하지 않습니다"
+                    });
                 } else {
-                    // data가 어떻게 나오는지 console.log 해 보고 send할 내용 적고싶은뎅..
                     res.status(200).send({
-                        "nickname": data.nickname
+                        "nickname": data.nickname,
+                        // playLog에서 join된 값을 적어줘야 하는데
+                        "playLog": [
+                            // {
+                            //     "stage": 
+                            //     "score":
+                            //     "missedCode":
+                            // }
+                        ]
                     });
                 }
             })
         },
-        post: async function (req, res) {
-
-            let nickname = await mypage.findOne({
+        post: function (req, res) {
+            // * 여기서 들어온 req를 확인해서 원래 닉네임이 뭔지 찾아서 그 닉네임을 새로운 닉네임으로 바꿔주어야 하는데
+            // * email, password를 req.body에 추가해야할지 생각해보기
+            // * 로그인이 된 상태다?
+            users.findOne({
                 where: {
                     nickname: req.body.nickname
                 }
@@ -29,14 +41,13 @@ module.exports = {
             .then(results => {
                 results.dataValues.id
             })
-
-            // mypage에서 post 기능은 유저 닉네임 변경에 필요한 기능
-            // ****** user update를 써야겠다 (? 왜 안되지... database table을 어떻게 변경해야할까)
+    
             users.update({
                 nickname: req.body.nickname
             })
-            .then((data, err) => {
-                if (err) {
+            .then(data => {
+                if (!data) {
+                    // 여기서 들어오는 err 값이 뭐지? 모델에서 닉네임 비교해서 똑같은게 있으면 에러를 가지고 오는 건가
                     return res.status(404).send("이미 존재하는 닉네임입니다");
                 } else {
                     res.status(200).send("닉네임이 변경되었습니다");
@@ -45,98 +56,172 @@ module.exports = {
         }
     },
     signup: {
-        get: function (req, res) {
-            // models.signup.get((err, results) => {
-            //     if (err) {
-            //         res.status(404).send("회원가입에 실패했습니다");
-            //     } else {
-            //         // results 부분 API 문서+models 참고해서 다시 확인
-            //         res.status(200).send(results);
-            //     }
-            // })
-            
+        // 이건 왜 안되지 post라서 그런가.... 
+        post: function (req, res) {
+            users.create({
+                email: req.body.email,
+                password: req.body.password,
+                nickname: req.body.nickName
+            })
+            .then((data) => {
+                if (data) {
+                    res.status(404).send({    
+                        "message": "회원가입에 실패하였습니다"
+                    });
+                } else {
+                    console.log('sdf')
+                    res.status(200).send({    
+                        "email": req.body.email, 
+                        "nickname": req.body.nickName,
+                        "message": "회원가입에 성공하였습니다"
+                    });
+                }
+              });
         }
     },
     selectstage: {
-        get: function (req, res){
-            // models.selectstage.get((err, results) => {
-            //     if (err) {
-            //         res.status(404).send("스테이지가 존재하지 않습니다");
-            //     } else {
-            //         // results 부분 API 문서+models 참고해서 다시 확인
-            //         res.status(200).send(results);
-            //     }
-            // })
+        get: async function (req, res){
+            let outputStages = await stages.findAll({
+                attributes: [ "stagename" ],
+                include: [{
+                    model: users,
+                    attributes: [ "nickname" ]
+                }]
+            })
+            if (!outputStages) {
+                return res.status(404).send({    
+                    "message": "스테이지가 존재하지 않습니다"
+                });
+            } else {
+                let result = [];
+                outputStages.forEach(stage => {
+                    result.push({
+                        "stagename": stage.stagename,
+                        "nickname": stage.user.nickname
+                    })
+                })
+                res.status(200).send(result)
+            }
         }
     },
     playstage: {
         get: function (req, res){
-            // models.playstage.get((err, results) => {
-            //     if (err) {
-            //         res.status(404).send("정보가 존재하지 않습니다");
-            //     } else {
-            //         // results 부분 API 문서+models 참고해서 다시 확인
-            //         res.status(200).send(results);
-            //     }
-            // })
+            stages.findOne({
+                where: {
+                    stagename: req.body.stagename
+                }
+              }).then(data => {
+                  console.log(data)
+                if (!data) {
+                    res.status(404).send("정보가 존재하지 않습니다");
+                } else {
+                    res.status(200).send({    
+                        "content": data.contents
+                    })
+                }
+              })
         }
     },
     rank: {
         get: function (req, res){
-            // models.rank.get((err, results) => {
-            //     if (err) {
-            //         res.status(404).send("정보를 가져올 수 없습니다");
-            //     } else {
-            //          // results 부분 API 문서+models 참고해서 다시 확인
-            //         res.stauts(200).send(results)
-            //     }
-            // })
+            playlogs.findAll({
+                where: {
+                    //users table이랑 join 해서 수정
+                    userid: '1'//req.body.id
+                }
+            })
+            .then(data => {
+                console.log(data)
+                if (!data) {
+                    res.status(404).send({    
+                        "message": "정보를 가져올 수 없습니다"
+                    });
+                } else {
+                    res.status(200).send({  
+                        //playLog도 여러개가 나와야 하는데. . . . 어뜨케?  배열 반복문으로 해볼까
+                        //그래서 playlog 테이블에 추가하려는데 안된다 자꾸
+                        "playLog": [
+                                    //   {
+                                    //       "nickname": req.body.nickName
+                                    //       "stageName":
+                                    //       "score":
+                                    //       "created_at":
+                                    //   }
+                                    ]
+                    })
+                }
+            })
         }
     },
     login: {
+        //로그인이 post가 맞나..? 그럴려면 디비에 전달해주는게 있어야하는데 (세션)
         post: function (req, res){
-            // var contents = req.body.nickname;
-            // * password도 추가해야함!
-            // * email 추가
-            // * nickname 빼기
-            // models.login.post(contents, (err) => {
-            //     if (err) {
-            //         res.status(404).send("로그인에 실패했습니다")
-            //     } else {
-            //         res.status(200).send("로그인 되었습니다")
-            //     }
-            // })
+            users.findOne({
+                where: {
+                    email: req.body.email,
+                    password: req.body.password
+                }
+            })
+            .then(data => {
+                if (!data) {
+                    res.status(404).send({    
+                        "message": "로그인에 실패하였습니다"
+                    })
+                } else {
+                    res.status(200).send({    
+                        "message": "로그인되었습니다"
+                    })
+                }
+            })
         }
     },
     guest: {
         post: function (req, res){
-            // * 여기서 닉네임에 default로 guest) 지정해주려면 어디서 해야하지?
-            // * 컨트롤러에서 지정하기
-            // var contents = req.body.nickname;
-            // models.guest.post(contents, (err) => {
-            //     if (err) {
-            //         res.status(404).send("이미 존재하는 닉네임입니다")
-            //     } else {
-            //         res.status(200).send("접속 성공하였습니다")
-            //     }
-            // })
+            guests.findAll({
+                where: {
+                    nickname: `guest)${req.body.nickname}`
+                }
+            })
+            .then(data => {
+                if (data) {
+                    guests.create({
+                        nickname: `guest)${req.body.nickname}`
+                    })
+                    res.status(200).send({    
+                        "message": "접속 성공하였습니다"
+                    })
+                } else {
+                    res.status(404).send({    
+                        "message": "이미 존재하는 닉네임입니다"
+                    })
+                }
+            })
         }
     },
     gameover: {
         post: function (req, res){
-            // var contents = [
-            //     req.body.userid,
-            //     req.body.missedCode,
-            //     req.body.score,
-            //     req.body.stageName
-            // ]
-            // models.gameover.post(contents, (err) => {
-            //     if (err) {
-            //         res.status(404).send("저장되지 않았습니다")
-            //     } else {
-            //         res.status(200).send("게임정보를 성공적으로 저장했습니다")
-            //     }
-            // })
+            playlogs.create({
+                // userid에 join해서 넣어야함
+                userid: req.body.email,
+                missedCode: req.body.missedCode,
+                score: req.body.score,
+                stagename: req.body.stageName
+            })
+            .then((data, err) => {
+                if (err) {
+                    res.status(404).send({    
+                        "message": "저장되지 않았습니다"
+                    })
+                } else {
+                    res.status(200).send({    
+                        "stageName": data.stagename,
+                        "score": data.score,
+                        "missedCode": data.missedCode,
+                        "userid": data.userid,
+                        "message": "게임정보를 성공적으로 저장하였습니다"
+                    })
+                }
+            })
         }
     }
 }

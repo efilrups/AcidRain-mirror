@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      guests.hasMany(models.playlogs)
     }
   };
   guests.init({
