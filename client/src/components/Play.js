@@ -14,9 +14,11 @@ class Play extends Component {
           'Boolean(10 > 9)',
           'if (day == "Monday"){ return true }'
       ],
-      RAIN_MAX : 15,
       isPlayingToggle : props.isPlayingToggle,
-      enterkey : props.enterkey
+      enterkey : props.enterkey,
+      end : false,
+      RAIN_MAX : 15,
+      score : 0
     }
 
     // canvas 관련 초기화
@@ -24,8 +26,10 @@ class Play extends Component {
     this.ctx = null;
     this.randomArr = [];
     this.rain_count = 0;
+    this.score = 0;
+    this.life = 10;
     this.font = {
-      fontSize : 25,
+      fontSize : 15,
       fontName : 'arial'
     };
 
@@ -59,11 +63,12 @@ class Play extends Component {
       let codeObj = {
         code: randomContent,
         x : x,
-        y : this.font.fontSize
+        y : this.font.fontSize * 2.5
       };
 
       this.randomArr.push(codeObj);
     }
+    this.start();
   }
 
   start () {
@@ -79,8 +84,13 @@ class Play extends Component {
       this.draw();
 
       // 마지막에 내려보낸 비의  다음에 그려질 y 위치가 캔버스의 높이보다 커지면 반복 끝
-      if (this.randomArr[this.rain_count - 1].y > this.canvas.height) {
+      let end = this.randomArr.every( obj => obj.code ==='');
+      if (end || this.life === 0) {
         console.log('stop!');
+        this.setState(state => ({
+          score : state.score + this.score,
+          end : !state.end
+        }))
         clearInterval(move);
         }
     }.bind(this), 1000);
@@ -89,26 +99,50 @@ class Play extends Component {
   draw () {
     this.ctx.fillStyle = 'gray';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.fillStyle = 'black';
+    this.ctx.fillText(`점수 : ${this.score}`, 10, this.font.fontSize + 5 );
 
+    // this.ctx.fillStyle = 'red';
+    // this.ctx.fillRect(0, this.canvas.height - 3 - this.font.fontSize, 600, 2);
     // console.log('==============================');
     for (let i = 0; i < this.rain_count; i++) {
-      // console.log(this.randomArr[i]);
+      // 코드가 캔버스의 제일 아래에 내려가면 코드를 지운다.
+      if (this.randomArr[i].y > this.canvas.height - (this.font.fontSize/ 10)) {
+        if (this.randomArr[i].code !== '') {
+          this.life -= 1;
+        }
+        this.randomArr[i].code = '';
+      }
+
       this.ctx.fillStyle = 'black';
       this.ctx.fillText(this.randomArr[i].code, this.randomArr[i].x , this.randomArr[i].y)
       this.randomArr[i].y += this.font.fontSize;
-
-      // 코드가 캔버스의 제일 아래에 내려가면 코드를 지운다.
-      if (this.randomArr[i].y > this.canvas.height - (this.font.fontSize/ 10)) {
-        this.randomArr[i].code = '';
-      }
     }
+
+    // ph바 그라데이션 설정 및 그리기
+    let gra = this.ctx.createLinearGradient(200, 5, 400, 5)
+    gra.addColorStop(0, 'rgb(247, 44, 31)');
+    gra.addColorStop(0.4, 'rgb(247, 187, 31)');
+    gra.addColorStop(0.6, 'rgb(191, 247, 31)');
+    gra.addColorStop(0.7, 'rgb(14, 207, 23)');
+    gra.addColorStop(1, 'rgb(14, 67, 201)');
+
+    this.ctx.fillText(`ph.${this.life + 1}`, 150, this.font.fontSize + 5);
+    this.ctx.fillRect(195, 5, 210, 20);
+    this.ctx.fillStyle = gra;
+    this.ctx.fillRect(200, 7, this.life * 20, 16);
   }
 
   deleteCode (event) {
     if (event.key === 'Enter') {
       let targetIndex = this.randomArr.findIndex( obj => event.target.value === obj.code );
-      if (targetIndex !== -1) {
+      console.log('--OUt---targetIndex---', targetIndex);
+      if (targetIndex !== -1 && this.randomArr[targetIndex].code !== '') {
         this.randomArr[targetIndex].code = '';
+        console.log('this.state.score---',this.state.score);
+        console.log('--In---targetIndex---', targetIndex);
+        // this.setState((state) =>({ score : state.score + 1 }));
+        this.score++;
         this.draw();
       }
       event.target.value = '';
@@ -117,20 +151,29 @@ class Play extends Component {
   }
 
   render() {
+    const gameEnd = (
+      <input
+        type='text'
+        placeholder='게임 종료'
+        disabled
+      />
+    );
+
     return (
       <div className='gameBoard'>
-        게임 드응자앙!
-        <canvas id='canvas' width="800" height="500" >
-          {this.start()}
-        </canvas>
+        <canvas id='canvas' width="600" height="300" />
 
-        <input type='button' value="test" onClick={this.deleteCode}/>
-
-        <input
-          type='text'
-          placeholder='산성비를 제거하세요'
-          onKeyUp={this.deleteCode}
-        />
+        <div>
+          {
+            this.state.end
+            ? gameEnd
+            : <input
+              type='text'
+              placeholder='산성비를 제거하세요'
+              onKeyUp={this.deleteCode}
+            />
+          }
+        </div>
 
         <input
           type='button'
