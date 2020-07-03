@@ -32,6 +32,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      stages.belongsTo(models.users, { foreignKey: 'createdby' })
+      stages.hasMany(models.playlogs)
     }
   };
   stages.init({
@@ -43,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    createdby: {
+    userid: {
       type: DataTypes.INTEGER,
       allowNull: false
     },

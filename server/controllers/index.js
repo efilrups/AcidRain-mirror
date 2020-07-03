@@ -1,23 +1,49 @@
 const { users, guests, playlogs, stages } = require("../models");
 
 module.exports = {
+
+  // users, playlogs
     mypage: {
-        get: function (req, res) {
-            users.findAll({
+        get: async function (req, res) {
+            let checkUser = await users.findAll({
+                attributes: ["email", "nickname"],
                 where: {
-                    nickname: req.body.nickname
+                    nickname: 'ohmyGOD' //req.body.nickname
+                },
+                include: [{
+                  model: playlogs,
+                  attributes: ["score", "missedcode"],
+                  include: [{
+                    model: stages,
+                    attributes: ["stagename"]
+                  }]
                 }
-            }).then((data, err) => {
-                console.log(data)
-                if (err) {
-                    return res.status(404).send("정보가 존재하지 않습니다");
-                } else {
-                    // data가 어떻게 나오는지 console.log 해 보고 send할 내용 적고싶은뎅..
-                    res.status(200).send({
-                        "nickname": data.nickname
-                    });
-                }
+              ]
             })
+            let result = []
+            checkUser.forEach(ele => {
+              let obj = {
+                'email': ele.email,
+                'nickname': ele.nickname,
+                'playlogs': []
+              }
+              ele.playlogs.forEach(log => {
+                let logEle = {
+                  'score' : log.score,
+                  'missedcode' : log.missedcode,
+                  'stagename' : log.stage.stagename
+                }
+                obj.playlogs.push(logEle)
+              })
+              result.push(obj)
+            });
+
+            if(checkUser){
+              // res.send(checkUser)
+              res.send(result)
+            } else {
+              res.status(404).send("정보가 존재하지 않습니다");
+            }
         },
         post: async function (req, res) {
 
@@ -58,16 +84,29 @@ module.exports = {
         }
     },
     selectstage: {
-        get: function (req, res){
-            // models.selectstage.get((err, results) => {
-            //     if (err) {
-            //         res.status(404).send("스테이지가 존재하지 않습니다");
-            //     } else {
-            //         // results 부분 API 문서+models 참고해서 다시 확인
-            //         res.status(200).send(results);
-            //     }
-            // })
+      get: (async (req, res) => {
+        let a = await stages.findAll({
+          attributes: ['stagename'],
+          include: [{
+            model: users,
+            required: false,
+            attributes: ["nickname"]
+          }]
+        })
+        console.log('JSON.stringify(a): ', JSON.stringify(a));
+        let result = [];
+        for(let i=0; i<a.length; i++){
+          let b = {}
+          b.stagename = a[i].stagename
+          b.nickname = a[i].user.nickname
+          result.push(b)
         }
+
+
+
+        res.send(result)
+        // res.send(a)
+      })
     },
     playstage: {
         get: function (req, res){
@@ -81,17 +120,35 @@ module.exports = {
             // })
         }
     },
+    // 닉네임, 스테이지, 점수, 일자
     rank: {
-        get: function (req, res){
-            // models.rank.get((err, results) => {
-            //     if (err) {
-            //         res.status(404).send("정보를 가져올 수 없습니다");
-            //     } else {
-            //          // results 부분 API 문서+models 참고해서 다시 확인
-            //         res.stauts(200).send(results)
-            //     }
-            // })
-        }
+        get: (async (req, res) => {
+            let ranks = await playlogs.findAll({
+              attributes: ['score', 'createdat'],
+              include: [{
+                model: stages,
+                attributes: ["stagename"]
+              },{
+                model: users,
+                attributes: ["nickname"]
+              },{
+                model: guests,
+                attributes: ["nickname"]
+              }]
+            })
+            // stage객체의 stagename을 꺼내고
+            // 만약에 guest가 null이라면 user객체의 nickname을 꺼내고, 아니라면 반대로
+            let result = []
+            ranks.forEach(ele => {
+              result.push({
+                'score': ele.score,
+                'stagename': ele.stage.stagename,
+                'createdat': ele.createdat,
+                'nickname': ele.guest === null ? ele.user.nickname : ele.guest.nickname
+              })
+            });
+            res.status(200).send(result)
+        })
     },
     login: {
         post: function (req, res){
@@ -122,6 +179,7 @@ module.exports = {
             // })
         }
     },
+    // users, playlogs
     gameover: {
         post: function (req, res){
             // var contents = [
@@ -137,6 +195,7 @@ module.exports = {
             //         res.status(200).send("게임정보를 성공적으로 저장했습니다")
             //     }
             // })
+            
         }
     }
 }
