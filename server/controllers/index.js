@@ -1,4 +1,5 @@
 const { users, guests, playlogs, stages } = require("../models");
+const { Op } = require("sequelize");
 
 module.exports = {
 
@@ -20,28 +21,29 @@ module.exports = {
                 }
               ]
             })
-            let result = []
-            checkUser.forEach(ele => {
-              let obj = {
-                'email': ele.email,
-                'nickname': ele.nickname,
-                'playlogs': []
-              }
-              ele.playlogs.forEach(log => {
-                let logEle = {
-                  'score' : log.score,
-                  'missedcode' : log.missedcode,
-                  'stagename' : log.stage.stagename
+            if(checkUser.length !== 0){
+              let result = []
+              checkUser.forEach(ele => {
+                let obj = {
+                  'email': ele.email,
+                  'nickname': ele.nickname,
+                  'playlogs': []
                 }
-                obj.playlogs.push(logEle)
-              })
-              result.push(obj)
-            });
-
-            if(checkUser){
+                ele.playlogs.forEach(log => {
+                  let logEle = {
+                    'stagename' : log.stage.stagename,
+                    'score' : log.score,
+                    'missedcode' : log.missedcode
+                  }
+                  obj.playlogs.push(logEle)
+                })
+                result.push(obj)
+              });
               res.send(result)
             } else {
-              res.status(404).send("정보가 존재하지 않습니다");
+              res.status(404).send({
+                "message": "정보가 존재하지 않습니다"
+              });
             }
         },
         post: async function (req, res) {
@@ -105,7 +107,7 @@ module.exports = {
                 outputStages.forEach(stage => {
                     result.push({
                         "stagename": stage.stagename,
-                        "nickname": stage.user.nickname
+                        "createdBy": stage.user.nickname
                     })
                 })
                 res.status(200).send(result)
@@ -124,7 +126,9 @@ module.exports = {
           if(result.length !== 0){
             res.status(200).send(result)
           } else {
-            res.status(404).send("정보가 존재하지 않습니다");
+            res.status(404).send({
+              "message": "정보가 존재하지 않습니다"
+            });
           }
         },
     },
@@ -133,19 +137,27 @@ module.exports = {
         get: async function(req, res) {
             let ranks = await playlogs.findAll({
               attributes: ['id', 'score', 'createdat'],
+              order: [
+                ['score', 'DESC'],
+              ],
               include: [{
                 model: stages,
                 attributes: ["stagename"]
               },{
                 model: users,
-                attributes: ["nickname"]
+                attributes: ["nickname"],
+                where: {
+                  nickname: req.body.nickname 
+                  ? {[Op.eq]: req.body.nickname} 
+                  : {[Op.not]: null}
+                }
               },{
                 model: guests,
                 attributes: ["nickname"]
-              }],
-              order: [
-                ['createdat', 'ASC'],
-              ]
+              }]
+              
+              
+                
             })
             let result = []
             ranks.forEach(ele => {
