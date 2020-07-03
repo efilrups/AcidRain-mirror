@@ -26,45 +26,36 @@ class PlayStage extends Component {
     this.setState({
       isPlaying: !this.state.isPlaying
     });
-    if (this.state.isPlaying) {
-      this.gameRule.setAttribute('style','display:block');
-      this.gameBoard.setAttribute('style','display:none');
-    } else {
-      this.gameRule.setAttribute('style','display:none');
-      this.gameBoard.setAttribute('style','display:block');
-    }
   }
 
   render() {
-    return (
-      <div>
-        <div className='gameRule' ref={ref=>this.gameRule=ref}>
-          <pre>
-          {`
+    const gameRule = (
+      <div className='gameRule'>
+        <pre>
+        {`
 산성비 - ph.GGANG
 시작 버튼을 누르거나
 Enter를 누르면 게임이 시작됩니다.
 [게임 설명]
-          `}
-          </pre>
-          <input
-            type='button'
-            value='시작'
-            // onClick={this.isPlayingToggle}
-            onMouseUp={this.isPlayingToggle}
-            onKeyUp={this.enterkey} />
-        </div>
+        `}
+        </pre>
+        <input
+          type='button'
+          value='시작'
+          onMouseUp={this.isPlayingToggle}
+          onKeyUp={this.enterkey} />
+      </div>
+    )
 
-        <div className='gameBoard' style={{display:'none'}} ref={ref=>this.gameBoard=ref}>
-          게임 드응자앙!
-          <Play/>
-          <input
-            type='button'
-            value='되돌아가기'
-            // onClick={this.isPlayingToggle}
-            onMouseUp={this.isPlayingToggle}
-            onKeyUp={this.enterkey} />
-        </div>
+    return (
+      <div className="playStage">
+
+        {
+          this.state.isPlaying
+          ? <Play isPlayingToggle={this.isPlayingToggle} enterkey={this.enterkey}/>
+          : gameRule
+        }
+
         {/* <GameOver/> */}
       </div>
     )
