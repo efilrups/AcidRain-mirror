@@ -20,7 +20,7 @@ class Ranking extends Component {
 
     //rank링크로 이동하면 db에 저장된 playlog를 받아온다.
     async componentDidMount() {
-        await axios.get('http://localhost:5000/main/rank')
+        await axios.get('http://13.125.33.38:5000/main/rank')
             .then(res => {
                 this.setState({ rankingOfTop10: res.data })
             })
