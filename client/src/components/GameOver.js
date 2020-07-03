@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import "./css/GameOver.css"
 import "98.css"
+import { withRouter } from 'react-router-dom'
 const axios = require('axios');
 
 class GameOver extends Component {
@@ -38,6 +39,7 @@ class GameOver extends Component {
 
                         <div className="field-row" style={{ justifyContent: 'center' }}>
                             <button onClick={()=>{
+                                this.props.history.push('/ranking')
                             }}>확인</button>
                         </div>
                     </fieldset>
@@ -48,5 +50,5 @@ class GameOver extends Component {
     }
 }
 
-export default GameOver
+export default withRouter(GameOver)
 
