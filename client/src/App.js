@@ -3,29 +3,33 @@ import { Nav, Login } from './pages'
 import { Route } from 'react-router-dom'
 class App extends Component {
   state = {
-    //제일 첫번째 stage이름을 넣어줌 
-    selectedStageName : 'test',
-    stageContents : [],
+    userId: '',
+    selectedStageName: 'test',
+    stageContents: [],
+    missedCode: [],
+    score: '',
   }
 
   clickStage = (name) => {
-    if(name !== this.state.selectedStageName ){
-      this.setState({selectedStageName :name})
+    if (name !== this.state.selectedStageName) {
+      this.setState({ selectedStageName: name })
     }
   }
 
   getContents = (clickedStage) => {
-    this.setState({stageContents:clickedStage})
-  } 
+    this.setState({ stageContents: clickedStage })
+  }
 
 
   render() {
-    const { selectedStageName } = this.state
+    const { userId, selectedStageName, stageContents, missedCode, score } = this.state
     return (
       <div>
-       <Route path='/' render={()=><Nav/>} />
-       <Route path='/' render={()=><Login selectedStageName={selectedStageName} clickStage ={this.clickStage} getContents={this.getContents} />} />
-      </div> 
+        <Route path='/' render={() => <Nav />} />
+        <Route path='/' render={() => <Login userId={userId} selectedStageName={selectedStageName}
+          stageContents={stageContents} missedCode={missedCode} score={score}
+          clickStage={this.clickStage} getContents={this.getContents} />} />
+      </div>
     )
   }
 }

@@ -1,22 +1,22 @@
 import React, { Component } from 'react'
-
+import { Route } from 'react-router-dom'
 
 class Play extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
-      contents : [
-          'function foo()',
-          'let x = 0',
-          'Math.floor()',
-          'setTimeout(function, 1000)',
-          'array.push()',
-          'Boolean(10 > 9)',
-          'if (day == "Monday"){ return true }'
+      contents: [
+        'function foo()',
+        'let x = 0',
+        'Math.floor()',
+        'setTimeout(function, 1000)',
+        'array.push()',
+        'Boolean(10 > 9)',
+        'if (day == "Monday"){ return true }'
       ],
-      RAIN_MAX : 15,
-      isPlayingToggle : props.isPlayingToggle,
-      enterkey : props.enterkey
+      RAIN_MAX: 15,
+      isPlayingToggle: props.isPlayingToggle,
+      enterkey: props.enterkey
     }
 
     // canvas 관련 초기화
@@ -25,8 +25,8 @@ class Play extends Component {
     this.randomArr = [];
     this.rain_count = 0;
     this.font = {
-      fontSize : 25,
-      fontName : 'arial'
+      fontSize: 25,
+      fontName: 'arial'
     };
 
     this.start = this.start.bind(this);
@@ -35,11 +35,11 @@ class Play extends Component {
   }
 
   // canvas에 그려질 내용들 설정
-  componentDidMount () {
+  componentDidMount() {
     this.canvas = document.getElementById('canvas');
     this.ctx = this.canvas.getContext('2d');
 
-    const { contents, RAIN_MAX }  = this.state;
+    const { contents, RAIN_MAX } = this.state;
 
     this.ctx.font = `${this.font.fontSize}px ${this.font.fontName}`;
 
@@ -51,24 +51,24 @@ class Play extends Component {
       let x = Math.round(Math.random() * (this.canvas.width - 50))
 
       // '출력 시작지점(x) + 코드의 길이' 가 캔버스 가로보다 크면 넘치는 만큼 x를 줄여줌
-      if ( x + contentInfo.width > this.canvas.width) {
+      if (x + contentInfo.width > this.canvas.width) {
         x -= (x + contentInfo.width - this.canvas.width);
       }
 
       // 내려보내줄 코드와 시작 위치가 담긴 객체
       let codeObj = {
         code: randomContent,
-        x : x,
-        y : this.font.fontSize
+        x: x,
+        y: this.font.fontSize
       };
 
       this.randomArr.push(codeObj);
     }
   }
 
-  start () {
+  start() {
     const { RAIN_MAX } = this.state;
-    let move = setInterval(function() {
+    let move = setInterval(function () {
       // 한 번도 안내려보냈으면 무조건 한 번 내려보내고 아니면 45퍼의 확률로 내려보내지 않음
       if (this.rain_count === 0) {
         this.rain_count++;
@@ -82,11 +82,11 @@ class Play extends Component {
       if (this.randomArr[this.rain_count - 1].y > this.canvas.height) {
         console.log('stop!');
         clearInterval(move);
-        }
+      }
     }.bind(this), 1000);
   }
 
-  draw () {
+  draw() {
     this.ctx.fillStyle = 'gray';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -94,19 +94,19 @@ class Play extends Component {
     for (let i = 0; i < this.rain_count; i++) {
       // console.log(this.randomArr[i]);
       this.ctx.fillStyle = 'black';
-      this.ctx.fillText(this.randomArr[i].code, this.randomArr[i].x , this.randomArr[i].y)
+      this.ctx.fillText(this.randomArr[i].code, this.randomArr[i].x, this.randomArr[i].y)
       this.randomArr[i].y += this.font.fontSize;
 
       // 코드가 캔버스의 제일 아래에 내려가면 코드를 지운다.
-      if (this.randomArr[i].y > this.canvas.height - (this.font.fontSize/ 10)) {
+      if (this.randomArr[i].y > this.canvas.height - (this.font.fontSize / 10)) {
         this.randomArr[i].code = '';
       }
     }
   }
 
-  deleteCode (event) {
+  deleteCode(event) {
     if (event.key === 'Enter') {
-      let targetIndex = this.randomArr.findIndex( obj => event.target.value === obj.code );
+      let targetIndex = this.randomArr.findIndex(obj => event.target.value === obj.code);
       if (targetIndex !== -1) {
         this.randomArr[targetIndex].code = '';
         this.draw();
@@ -117,6 +117,8 @@ class Play extends Component {
   }
 
   render() {
+    const { userId, selectedStageName, stageContents, missedCode, score } = this.props
+
     return (
       <div className='gameBoard'>
         게임 드응자앙!
@@ -124,7 +126,7 @@ class Play extends Component {
           {this.start()}
         </canvas>
 
-        <input type='button' value="test" onClick={this.deleteCode}/>
+        <input type='button' value="test" onClick={this.deleteCode} />
 
         <input
           type='text'
@@ -138,6 +140,8 @@ class Play extends Component {
           onMouseUp={this.state.isPlayingToggle}
           onKeyUp={this.state.enterkey} />
 
+        <Route path='/gameover' render={() => <GameOver userId={userId} selectedStageName={selectedStageName}
+          stageContents={stageContents} missedCode={missedCode} score={score} />} />
       </div>
     )
   }
