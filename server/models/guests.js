@@ -18,10 +18,6 @@ module.exports = (sequelize, DataTypes) => {
     nickname: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    createdat: {
-      type: DataTypes.DATE,
-      defaultValue: sequelize.literal('NOW()')
     }
   }, {
     // Other model options go here

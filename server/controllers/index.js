@@ -198,34 +198,31 @@ module.exports = {
         }
     },
     guest: {
-        post: function (req, res){
-            guests.findAll({
-                where: {
-                    nickname: `guest)${req.body.nickname}`
-                }
-            })
-            .then(data => {
-                if (data) {
-                    guests.create({
-                        nickname: `guest)${req.body.nickname}`
-                    })
-                    res.status(200).send({    
-                        "message": "접속 성공하였습니다"
-                    })
-                } else {
-                    res.status(404).send({    
-                        "message": "이미 존재하는 닉네임입니다"
-                    })
-                }
-            })
+      post: async function (req, res){
+        let findSame = await guests.findAll({
+          where: {
+            nickname: `guest)${req.body.nickname}`
+          }
+        })
+        if(findSame.length === 0){
+          await guests.create({
+            nickname: `guest)${req.body.nickname}`
+          })
+          res.status(200).send({
+            "message": "게스트 로그인되었습니다"
+          })
+        } else {
+          res.status(404).send({
+            "message": "이미 존재하는 닉네임입니다"
+          })
         }
+      }
     },
     gameover: {
       post: async function (req, res){
         if(req.body.userid){
           console.log('회원입니다')
         }
-
         let result = await playlogs.create({
           score: req.body.score,
           stageid: req.body.stageid,
