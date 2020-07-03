@@ -1,17 +1,28 @@
 import React, { Component } from 'react'
-import { Switch, Route} from "react-router-dom";
+import {Route} from "react-router-dom";
 import { UserLogin, GuestLogin, Signup } from '../components'
+import { SelectStage } from '../pages'
+
 class Login extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+
+        }
+
+    }
+    
     render() {
+        const { selectedStageName, clickStage,  getContent } = this.props;
         return (
             <div>
-               <Switch>
+            Login Route 확인용
                 <UserLogin/>
                 <GuestLogin/>
                 <Signup/>
 
-                <Route path='/selectstage'></Route>
-               </Switch> 
+                <Route path='/selectstage' render={() => <SelectStage selectedStageName={selectedStageName} clickStage={clickStage}  getContent={getContent}/>}/>
+           
             </div>
         )
     }

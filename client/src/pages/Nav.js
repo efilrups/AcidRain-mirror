@@ -5,6 +5,7 @@ class Nav extends Component {
     render() {
         return (
             <div>
+            Nav Route 확인용
                 <MyPage/>
                 <Ranking/>
             </div>
