@@ -158,12 +158,9 @@ module.exports = {
                 attributes: ["nickname"]
               }],
               order: [
-                // ['createdat', 'DESC'],
                 ['createdat', 'ASC'],
               ]
             })
-            // stage객체의 stagename을 꺼내고
-            // 만약에 guest가 null이라면 user객체의 nickname을 꺼내고, 아니라면 반대로
             let result = []
             ranks.forEach(ele => {
               result.push({
@@ -181,20 +178,20 @@ module.exports = {
             let result = await users.findOne({
                 where: {
                     email: req.body.email,
+                    // 비밀번호를 해싱해야 한다
                     password: req.body.password
                 }
             })
-            .then(data => {
-                if (!data) {
-                    res.status(404).send({    
-                        "message": "로그인에 실패하였습니다"
-                    })
-                } else {
-                    res.status(200).send({    
-                        "message": "로그인되었습니다"
-                    })
-                }
-            })
+            if(result){
+              // 세션 또는 토큰을 보내야 한다
+              res.status(200).send({    
+                "message": "로그인되었습니다"
+              })
+            } else {
+              res.status(404).send({    
+                  "message": "로그인에 실패하였습니다"
+              })
+            }
         }
     },
     guest: {
