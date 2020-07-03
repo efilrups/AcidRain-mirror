@@ -6,57 +6,76 @@ class PlayStage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isPlaying : false,
+      gameStart : false,
+      gameOver : false,
     }
     //이벤트 처리 함수들
     this.enterkey = this.enterkey.bind(this);
-    this.isPlayingToggle = this.isPlayingToggle.bind(this);
-
+    this.gameStartToggle = this.gameStartToggle.bind(this);
+    this.gameOverToggle = this.gameOverToggle.bind(this);
+  }
+  componentDidMount() {
+    this.inputStart.focus();
   }
 
   enterkey(event) {
     if (event.key === 'Enter') {
       console.log('hi');
-      this.isPlayingToggle();
+      this.gameStartToggle();
       console.log('---')
     }
   }
-  isPlayingToggle () {
-    console.log('hiiiiii');
+  gameStartToggle () {
+    console.log('Game Start');
     this.setState({
-      isPlaying: !this.state.isPlaying
+      gameStart: !this.state.gameStart
     });
+  }
+  gameOverToggle () {
+    console.log('Game Over');
+
+    this.setState({
+      gameStart: !this.state.gameStart,
+      gameOver: !this.state.gameOver
+    });
+
   }
 
   render() {
     const gameRule = (
-      <div className='gameRule'>
-        <pre>
-        {`
-산성비 - ph.GGANG
-시작 버튼을 누르거나
-Enter를 누르면 게임이 시작됩니다.
-[게임 설명]
-        `}
-        </pre>
-        <input
-          type='button'
-          value='시작'
-          onMouseUp={this.isPlayingToggle}
-          onKeyUp={this.enterkey} />
+      <div className='window-body gameRule'>
+        <p className="title" style={{ textAlign: "center" }}>게임 설명</p>
+        <fieldset>
+          <p style={{ textAlign: "center" }}>산성비 - ph.GGANG</p>
+          <p style={{ textAlign: "center" }}>시작 버튼을 누르시거나, Enter를 누르면 게임이 시작됩니다.</p>
+          <p style={{ textAlign: "center" }}>되돌아가기 버튼으로 스테이지를 다시 골라보세요[아직]</p>
+
+          <div className="field-row" style={{ justifyContent: 'center' }}>
+            <button
+              ref={ref=>this.inputStart=ref}
+              onMouseUp={this.gameStartToggle}
+              onKeyUp={this.enterkey} >시작</button>
+
+
+              <button>되돌아가기</button>
+          </div>
+        </fieldset>
       </div>
     )
 
     return (
-      <div className="playStage">
+      <div className="window playStage">
 
         {
-          this.state.isPlaying
-          ? <Play isPlayingToggle={this.isPlayingToggle} enterkey={this.enterkey}/>
+          this.state.gameStart
+          ? <Play gameOverToggle={this.gameOverToggle} enterkey={this.enterkey}/>
           : gameRule
         }
-
-        {/* <GameOver/> */}
+        {
+          this.state.gameOver
+          ? <GameOver/>
+          : ''
+        }
       </div>
     )
   }

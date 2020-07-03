@@ -11,7 +11,7 @@ class Login extends Component {
         }
 
     }
-    
+
     render() {
         const { selectedStageName, clickStage,  getContent } = this.props;
         return (

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+const axios = require('axios');
 
 class Play extends Component {
   constructor (props) {
@@ -14,7 +14,7 @@ class Play extends Component {
           'Boolean(10 > 9)',
           'if (day == "Monday"){ return true }'
       ],
-      isPlayingToggle : props.isPlayingToggle,
+      gameOverToggle : props.gameOverToggle,
       enterkey : props.enterkey,
       end : false,
       RAIN_MAX : 15,
@@ -36,6 +36,7 @@ class Play extends Component {
     this.start = this.start.bind(this);
     this.draw = this.draw.bind(this);
     this.deleteCode = this.deleteCode.bind(this);
+    this.postGameResult = this.postGameResult.bind(this);
   }
 
   // canvas에 그려질 내용들 설정
@@ -93,11 +94,11 @@ class Play extends Component {
         }))
         clearInterval(move);
         }
-    }.bind(this), 1000);
+    }.bind(this), 500);
   }
 
   draw () {
-    this.ctx.fillStyle = 'gray';
+    this.ctx.fillStyle = 'rgb(179, 179, 179)';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = 'black';
     this.ctx.fillText(`점수 : ${this.score}`, 10, this.font.fontSize + 5 );
@@ -150,20 +151,28 @@ class Play extends Component {
 
   }
 
+  postGameResult () {
+    const { score } = this.state
+    console.log(score);
+    // axios.post('http://localhost:5000/main/playstage')
+    this.state.gameOverToggle();
+  }
+
   render() {
     const gameEnd = (
       <input
         type='text'
         placeholder='게임 종료'
+        style={{ textAlign: "center" }}
         disabled
       />
     );
 
     return (
-      <div className='gameBoard'>
-        <canvas id='canvas' width="600" height="300" />
+      <div className='window-body gameBoard'>
+        <canvas id='canvas' width="600" height="400" />
 
-        <div>
+        <div style={{ textAlign: "center" }}>
           {
             this.state.end
             ? gameEnd
@@ -174,13 +183,7 @@ class Play extends Component {
             />
           }
         </div>
-
-        <input
-          type='button'
-          value='되돌아가기'
-          onMouseUp={this.state.isPlayingToggle}
-          onKeyUp={this.state.enterkey} />
-
+        {/* {this.state.end ? this.postGameResult() : ''} */}
       </div>
     )
   }
