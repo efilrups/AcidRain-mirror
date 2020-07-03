@@ -32,6 +32,7 @@ class Play extends Component {
       fontName : 'arial'
     };
     this.missedCode = [];
+    this.comment = '';
 
     this.start = this.start.bind(this);
     this.draw = this.draw.bind(this);
@@ -101,6 +102,7 @@ class Play extends Component {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = 'black';
     this.ctx.fillText(`점수 : ${this.score}`, 10, this.font.fontSize + 5 );
+    this.ctx.fillText(this.comment, 450, this.font.fontSize + 5 );
 
     // 내려가기 시작한 코드들을 하나씩 그리기
     for (let i = 0; i < this.rain_count; i++) {
@@ -137,10 +139,10 @@ class Play extends Component {
   deleteCode(event) {
     if (event.key === 'Enter') {
       let targetIndex = this.randomArr.findIndex( obj => event.target.value === obj.code );
-      console.log('다시 해보시죠');
+      this.comment = '다시 해보시죠?!';
       if (targetIndex !== -1 && this.randomArr[targetIndex].code !== '') {
         this.randomArr[targetIndex].code = '';
-        console.log('지우기 성공!');
+        this.comment = '지우기 성공!';
         this.score++;
         this.draw();
       }
