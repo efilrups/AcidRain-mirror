@@ -177,8 +177,8 @@ module.exports = {
         })
     },
     login: {
-        post: function (req, res){
-            users.findOne({
+        post: async function (req, res){
+            let result = await users.findOne({
                 where: {
                     email: req.body.email,
                     password: req.body.password
