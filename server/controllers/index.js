@@ -186,7 +186,6 @@ module.exports = {
             let result = await users.findOne({
                 where: {
                     email: req.body.email,
-                    // 비밀번호를 해싱해야 한다
                     password: req.body.password
                 }
             })

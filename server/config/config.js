@@ -1,6 +1,6 @@
 let rainPassword = process.env.RAIN_PASSWORD
 module.exports = {
-  production1: {
+  development: {
     username: 'username',
     password: rainPassword,
     database: 'acidrain',
@@ -8,18 +8,11 @@ module.exports = {
     dialect: 'mysql',
     port:3306
   },
-  development: {
+  test: {
     username: 'root',
-    password: 'qkr95162',
+    password: rainPassword,
     database: 'acidrain',
     host: '127.0.0.1',
     dialect: 'mysql'
   },
-  production: {
-    username: 'root',
-    password: 'qkr95162',
-    database: 'database_production',
-    host: '127.0.0.1',
-    dialect: 'mysql'
-  }
 }
