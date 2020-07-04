@@ -5,10 +5,11 @@
     height:26rem;
     width:34rem;
     margin:-13rem 0 0 -17rem;
+    font-family: 'Nanum Myeongjo', serif;
 }
 
 fieldset{
-    height:20rem
+    height:21rem
 }
 
 
@@ -26,4 +27,5 @@ button{
     margin-top: 1rem;
     margin-bottom: 1rem;
     cursor:pointer;
+    font-family: 'Nanum Myeongjo', serif;
 }

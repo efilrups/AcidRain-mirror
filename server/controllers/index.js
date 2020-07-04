@@ -142,7 +142,7 @@ module.exports = {
     rank: {
         get: async function(req, res) {
             let ranks = await playlogs.findAll({
-              attributes: ['id', 'score', 'createdat'],
+              attributes: ['id', 'createdAt', 'score'],
               order: [
                 ['score', 'DESC'],
               ],
@@ -170,11 +170,12 @@ module.exports = {
               }]
             })
             let result = []
-            ranks.forEach(ele => {
+            ranks.forEach((ele, i) => {
               result.push({
+                'rank': i+1,
                 'score': ele.score,
                 'stagename': ele.stage.stagename,
-                'createdat': ele.createdat,
+                'createdAt': ele.createdAt,
                 'nickname': ele.guest === null ? ele.user.nickname : ele.guest.nickname
               })
             });
