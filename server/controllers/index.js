@@ -65,27 +65,34 @@ module.exports = {
     },
     signup: {
       post: async function (req, res) {
-        let result = await users.create({
-          email: req.body.email,
-          password: req.body.password,
-          nickname: req.body.nickname
+        let findName = await users.findAll({
+          where: {
+            nickname: req.body.nickname,
+          }
         })
-        console.log('result: ', result);
-        
-        // .then((data) => {
-        //     if (data) {
-        //         res.status(404).send({    
-        //             "message": "회원가입에 실패하였습니다"
-        //         });
-        //     } else {
-        //         console.log('sdf')
-        //         res.status(200).send({    
-        //             "email": req.body.email, 
-        //             "nickname": req.body.nickname,
-        //             "message": "회원가입에 성공하였습니다"
-        //         });
-        //     }
-        //   });
+        let findEmail = await users.findAll({
+          where: {
+            email: req.body.email,
+          }
+        })
+        if(findName.length + findEmail.length === 0){
+          await users.create({
+            email: req.body.email,
+            password: req.body.password,
+            nickname: req.body.nickname
+          })
+          res.send({
+            "message": "성공적으로 가입되었습니다"
+          })
+        } else if(findEmail.length === 0){
+          res.send({
+            "message": "이미 존재하는 닉네임입니다"
+          })
+        } else if(findName.length === 0){
+          res.send({
+            "message": "이미 존재하는 이메일입니다"
+          })
+        }
       }
     },
     selectstage: {
