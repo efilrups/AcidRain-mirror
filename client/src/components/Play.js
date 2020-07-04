@@ -6,15 +6,6 @@ class Play extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      contents: [
-        'function foo()',
-        'let x = 0',
-        'Math.floor()',
-        'setTimeout(function, 1000)',
-        'array.push()',
-        'Boolean(10 > 9)',
-        'if (day == "Monday"){ return true }'
-      ],
       end : false,
       RAIN_MAX : 15,
       score : 0,
@@ -44,13 +35,14 @@ class Play extends Component {
     this.canvas = document.getElementById('canvas');
     this.ctx = this.canvas.getContext('2d');
 
-    const { contents, RAIN_MAX } = this.state;
+    const { stageContents } = this.props
+    const {  RAIN_MAX } = this.state;
 
     this.ctx.font = `${this.font.fontSize}px ${this.font.fontName}`;
 
     // 내려 보내줄 개수 만큼, 내려보내줄 랜덤배열 만들기
     for (let i = 0; i < RAIN_MAX; i++) {
-      let randomContent = contents[Math.floor(Math.random() * 100) % contents.length];
+      let randomContent =  stageContents[Math.floor(Math.random() * 100) %  stageContents.length];
 
       let contentInfo = this.ctx.measureText(randomContent);
       let x = Math.round(Math.random() * (this.canvas.width - 50))

@@ -33,11 +33,7 @@ class Ranking extends Component {
         return (
 
             <div className="window Ranking-window">
-                <div className="title-bar">
-                    <div className="title-bar-text">Acid rain</div>
-                    <div className="title-bar-controls">
-                    </div>
-                </div>
+            
                 <div className="window-body">
 
                     <p className="title" style={{ textAlign: "center" }}>점수판</p>

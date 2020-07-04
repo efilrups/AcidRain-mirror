@@ -1,0 +1,39 @@
+.Nav-square{
+    position: relative;
+    background-color: navy;
+    height:3rem;
+    color: white;
+    padding:0 1% 0 1%
+}
+
+
+.Link-mypage{
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    font-size: 1rem;
+    position:absolute;
+    top:50%;
+    transform:translate(0,-50%);
+}
+
+.Nav-userId{
+    color: white;
+    display: inline-block;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    font-size: 1.4rem;
+}
+
+.Link-ranking{
+    text-decoration: none;
+    color: yellow;
+    display: inline-block;
+    position:absolute;
+    top:50%;
+    right:1%;
+    transform:translate(0,-50%);
+    font-size: 1rem;
+}
