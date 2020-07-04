@@ -1,7 +1,7 @@
 var controller = require("./controllers");
 var router = require("express").Router();
 
-router.get("/signup", controller.signup.post)
+router.post("/signup", controller.signup.post)
 
 router.get("/mypage", controller.mypage.get)
 

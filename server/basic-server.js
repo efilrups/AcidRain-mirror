@@ -4,11 +4,12 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 
 const router = require("./routes.js");
-
+const morgan = require("morgan")
 const cors = require("cors");
 
 const app = express();
 const port = 5000;
+
 
 app.use(
     session({
@@ -23,7 +24,7 @@ app.use(bodyParser.urlencoded({
     }));
   
 app.use(bodyParser.json());
-
+app.use(morgan('dev'))
 app.use(cookieParser());
 
 app.use(
@@ -34,8 +35,6 @@ app.use(
     })
   );
 
-
-// 이거 main 해도 되는건지 체크하기!
 app.use("/main", router)
 
 app.set('port', port);
