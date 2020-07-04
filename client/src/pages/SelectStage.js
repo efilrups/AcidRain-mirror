@@ -15,7 +15,7 @@ class SelectStage extends Component {
 
     async componentDidMount() {
         //selectStage 경로로 이동하면 stage테이블에 저장된 데이터를 모두 가져오고 stageNames에 담김
-        await axios.get('http://localhost:5000/selectstage')
+        await axios.get('http://13.125.33.38:5000/selectstage')
             .then(res => {
                 // console.log(res.data)
                 let names = []

@@ -32,7 +32,7 @@ class Ranking extends Component {
     }
 
     async componentDidMount() {
-        await axios.get('http://localhost:5000/main/rank')
+        await axios.get('http://13.125.33.38:5000/main/rank')
             .then(res => {
                 console.log(res.data)
                 this.setState({ rankingOfTop10: res.data })

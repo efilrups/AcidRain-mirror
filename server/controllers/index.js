@@ -1,4 +1,5 @@
 const { users, guests, playlogs, stages } = require("../models");
+const { Op } = require("sequelize");
 
 module.exports = {
 
@@ -20,28 +21,29 @@ module.exports = {
                 }
               ]
             })
-            let result = []
-            checkUser.forEach(ele => {
-              let obj = {
-                'email': ele.email,
-                'nickname': ele.nickname,
-                'playlogs': []
-              }
-              ele.playlogs.forEach(log => {
-                let logEle = {
-                  'score' : log.score,
-                  'missedcode' : log.missedcode,
-                  'stagename' : log.stage.stagename
+            if(checkUser.length !== 0){
+              let result = []
+              checkUser.forEach(ele => {
+                let obj = {
+                  'email': ele.email,
+                  'nickname': ele.nickname,
+                  'playlogs': []
                 }
-                obj.playlogs.push(logEle)
-              })
-              result.push(obj)
-            });
-
-            if(checkUser){
+                ele.playlogs.forEach(log => {
+                  let logEle = {
+                    'stagename' : log.stage.stagename,
+                    'score' : log.score,
+                    'missedcode' : log.missedcode
+                  }
+                  obj.playlogs.push(logEle)
+                })
+                result.push(obj)
+              });
               res.send(result)
             } else {
-              res.status(404).send("정보가 존재하지 않습니다");
+              res.status(404).send({
+                "message": "정보가 존재하지 않습니다"
+              });
             }
         },
         post: async function (req, res) {
@@ -55,64 +57,43 @@ module.exports = {
             }
           })
           if(result[0] === 0){
-            res.status(404).send("존재하지 않는 닉네임입니다");
+            res.status(404).send("이미 존재하는 닉네임입니다");
           } else {
             res.status(200).send("닉네임이 변경되었습니다");
           }
         }
     },
     signup: {
-        // 이건 왜 안되지 post라서 그런가.... 
-        post: async function (req, res) {
-            await users.create({ 
-                email: req.body.email,
-                password: req.body.password,
-                nickname: req.body.nickname,
-            })
-            .then(user => {
-                console.log(user)
-                res.send(user.get({
-                    plain: true
-                }))
-                if (!user) {
-                    res.status(404).send({ 
-                        "message": "회원가입에 실패하였습니다"
-                    });
-                } else {
-                    console.log('sdf')
-                    res.status(200).send(user);
-                }
-              })
-            // function a (queryInterface, Sequelize) {
-            //      queryInterface.bulkInsert('users', [{
-            //       email: req.body.email,
-            //       password: req.body.password,
-            //       nickname: req.body.nickname,
-            //       createdAt: new Date(),
-            //       updatedAt: new Date()
-            //     }], {});
-            // }
-
-            // const setNewUser = async() => {
-            //     var newUser = {
-            //         email: req.body.email,
-            //         password: req.body.password,
-            //         nickname: req.body.nickname,
-            //     }
-            //     const user = await users.create(newUser);
-
-            //     if (!user) {
-            //         res.status(404).send({ 
-            //             "message": "회원가입에 실패하였습니다"
-            //         });
-            //     } else {
-            //         console.log('sdf')
-            //         res.status(200).send(user);
-            //     }
-            //   }
-
-            //   setNewUser();
+      post: async function (req, res) {
+        let findName = await users.findAll({
+          where: {
+            nickname: req.body.nickname,
+          }
+        })
+        let findEmail = await users.findAll({
+          where: {
+            email: req.body.email,
+          }
+        })
+        if(findName.length + findEmail.length === 0){
+          await users.create({
+            email: req.body.email,
+            password: req.body.password,
+            nickname: req.body.nickname
+          })
+          res.send({
+            "message": "성공적으로 가입되었습니다"
+          })
+        } else if(findEmail.length === 0){
+          res.send({
+            "message": "이미 존재하는 닉네임입니다"
+          })
+        } else if(findName.length === 0){
+          res.send({
+            "message": "이미 존재하는 이메일입니다"
+          })
         }
+      }
     },
     selectstage: {
         get: async function (req, res){
@@ -132,7 +113,7 @@ module.exports = {
                 outputStages.forEach(stage => {
                     result.push({
                         "stagename": stage.stagename,
-                        "nickname": stage.user.nickname
+                        "createdBy": stage.user.nickname
                     })
                 })
                 res.status(200).send(result)
@@ -151,7 +132,9 @@ module.exports = {
           if(result.length !== 0){
             res.status(200).send(result)
           } else {
-            res.status(404).send("정보가 존재하지 않습니다");
+            res.status(404).send({
+              "message": "정보가 존재하지 않습니다"
+            });
           }
         },
     },
@@ -160,19 +143,31 @@ module.exports = {
         get: async function(req, res) {
             let ranks = await playlogs.findAll({
               attributes: ['id', 'score', 'createdat'],
+              order: [
+                ['score', 'DESC'],
+              ],
               include: [{
                 model: stages,
-                attributes: ["stagename"]
+                attributes: ["stagename"],
+                // 주어진 stagename와 일치하는 rank logs
+                where: {
+                  stagename: req.body.stagename 
+                  ? {[Op.eq]: req.body.stagename} 
+                  : {[Op.not]: null}
+                }
               },{
                 model: users,
-                attributes: ["nickname"]
+                attributes: ["nickname"],
+                // 주어진 nickname과 일치하는 rank logs
+                where: {
+                  nickname: req.body.nickname 
+                  ? {[Op.eq]: req.body.nickname} 
+                  : {[Op.not]: null}
+                }
               },{
                 model: guests,
                 attributes: ["nickname"]
-              }],
-              order: [
-                ['createdat', 'ASC'],
-              ]
+              }]
             })
             let result = []
             ranks.forEach(ele => {
@@ -228,19 +223,23 @@ module.exports = {
         }
       }
     },
+
+    // 만약에 게임하지 않고 데이터를 보낸다면?
     gameover: {
       post: async function (req, res){
         if(req.body.userid){
           console.log('회원입니다')
         }
-        let result = await playlogs.create({
+        await playlogs.create({
           score: req.body.score,
           stageid: req.body.stageid,
           userid: req.body.userid,
           guestid: req.body.guestid,
           missedcode: req.body.missedCode,
         })
-        res.send(result)
+        res.send({
+          "message": "게임정보를 성공적으로 저장하였습니다"
+        })
       }
     }
 }
