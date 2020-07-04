@@ -1,0 +1,49 @@
+#inputEmail{
+  position: absolute;
+  width: 40%;
+  height: 10%;
+  left: 20%;
+  top: 35%;
+}
+#inputPassword{
+  position: absolute;
+  width: 40%;
+  height: 10%;
+  left: 20%;
+  top: 50%;
+}
+#userLogin{
+  position: absolute;
+  top: 30%;
+  right: 15%;
+  height: 70px;
+}
+#guestLogin{
+  position: absolute;
+  bottom: 15%;
+  left: 20%;
+  height: 30px;
+  width: 30%;
+}
+#signupBtn{
+  position: absolute;
+  bottom: 15%;
+  width: 30%;
+  height: 30px;
+  left: 55%;
+}
+
+
+
+.Login-window{
+  position: absolute;
+  top:50%;
+  left:50%;
+  height:16rem;
+  width:24rem;
+  margin:-8rem 0 0 -12rem;
+  font-family: 'Nanum Myeongjo', serif;
+}
+#login{
+  height:13.5rem
+}
