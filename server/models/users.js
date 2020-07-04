@@ -28,10 +28,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    createdat: {
-      type: DataTypes.DATE,
-      defaultValue: sequelize.literal('NOW()')
-    }
   }, {
     // Other model options go here
     sequelize,  // We need to pass the connection instance

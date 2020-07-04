@@ -64,29 +64,40 @@ module.exports = {
         }
     },
     signup: {
-        // 이건 왜 안되지 post라서 그런가.... 
-        post: function (req, res) {
-            users.build({
-                email: req.body.email,
-                password: req.body.password,
+        post: async function (req, res) {
+          console.log('req: ', req);
+            // let result = await users.findAll()
+            // console.log('result: ', result);
+
+            // let result = await users.findAll()
+            let findName = await users.findAll({
+              where: {
                 nickname: req.body.nickname
-            }, {
-                fields: ["email", "password", "nickname"]
+              }
             })
-            .then((data) => {
-                if (data) {
-                    res.status(404).send({    
-                        "message": "회원가입에 실패하였습니다"
-                    });
-                } else {
-                    console.log('sdf')
-                    res.status(200).send({    
-                        "email": req.body.email, 
-                        "nickname": req.body.nickname,
-                        "message": "회원가입에 성공하였습니다"
-                    });
-                }
-              });
+            console.log(findName)
+            res.send(findName)
+            // let result = await users.create({
+            //   email: req.body.email,
+            //   password: req.body.password,
+            //   nickname: req.body.nickname
+            // })
+            // console.log('result: ', result);
+            
+            // .then((data) => {
+            //     if (data) {
+            //         res.status(404).send({    
+            //             "message": "회원가입에 실패하였습니다"
+            //         });
+            //     } else {
+            //         console.log('sdf')
+            //         res.status(200).send({    
+            //             "email": req.body.email, 
+            //             "nickname": req.body.nickname,
+            //             "message": "회원가입에 성공하였습니다"
+            //         });
+            //     }
+            //   });
         }
     },
     selectstage: {
@@ -155,9 +166,6 @@ module.exports = {
                 model: guests,
                 attributes: ["nickname"]
               }]
-              
-              
-                
             })
             let result = []
             ranks.forEach(ele => {
