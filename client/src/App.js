@@ -23,7 +23,7 @@ class App extends Component {
   }
 
 
-  //스테이지 선택 버튼을 누르면 true로 값이 변하게 
+  //스테이지 선택 버튼을 누르면 true로 값이 변하게
   handleStageButton = () => {
     this.setStage({ isSubmitedStage: true })
   }
@@ -41,12 +41,12 @@ class App extends Component {
   render() {
     const { userId, selectedStageName, stageContents } = this.state
     return (
-      <div>
+      <div className='Appjs'>
         <Route path='/' render={() => <Nav userId={userId} />} />
-        <Route path='/' render={() => <Login userId={userId} 
+        <Route path='/' render={() => <Login userId={userId}
           stageContents={stageContents} clickStage={this.clickStage} getContents={this.getContents} selectedStageName={selectedStageName} />} />
         <Route path='/' render={() => <PlayStage userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
-        handleGameEnd={this.handleGameEnd} 
+        handleGameEnd={this.handleGameEnd}
         />} />
       </div>
     )

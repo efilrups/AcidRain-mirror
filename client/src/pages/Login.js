@@ -15,13 +15,13 @@ class Login extends Component {
     render() {
         const { userId, selectedStageName, handleStageButton , clickStage, getContents, stageContents } = this.props;
         return (
-            <div>
+            <div className='Login-page'>
                 <UserLogin />
                 <GuestLogin />
                 <Signup />
 
-              
-                
+
+
                 <Route path='/selectstage' render={() => <SelectStage selectedStageName={selectedStageName} clickStage={clickStage}
                    handleStageButton ={handleStageButton} getContents={getContents} stageContents={stageContents} />} />
 
