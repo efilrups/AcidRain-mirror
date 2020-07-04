@@ -57,7 +57,7 @@ module.exports = {
             }
           })
           if(result[0] === 0){
-            res.status(404).send("존재하지 않는 닉네임입니다");
+            res.status(404).send("이미 존재하는 닉네임입니다");
           } else {
             res.status(200).send("닉네임이 변경되었습니다");
           }
@@ -223,19 +223,23 @@ module.exports = {
         }
       }
     },
+
+    // 만약에 게임하지 않고 데이터를 보낸다면?
     gameover: {
       post: async function (req, res){
         if(req.body.userid){
           console.log('회원입니다')
         }
-        let result = await playlogs.create({
+        await playlogs.create({
           score: req.body.score,
           stageid: req.body.stageid,
           userid: req.body.userid,
           guestid: req.body.guestid,
           missedcode: req.body.missedCode,
         })
-        res.send(result)
+        res.send({
+          "message": "게임정보를 성공적으로 저장하였습니다"
+        })
       }
     }
 }
