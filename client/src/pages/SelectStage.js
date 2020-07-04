@@ -38,10 +38,11 @@ class SelectStage extends Component {
 
                     <fieldset>
                         <p className="description">스테이지를 선택하세요 !</p>
-                        <ul className="tree-view">
+                        <ul className={"tree-view"}>
                             {this.state.stageNames.map((stageName, i) => (
 
                                 <StageListEntry
+                                //isSelected:선택한 stage이름과 현재 stage가 같다면
                                     isSelected={selectedStageName === stageName}
                                     stageName={stageName}
                                     clickStage={clickStage}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import "98.css"
 import "./css/Ranking.css"
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
@@ -13,7 +13,7 @@ class Ranking extends Component {
         super(props)
         this.state = {
             rankingOfTop10: [
-                
+
             ]
         }
     }
@@ -22,7 +22,7 @@ class Ranking extends Component {
     async componentDidMount() {
         await axios.get('http://localhost:5000/main/rank')
             .then(res => {
-                // console.log(res.data)
+                console.log(res.data)
                 this.setState({ rankingOfTop10: res.data })
             })
     }
@@ -32,25 +32,32 @@ class Ranking extends Component {
         return (
 
             <div className="window Ranking-window">
-            
+
                 <div className="window-body">
+
+                    <div class="title-bar-controls">
+                        <button className="closeButton" aria-label="Close" onClick={()=>{
+                            this.props.history.goBack()
+                        }}></button>
+                    </div>
 
                     <p className="title" style={{ textAlign: "center" }}>점수판</p>
 
-                    <fieldset>
-                    <div className="field-row" style={{ justifyContent: 'center' }}>
-                        <BootstrapTable data={this.state.rankingOfTop10} 
-                        bordered={false}
-                        headerStyle={{'borderBottom':'black 0.05rem solid', 'marginBottom':'1rem', 'marginTop':'1rem', 'paddingBottom':'1rem'}}
-                        containerStyle={{ 'borderBottom': 'black solid 0.05rem', 'paddingBottom':'1rem'}}
-                        // tableStyle={ { 'border': 'blue solid 1px'  } }
-                        >
-                            <TableHeaderColumn  dataField='id' dataAlign='center' isKey={true} tdStyle={{  'fontSize': '1rem',paddingRight:'2rem'}} thStyle={{ 'fontSize': '1rem',paddingLeft:'1rem' ,paddingRight:'2rem' }}>순위</TableHeaderColumn>
-                            <TableHeaderColumn dataField='nickname' dataAlign='center' tdStyle={{  'fontSize': '1rem', paddingRight:'2rem'} } thStyle={{ 'fontSize': '1rem', paddingRight:'3rem' }}>이름</TableHeaderColumn>
-                            <TableHeaderColumn  dataField='stagename'  dataAlign='center'  tdStyle={{ 'fontSize': '1rem', paddingRight:'2rem'}} thStyle={{ 'fontSize': '1rem', paddingRight:'1rem' }}>스테이지</TableHeaderColumn>
-                            <TableHeaderColumn   dataField='score'  dataAlign='center'  tdStyle={{ 'fontSize': '1rem', paddingRight:'2rem'}} thStyle={{ 'fontSize': '1rem', paddingRight:'4rem' }} >점수</TableHeaderColumn>
-                            <TableHeaderColumn   dataField='createdat' dataAlign='center' tdStyle={{ 'fontSize': '1rem'}} thStyle={{ 'fontSize': '1rem' }} >일자</TableHeaderColumn>
-                        </BootstrapTable>
+
+                    <fieldset className='ranking-fieldset'>
+                        <div className="field-row" style={{ justifyContent: 'center' }}>
+                            <BootstrapTable data={this.state.rankingOfTop10}
+                                bordered={false}
+                                headerStyle={{ 'borderBottom': 'black 0.05rem solid', 'marginBottom': '1rem', 'marginTop': '1rem', 'paddingBottom': '1rem' }}
+                                containerStyle={{ 'borderBottom': 'black solid 0.05rem', 'paddingBottom': '1rem' }}
+                            // tableStyle={ { 'border': 'blue solid 1px'  } }
+                            >
+                                <TableHeaderColumn dataField='rank' dataAlign='center' isKey={true} tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem', paddingLeft: '1rem', paddingRight: '2rem' }}>순위</TableHeaderColumn>
+                                <TableHeaderColumn dataField='nickname' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight: '3rem' }}>이름</TableHeaderColumn>
+                                <TableHeaderColumn dataField='stagename' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight: '1rem' }}>스테이지</TableHeaderColumn>
+                                <TableHeaderColumn dataField='score' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight: '4rem' }} >점수</TableHeaderColumn>
+                                <TableHeaderColumn dataField='createdAt' dataAlign='center' tdStyle={{ 'fontSize': '1rem' }} thStyle={{ 'fontSize': '1rem' }} >일자</TableHeaderColumn>
+                            </BootstrapTable>
                         </div>
 
                         <div className="field-row" style={{ justifyContent: 'center' }}>

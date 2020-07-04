@@ -11,6 +11,7 @@ class Nav extends Component {
         return (
             <div className="Nav-square">
             <div className="Nav-link">
+            
              <Link to='/mypage' className="Link-mypage">마이페이지</Link>
                 <Route path="/mypage" component={MyPage}/>
 
@@ -18,11 +19,11 @@ class Nav extends Component {
           
 
                 <Link to='/ranking' className="Link-ranking">랭킹</Link>
-                <Route path="/ranking" component={Ranking}/>
+                <Route path="/ranking" render={()=><Ranking />}/>
                 </div>
             </div>
         )
     }
 }
-
+// handleOpenModal
 export default Nav
