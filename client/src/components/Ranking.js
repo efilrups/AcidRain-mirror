@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import "98.css"
 import "./css/Ranking.css"
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
@@ -13,7 +13,7 @@ class Ranking extends Component {
         super(props)
         this.state = {
             rankingOfTop10: [
-                
+
             ]
         }
     }
@@ -23,7 +23,7 @@ class Ranking extends Component {
         await axios.get('http://localhost:5000/main/rank')
         // await axios.get('http://13.125.33.38:5000/main/rank')
             .then(res => {
-                // console.log(res.data)
+                console.log(res.data)
                 this.setState({ rankingOfTop10: res.data })
             })
     }
@@ -33,8 +33,14 @@ class Ranking extends Component {
         return (
 
             <div className="window Ranking-window">
-            
+
                 <div className="window-body">
+
+                    <div class="title-bar-controls">
+                        <button className="closeButton" aria-label="Close" onClick={()=>{
+                            this.props.history.goBack()
+                        }}></button>
+                    </div>
 
                     <p className="title" style={{ textAlign: "center" }}>점수판</p>
 

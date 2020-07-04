@@ -13,17 +13,18 @@ class Login extends Component {
     }
 
     render() {
-        const { userId, selectedStageName, handleStageButton , clickStage, getContents } = this.props;
+        const { userId, selectedStageName, handleStageButton , clickStage, getContents, stageContents } = this.props;
         return (
             <div>
                 <UserLogin />
                 <GuestLogin />
                 <Signup />
 
-                <Switch>
+              
+                
                 <Route path='/selectstage' render={() => <SelectStage selectedStageName={selectedStageName} clickStage={clickStage}
-                   handleStageButton ={handleStageButton} getContents={getContents} />} />
-                   </Switch>
+                   handleStageButton ={handleStageButton} getContents={getContents} stageContents={stageContents} />} />
+
             </div>
         )
     }
