@@ -50,11 +50,11 @@ class Ranking extends Component {
                         containerStyle={{ 'borderBottom': 'black solid 0.05rem', 'paddingBottom':'1rem'}}
                         // tableStyle={ { 'border': 'blue solid 1px'  } }
                         >
-                            <TableHeaderColumn  dataField='id' dataAlign='center' isKey={true} tdStyle={{  'fontSize': '1rem',paddingRight:'2rem'}} thStyle={{ 'fontSize': '1rem',paddingLeft:'1rem' ,paddingRight:'2rem' }}>순위</TableHeaderColumn>
+                            <TableHeaderColumn  dataField='rank' dataAlign='center' isKey={true} tdStyle={{  'fontSize': '1rem',paddingRight:'2rem'}} thStyle={{ 'fontSize': '1rem',paddingLeft:'1rem' ,paddingRight:'2rem' }}>순위</TableHeaderColumn>
                             <TableHeaderColumn dataField='nickname' dataAlign='center' tdStyle={{  'fontSize': '1rem', paddingRight:'2rem'} } thStyle={{ 'fontSize': '1rem', paddingRight:'3rem' }}>이름</TableHeaderColumn>
                             <TableHeaderColumn  dataField='stagename'  dataAlign='center'  tdStyle={{ 'fontSize': '1rem', paddingRight:'2rem'}} thStyle={{ 'fontSize': '1rem', paddingRight:'1rem' }}>스테이지</TableHeaderColumn>
                             <TableHeaderColumn   dataField='score'  dataAlign='center'  tdStyle={{ 'fontSize': '1rem', paddingRight:'2rem'}} thStyle={{ 'fontSize': '1rem', paddingRight:'4rem' }} >점수</TableHeaderColumn>
-                            <TableHeaderColumn   dataField='createdat' dataAlign='center' tdStyle={{ 'fontSize': '1rem'}} thStyle={{ 'fontSize': '1rem' }} >일자</TableHeaderColumn>
+                            <TableHeaderColumn   dataField='createdAt' dataAlign='center' tdStyle={{ 'fontSize': '1rem'}} thStyle={{ 'fontSize': '1rem' }} >일자</TableHeaderColumn>
                         </BootstrapTable>
                         </div>
 
