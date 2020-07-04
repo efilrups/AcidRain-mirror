@@ -7,14 +7,14 @@ class PlayStage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameStart : false,
+      gameStart: false,
     }
     //이벤트 처리 함수들
     this.enterkey = this.enterkey.bind(this);
     this.gameStartToggle = this.gameStartToggle.bind(this);
   }
   componentDidMount() {
-    this.inputStart.focus();
+    // this.inputStart.focus();
   }
 
   enterkey(event) {
@@ -24,45 +24,50 @@ class PlayStage extends Component {
       console.log('---')
     }
   }
-  gameStartToggle () {
+  gameStartToggle() {
     console.log('Game Start');
-    this.setState(current =>({
+    this.setState(current => ({
       gameStart: !current.gameStart
     }));
   }
 
   render() {
+
     const gameRule = (
-      <div className='window-body gameRule'>
-        <p className="title" style={{ textAlign: "center" }}>게임 설명</p>
-        <fieldset>
-          <p style={{ textAlign: "center" }}>산성비 - ph.GGANG</p>
+    <div className='beforestart'>
+        <p style={{ textAlign: "center" }}>개발자들을 위한 추억의 산성비 게임입니다. </p>
           <p style={{ textAlign: "center" }}>시작 버튼을 누르시거나, Enter를 누르면 게임이 시작됩니다.</p>
           <p style={{ textAlign: "center" }}>되돌아가기 버튼으로 스테이지를 다시 골라보세요[아직]</p>
-
+          <p style={{ textAlign: "center" }}>-ph.GGANG팀 일동-</p>
           <div className="field-row" style={{ justifyContent: 'center' }}>
             <button
-              ref={ref=>this.inputStart=ref}
+              ref={ref => this.inputStart = ref}
               onMouseUp={this.gameStartToggle}
               onKeyUp={this.enterkey} >시작</button>
 
 
-              <button>되돌아가기</button>
+            <button>되돌아가기</button>
           </div>
-        </fieldset>
-      </div>
+          </div>
     )
 
-    const { userId, selectedStageName, stageContents } = this.props
+    const { userId, stageContents, selectedStageName } = this.props
 
     return (
-      <div className="window PlayStage-window">
-
+      <div>
+      
         {
-          this.state.gameStart
-            ? <Play userId={userId} selectedStageName={selectedStageName} stageContents={stageContents} />
-            : gameRule
+          //1. 스테이지 선택 안한 상태, 게임 시작 안한 상태면 빈 화면 (메인화면)
+          //2. 스테이지 선택했고, 게임이 아직 시작 안한 상태? 게임 설명화면 
+          //3. 게임이 시작--> 게임화면
+          (stageContents.length===0 && !this.state.gameStart)  ? <div className='beforestart'></div>
+          : (stageContents.length!==0 &&  !this.state.gameStart) ? gameRule
+         : <Play userId={userId} selectedStageName={selectedStageName} stageContents={stageContents} />
+          
+        
         }
+        
+
 
       </div>
     )

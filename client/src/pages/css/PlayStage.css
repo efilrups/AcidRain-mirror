@@ -1,4 +1,4 @@
-.PlayStage-window{
+/* .PlayStage-window{
     position: absolute;
     top:50%;
     left:50%;
@@ -9,13 +9,17 @@
 
 fieldset{
     height:20rem
-}
+} */
 
 
-.title{
-    font-size:1rem;
-    color: blue;
+.beforestart{
+    z-index: -1;
+    position:fixed;
+    height:100%;
+    width:100%;
+    background-color:lightgray;
 }
+
 
 .description{
     font-size:1rem;
