@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import  GameOver  from './GameOver'
+
 class Play extends Component {
   constructor(props) {
     super(props);
@@ -14,12 +15,9 @@ class Play extends Component {
         'Boolean(10 > 9)',
         'if (day == "Monday"){ return true }'
       ],
-      isPlayingToggle : props.isPlayingToggle,
-      enterkey : props.enterkey,
       end : false,
       RAIN_MAX : 15,
       score : 0,
-      missedCode: []
     }
 
     // canvas 관련 초기화
@@ -33,6 +31,8 @@ class Play extends Component {
       fontSize : 15,
       fontName : 'arial'
     };
+    this.missedCode = [];
+    this.comment = '';
 
     this.start = this.start.bind(this);
     this.draw = this.draw.bind(this);
@@ -93,34 +93,35 @@ class Play extends Component {
           end : !state.end
         }))
         clearInterval(move);
-      }
-    }.bind(this), 1000);
+        }
+    }.bind(this), 500);
   }
 
-  draw() {
-    this.ctx.fillStyle = 'gray';
+  draw () {
+    this.ctx.fillStyle = 'rgb(179, 179, 179)';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = 'black';
     this.ctx.fillText(`점수 : ${this.score}`, 10, this.font.fontSize + 5 );
+    this.ctx.fillText(this.comment, 450, this.font.fontSize + 5 );
 
-    // this.ctx.fillStyle = 'red';
-    // this.ctx.fillRect(0, this.canvas.height - 3 - this.font.fontSize, 600, 2);
-    // console.log('==============================');
+    // 내려가기 시작한 코드들을 하나씩 그리기
     for (let i = 0; i < this.rain_count; i++) {
       // 코드가 캔버스의 제일 아래에 내려가면 코드를 지운다.
       if (this.randomArr[i].y > this.canvas.height - (this.font.fontSize/ 10)) {
         if (this.randomArr[i].code !== '') {
           this.life -= 1;
+          this.missedCode.push(this.randomArr[i].code);
         }
         this.randomArr[i].code = '';
       }
 
+      // 코드 그리고 다음에 그릴 위치 내리기
       this.ctx.fillStyle = 'black';
       this.ctx.fillText(this.randomArr[i].code, this.randomArr[i].x , this.randomArr[i].y)
       this.randomArr[i].y += this.font.fontSize;
     }
 
-    // ph바 그라데이션 설정 및 그리기
+    // ph바 그라데이션 설정
     let gra = this.ctx.createLinearGradient(200, 5, 400, 5)
     gra.addColorStop(0, 'rgb(247, 44, 31)');
     gra.addColorStop(0.4, 'rgb(247, 187, 31)');
@@ -128,6 +129,7 @@ class Play extends Component {
     gra.addColorStop(0.7, 'rgb(14, 207, 23)');
     gra.addColorStop(1, 'rgb(14, 67, 201)');
 
+    // ph바 그리기
     this.ctx.fillText(`ph.${this.life + 1}`, 150, this.font.fontSize + 5);
     this.ctx.fillRect(195, 5, 210, 20);
     this.ctx.fillStyle = gra;
@@ -137,12 +139,10 @@ class Play extends Component {
   deleteCode(event) {
     if (event.key === 'Enter') {
       let targetIndex = this.randomArr.findIndex( obj => event.target.value === obj.code );
-      console.log('--OUt---targetIndex---', targetIndex);
+      this.comment = '다시 해보시죠?!';
       if (targetIndex !== -1 && this.randomArr[targetIndex].code !== '') {
         this.randomArr[targetIndex].code = '';
-        console.log('this.state.score---',this.state.score);
-        console.log('--In---targetIndex---', targetIndex);
-        // this.setState((state) =>({ score : state.score + 1 }));
+        this.comment = '지우기 성공!';
         this.score++;
         this.draw();
       }
@@ -153,21 +153,22 @@ class Play extends Component {
 
   render() {
     const {userId, selectedStageName, stageContents } = this.props
-    const { score, missedCode } = this.state
+    const { score } = this.state
 
     const gameEnd = (
       <input
         type='text'
         placeholder='게임 종료'
+        style={{ textAlign: "center" }}
         disabled
       />
     );
 
     return (
-      <div className='gameBoard'>
-        <canvas id='canvas' width="600" height="300" />
+      <div className='window-body gameBoard'>
+        <canvas id='canvas' width="600" height="400" />
 
-        <div>
+        <div style={{ textAlign: "center" }}>
           {
             this.state.end
             ? gameEnd
@@ -179,16 +180,14 @@ class Play extends Component {
           }
         </div>
 
-        <input
-          type='button'
-          value='되돌아가기'
-          onMouseUp={this.state.isPlayingToggle}
-          onKeyUp={this.state.enterkey} />
+        {
+          this.state.end
+          ? <GameOver userId={userId} selectedStageName={selectedStageName}
+            stageContents={stageContents} score={score} missedCode={this.missedCode}  />
+          : ''
+        }
 
 
-        <GameOver userId={userId} selectedStageName={selectedStageName}
-          stageContents={stageContents} score={score} missedCode={missedCode}  />
-          
       </div>
     )
   }
