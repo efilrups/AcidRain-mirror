@@ -64,41 +64,29 @@ module.exports = {
         }
     },
     signup: {
-        post: async function (req, res) {
-          console.log('req: ', req);
-            // let result = await users.findAll()
-            // console.log('result: ', result);
-
-            // let result = await users.findAll()
-            let findName = await users.findAll({
-              where: {
-                nickname: req.body.nickname
-              }
-            })
-            console.log(findName)
-            res.send(findName)
-            // let result = await users.create({
-            //   email: req.body.email,
-            //   password: req.body.password,
-            //   nickname: req.body.nickname
-            // })
-            // console.log('result: ', result);
-            
-            // .then((data) => {
-            //     if (data) {
-            //         res.status(404).send({    
-            //             "message": "회원가입에 실패하였습니다"
-            //         });
-            //     } else {
-            //         console.log('sdf')
-            //         res.status(200).send({    
-            //             "email": req.body.email, 
-            //             "nickname": req.body.nickname,
-            //             "message": "회원가입에 성공하였습니다"
-            //         });
-            //     }
-            //   });
-        }
+      post: async function (req, res) {
+        let result = await users.create({
+          email: req.body.email,
+          password: req.body.password,
+          nickname: req.body.nickname
+        })
+        console.log('result: ', result);
+        
+        // .then((data) => {
+        //     if (data) {
+        //         res.status(404).send({    
+        //             "message": "회원가입에 실패하였습니다"
+        //         });
+        //     } else {
+        //         console.log('sdf')
+        //         res.status(200).send({    
+        //             "email": req.body.email, 
+        //             "nickname": req.body.nickname,
+        //             "message": "회원가입에 성공하였습니다"
+        //         });
+        //     }
+        //   });
+      }
     },
     selectstage: {
         get: async function (req, res){
@@ -153,10 +141,17 @@ module.exports = {
               ],
               include: [{
                 model: stages,
-                attributes: ["stagename"]
+                attributes: ["stagename"],
+                // 주어진 stagename와 일치하는 rank logs
+                where: {
+                  stagename: req.body.stagename 
+                  ? {[Op.eq]: req.body.stagename} 
+                  : {[Op.not]: null}
+                }
               },{
                 model: users,
                 attributes: ["nickname"],
+                // 주어진 nickname과 일치하는 rank logs
                 where: {
                   nickname: req.body.nickname 
                   ? {[Op.eq]: req.body.nickname} 
