@@ -44,7 +44,7 @@ class Ranking extends Component {
 
                     <p className="title" style={{ textAlign: "center" }}>점수판</p>
 
-                    <fieldset>
+                    <fieldset className="Ranking-fieldset">
                     <div className="field-row" style={{ justifyContent: 'center' }}>
                         <BootstrapTable data={this.state.rankingOfTop10} 
                         bordered={false}
@@ -60,12 +60,15 @@ class Ranking extends Component {
                         </BootstrapTable>
                         </div>
 
-                        <div className="field-row" style={{ justifyContent: 'center' }}>
+                        {!this.props.stageContents 
+                        ? <div className="field-row" style={{ justifyContent: 'center'}}>
                             <button onClick={() => {
+                                //스테이지 아직 선택 안했을때만 보이도록 -- display:'none'
                                 //스테이지 선택 버튼을 누르면 스테이지 선택 페이지로 이동
                                 this.props.history.push('/selectStage')
                             }}>스테이지 선택</button>
-                        </div>
+                        </div> 
+                        : ''}
                     </fieldset>
 
                 </div>

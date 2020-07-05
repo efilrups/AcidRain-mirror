@@ -42,7 +42,7 @@ class App extends Component {
     const { userId, selectedStageName, stageContents } = this.state
     return (
       <div className='Appjs'>
-        <Route path='/' render={() => <Nav userId={userId} />} />
+        <Route path='/' render={() => <Nav userId={userId}  stageContents={stageContents} />} />
         <Route path='/' render={() => <Login userId={userId}
           stageContents={stageContents} clickStage={this.clickStage} getContents={this.getContents} selectedStageName={selectedStageName} />} />
         <Route path='/' render={() => <PlayStage userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
