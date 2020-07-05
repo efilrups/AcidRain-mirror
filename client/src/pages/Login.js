@@ -18,9 +18,6 @@ class Login extends Component {
                   {/* <GuestLogin /> */}
                   
                 </Switch>
-
-
-          
                 <Route path='/selectstage' render={() => <SelectStage selectedStageName={selectedStageName} clickStage={clickStage}
                    handleStageButton ={handleStageButton} getContents={getContents} stageContents={stageContents} />} />
 
