@@ -8,23 +8,18 @@ class MakeStage extends Component {
         super(props)
         this.state = {
             inputStageName: this.props.editStageName,
-
-            
             inputStageContents: this.props.editStageContents? this.props.editStageContents.join('\n') : this.props.editStageName
         }
         this.textInput = React.createRef();
     }
-    handleStageName = (e) => {
-        this.setState({inputStageName:e.target.value})
+    handleChange = (e) => {
+        this.setState({[e.target.className]:e.target.value})
     }
 
-    handleStageContents = (e) => {
-        this.setState({inputStageContents:(e.target.value)})
-    }
-    
 
     render() {
-        const { handleMakingStage, userId } = this.props
+        const { handleMakingStage, userId, resetEditingHope } = this.props
+        const { inputStageName, inputStageContents } = this.state
         return (
             <div>
                 <div>
@@ -34,6 +29,7 @@ class MakeStage extends Component {
 
                             <div className="title-bar-controls">
                                 <button className="closeButton" aria-label="Close" onClick={() => {
+                                    resetEditingHope()
                                     handleMakingStage()
                                 }}></button>
                             </div>
@@ -44,15 +40,14 @@ class MakeStage extends Component {
                                 <p className="description">나만의 스테이지를 만들어보세요!</p>
 
                                 <div className="field-row" style={{ justifyContent: 'center' }}>
-                                    <input className="MakeStage-stagename" placeholder="스테이지의 이름을 정해주세요." type="text" 
-                                        onChange={this.handleStageName} value={this.state.inputStageName}
-                                     ></input>
-                                     
+                                    <input className="inputStageName" placeholder="스테이지의 이름을 정해주세요." type="text" 
+                                        onChange={this.handleChange} value={inputStageName}
+                                     ></input>                     
                                 </div>
 
                                 <div className="field-row-stacked" >
-                                    <textarea className="MakeStage-stageContents" placeholder="한 줄에 작성한 글이 하나의 산성비가 됩니다.&#13;&#10;한 게임에 총 30개의 산성비가 떨어집니다.&#13;&#10;30개의 코드를 모두 작성하지 않으면 떨어진 비를 또 맞게 되겠죠?" 
-                                     onChange={this.handleStageContents} value={this.state.inputStageContents}>
+                                    <textarea className="inputStageContents" placeholder="한 줄에 작성한 글이 하나의 산성비가 됩니다.&#13;&#10;한 게임에 총 30개의 산성비가 떨어집니다.&#13;&#10;30개의 코드를 모두 작성하지 않으면 떨어진 비를 또 맞게 되겠죠?" 
+                                     onChange={this.handleChange} value={inputStageContents}>
                                     </textarea>
                                 </div>
 
@@ -62,11 +57,11 @@ class MakeStage extends Component {
                                         //db에 저장하는 post요청, 창닫기 
                                         axios.post("http:localhost:5000/main/makestage",{
                                             userId: userId,
-                                            stagename:this.state.inputStageName,
-                                            contents:this.state.inputStageContents.split('\n')
+                                            stagename:inputStageName,
+                                            contents:inputStageContents.split('\n')
                                         })
                                         //input값을 초기화해주기
-                                        this.props.resetEditingHope()
+                                        resetEditingHope()
                                         handleMakingStage()
                                     }}>저장</button>
                                 </div>

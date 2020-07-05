@@ -34,9 +34,7 @@ class SelectStage extends Component {
     async componentDidMount() {
         //selectStage 경로로 이동하면 stage테이블에 저장된 데이터를 모두 가져오고 stageNames에 담김
         await axios.get('http://localhost:5000/main/selectstage')
-
             .then(res => {
-
                 this.setState({ savedStages: res.data })
             })
 
@@ -44,6 +42,7 @@ class SelectStage extends Component {
 
     render() {
         const { clickStage, selectedStageName, wantToMake, handleMakingStage, userId } = this.props
+        const { editStageContents, editStageName } = this.state
         return (
             <div className="window SelectStage-window">
                 <div className="window-body">
@@ -67,8 +66,8 @@ class SelectStage extends Component {
                                     createdBy={savedStage.createdBy}
                                     clickStage={clickStage}
                                     key={i}
-                                    editStageName={this.state.editStageName}
-                                    editStageContents={this.state.editStageContents}
+                                    editStageName={editStageName}
+                                    editStageContents={editStageContents}
                                     selectedStageName={selectedStageName}
                                     handleEditStageContents={this.handleEditStageContents}
                                     handleEditStageName={this.handleEditStageName}
@@ -86,23 +85,19 @@ class SelectStage extends Component {
                                     stagename: selectedStageName
                                 })
                                     .then(res => {
-                                        // console.log((JSON.parse(res.data[0].contents)))
                                         this.props.getContents(JSON.parse(res.data[0].contents))
                                     })
                                 this.props.history.push('/playstage')
 
                             }}>플레이</button>
                             <button onClick={() => {
-                                //wantToMake 만들기 버튼 클릭하면 makingStage로 이동, 
-                                //MakingStage컴포넌트 내의 만들기 완성버튼, x 버튼 클릭하면 다시 여기로 돌아오기
-                               
-                               //editStage에 관한 스테이츠를 모두 비워줘야한다.
+                                //모달의 오픈,클로즈 여부를 관리하는 이벤트를 실행시킴
                                 handleMakingStage()
 
                             }}>만들기</button>
                             {wantToMake ? <MakeStage handleMakingStage={handleMakingStage} userId={userId}
-                                editStageName={this.state.editStageName}
-                                editStageContents={this.state.editStageContents}
+                                editStageName={editStageName}
+                                editStageContents={editStageContents}
                                 resetEditingHope={this.resetEditingHope} />
                                 : ''}
                         </div>

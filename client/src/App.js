@@ -5,7 +5,7 @@ import { Play } from './components'
 
 class App extends Component {
   state = {
-    userId: 'fakenickname',
+    userId: '',
     selectedStageName: 'test',
     stageContents: '',
 
@@ -23,6 +23,17 @@ class App extends Component {
       this.setState({ selectedStageName: name })
     }
   }
+  // 유저의 로그인
+  changeUserId = (user) => {
+    this.setState({ userId: user, isLogin: true})
+  }
+  // 게스트의 로그인
+  changeGuest = () => {
+    let guest = 'Guest_이런이런'
+    this.setState({ userId: guest, isGuest: true})
+  }
+
+  
 
   //스테이지 선택 버튼을 누르면 true로 값이 변하게
   handleStageButton = () => {
@@ -43,14 +54,21 @@ class App extends Component {
   }
 
   render() {
-    const { userId, selectedStageName, stageContents, wantToMake } = this.state
+    const { userId, isGuest, selectedStageName, stageContents, wantToMake } = this.state
     return (
-      <div className='Appjs'>
-        <Route path='/' render={() => <Nav userId={userId}  stageContents={stageContents} />} />
-        <Route path='/' render={() => <Login userId={userId}
-          stageContents={stageContents} clickStage={this.clickStage} getContents={this.getContents} selectedStageName={selectedStageName}
-          wantToMake={wantToMake} handleMakingStage={this.handleMakingStage}
-           />} />
+      <div>
+        <Route path='/' render={() => <Nav userId={userId} isGuest={isGuest}/>} />
+        <Route path='/' render={() => <Login 
+          userId={userId} 
+          changeUserId={this.changeUserId}
+          changeGuest={this.changeGuest}
+          stageContents={stageContents} 
+          clickStage={this.clickStage} 
+          getContents={this.getContents} 
+          selectedStageName={selectedStageName} 
+          wantToMake={wantToMake}
+          handleMakingStage={this.handleMakingStage}
+        />} />
         <Route path='/' render={() => <PlayStage userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
         handleGameEnd={this.handleGameEnd}
         />} />
