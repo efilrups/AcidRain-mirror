@@ -13,9 +13,10 @@ class Login extends Component {
         return (
             <div>
                 <Switch>
-                  <Route path='/login'><UserLogin changeGuest={changeGuest} changeUserId={changeUserId}></UserLogin></Route>
-                  <Route path='/signup'><Signup></Signup></Route>
-                  {/* <GuestLogin /> */}
+                  <Route path='/login'><UserLogin changeGuest={changeGuest} changeUserId={changeUserId} /></Route>
+                  <Route path='/signup'><Signup /></Route>
+                  <Route path='/guestLogin'><GuestLogin changeGuest={changeGuest}/></Route>
+                  
                   
                 </Switch>
 

@@ -72,7 +72,7 @@ class UserLogin extends Component {
       return (
         <div className="window Login-window">
           <div className="title-bar">
-            <div className="title-bar-text">login</div>
+            <div className="title-bar-text">Login</div>
           </div>
           <div className="window-body">
             <fieldset id="login">
@@ -93,7 +93,9 @@ class UserLogin extends Component {
               />
 
               <button id="userLogin" onClick={this.enter.bind(this)}>로그인</button>
-              <button id="guestLogin" onClick={this.props.changeGuest}>게스트로그인</button>
+              <button id="guestLogin" 
+                onClick={() => this.props.history.push('/guestLogin')}
+              >게스트로그인</button>
               <button id="signupBtn" 
                 onClick={() => this.props.history.push('/signup')}
               >회원가입</button>

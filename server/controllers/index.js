@@ -211,18 +211,20 @@ module.exports = {
       post: async function (req, res){
         let findSame = await guests.findAll({
           where: {
-            nickname: `guest)${req.body.nickname}`
+            nickname: `guest_${req.body.nickname}`
           }
         })
         if(findSame.length === 0){
           await guests.create({
-            nickname: `guest)${req.body.nickname}`
+            nickname: `guest_${req.body.nickname}`
           })
           res.status(200).send({
+            "result": true,
             "message": "게스트 로그인되었습니다"
           })
         } else {
-          res.status(404).send({
+          res.status(200).send({
+            "result": false,
             "message": "이미 존재하는 닉네임입니다"
           })
         }
