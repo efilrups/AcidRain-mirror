@@ -7,19 +7,20 @@ class MakeStage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            inputStageName: '',
-            inputStageContents: ''
+            inputStageName: this.props.editStageName,
+            inputStageContents: this.props.editStageContents
         }
+        this.textInput = React.createRef();
     }
     handleStageName = (e) => {
         this.setState({inputStageName:e.target.value})
     }
 
     handleStageContents = (e) => {
-        
         // console.log((e.target.value).split('\n'))
         this.setState({inputStageContents:(e.target.value).split('\n')})
     }
+    
 
     render() {
         const { handleMakingStage, userId } = this.props
@@ -30,7 +31,7 @@ class MakeStage extends Component {
 
                         <div className="window-body">
 
-                            <div class="title-bar-controls">
+                            <div className="title-bar-controls">
                                 <button className="closeButton" aria-label="Close" onClick={() => {
                                     handleMakingStage()
                                 }}></button>
@@ -43,13 +44,14 @@ class MakeStage extends Component {
 
                                 <div className="field-row" style={{ justifyContent: 'center' }}>
                                     <input className="MakeStage-stagename" placeholder="스테이지의 이름을 정해주세요." type="text" 
-                                        onChange={this.handleStageName}
-                                    />
+                                        onChange={()=>this.handleStageName} value={this.state.inputStageName}
+                                     ></input>
+                                     
                                 </div>
 
                                 <div className="field-row-stacked" >
                                     <textarea className="MakeStage-stageContents" placeholder="한 줄에 작성한 글이 하나의 산성비가 됩니다.&#13;&#10;한 게임에 총 30개의 산성비가 떨어집니다.&#13;&#10;30개의 코드를 모두 작성하지 않으면 떨어진 비를 또 맞게 되겠죠?" 
-                                     onChange={this.handleStageContents}>
+                                     onChange={this.handleStageContents} value={this.state.inputStageContents}>
                                     </textarea>
                                 </div>
 
@@ -62,7 +64,8 @@ class MakeStage extends Component {
                                             stagename:this.state.inputStageName,
                                             contents:this.state.inputStageContents
                                         })
-                                        
+                                        //input값을 초기화해주기
+                                        this.props.resetEditingHope()
                                         handleMakingStage()
                                     }}>저장</button>
                                 </div>
