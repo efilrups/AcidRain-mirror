@@ -23,7 +23,6 @@ class Ranking extends Component {
         await axios.get('http://localhost:5000/main/rank')
         // await axios.get('http://13.125.33.38:5000/main/rank')
             .then(res => {
-                console.log(res.data)
                 this.setState({ rankingOfTop10: res.data })
             })
     }
@@ -36,7 +35,7 @@ class Ranking extends Component {
 
                 <div className="window-body">
 
-                    <div class="title-bar-controls">
+                    <div className="title-bar-controls">
                         <button className="closeButton" aria-label="Close" onClick={()=>{
                             this.props.history.goBack()
                         }}></button>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
 import { StageListEntry } from '../components';
+import { MakeStage } from '../components/index'
 import './css/SelectStage.css'
 import "98.css"
 const axios = require('axios');
@@ -30,7 +31,7 @@ class SelectStage extends Component {
     }
 
     render() {
-        const { clickStage, selectedStageName } = this.props
+        const { clickStage, selectedStageName, wantToMake, handleMakingStage, userId } = this.props
         return (
             <div className="window SelectStage-window">
                 <div className="window-body">
@@ -43,7 +44,7 @@ class SelectStage extends Component {
                             {this.state.stageNames.map((stageName, i) => (
 
                                 <StageListEntry
-                                //isSelected:선택한 stage이름과 현재 stage가 같다면
+                                    //isSelected:선택한 stage이름과 현재 stage가 같다면
                                     isSelected={selectedStageName === stageName}
                                     stageName={stageName}
                                     clickStage={clickStage}
@@ -58,26 +59,23 @@ class SelectStage extends Component {
                             <button onClick={() => {
                                 //버튼 누르면 서버에 현재 선택한 stageName을 post요청으로 보내고, 해당 stageName에 대한 content를 받아온다. 
                                 ///playstage로 이동
-
-                                // axios.get("http://localhost:5000/main/playstage",this.props.stageName)
-                                // .then(res=>{
-                                //     console.log(res.data)
-                                //     this.props.getContents(res.data)
-                                // }) 
-                                //--> 아직 api요청이 안 이루어져서 하드코딩 해놨슴당
-
-                                this.props.getContents([
-                                    'function foo()',
-                                    'let x = 0',
-                                    'Math.floor()',
-                                    'setTimeout(function, 1000)',
-                                    'array.push()',
-                                    'Boolean(10 > 9)',
-                                    'if (day == "Monday"){ return true }'
-                                ])
+                                axios.post("http://localhost:5000/main/playstage",{
+                                   stagename: selectedStageName 
+                                   })
+                                .then(res=>{
+                                    // console.log((JSON.parse(res.data[0].contents)))
+                                    this.props.getContents(JSON.parse(res.data[0].contents))
+                                }) 
                                 this.props.history.push('/playstage')
 
                             }}>플레이</button>
+                            <button onClick={() => {
+                                //wantToMake 만들기 버튼 클릭하면 makingStage로 이동, 
+                                //MakingStage컴포넌트 내의 만들기 완성버튼, x 버튼 클릭하면 다시 여기로 돌아오기
+                                handleMakingStage()
+
+                            }}>만들기</button>
+                            {wantToMake ? <MakeStage  handleMakingStage={handleMakingStage} userId={userId}/> : ''}
                         </div>
                     </fieldset>
                 </div>

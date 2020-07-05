@@ -1,0 +1,16 @@
+input.MakeStage-stagename{
+    width: 14rem;
+    height: 1.5rem;
+    font-size:0.8rem;
+    font-family: 'Nanum Myeongjo', serif;
+}
+
+textarea.MakeStage-stageContents{
+    height:12rem;
+    font-size:1rem;
+    font-family: 'Nanum Myeongjo', serif;
+}
+
+button.MakeStage-button{
+    margin-top:0.6rem;
+}

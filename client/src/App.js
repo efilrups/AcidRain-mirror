@@ -14,6 +14,8 @@ class App extends Component {
     isLogin: false,
     //게스트가 로그인 했을 때, 회원이 로그인 했을 때로 나눠서 Nav의 마이페이지버튼 생성, 비생성 조절
     isGuest: true,
+    //makeStage컴포넌트의 노출 여부를 해당 state로 관리 
+    wantToMake:false,
   }
 
   clickStage = (name) => {
@@ -21,7 +23,6 @@ class App extends Component {
       this.setState({ selectedStageName: name })
     }
   }
-
 
   //스테이지 선택 버튼을 누르면 true로 값이 변하게
   handleStageButton = () => {
@@ -37,14 +38,19 @@ class App extends Component {
     this.setState({selectedStageName:'test', stageContents:''})
   }
 
+  handleMakingStage = () => {
+    this.setState({ wantToMake : !this.state.wantToMake})
+  }
 
   render() {
-    const { userId, selectedStageName, stageContents } = this.state
+    const { userId, selectedStageName, stageContents, wantToMake } = this.state
     return (
       <div className='Appjs'>
         <Route path='/' render={() => <Nav userId={userId}  stageContents={stageContents} />} />
         <Route path='/' render={() => <Login userId={userId}
-          stageContents={stageContents} clickStage={this.clickStage} getContents={this.getContents} selectedStageName={selectedStageName} />} />
+          stageContents={stageContents} clickStage={this.clickStage} getContents={this.getContents} selectedStageName={selectedStageName}
+          wantToMake={wantToMake} handleMakingStage={this.handleMakingStage}
+           />} />
         <Route path='/' render={() => <PlayStage userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
         handleGameEnd={this.handleGameEnd}
         />} />

@@ -13,7 +13,7 @@ class Login extends Component {
     }
 
     render() {
-        const { userId, selectedStageName, handleStageButton , clickStage, getContents, stageContents } = this.props;
+        const { userId, selectedStageName, handleStageButton , clickStage, getContents, stageContents, wantToMake, handleMakingStage } = this.props;
         return (
             <div className='Login-page'>
                 <UserLogin />
@@ -23,7 +23,9 @@ class Login extends Component {
 
 
                 <Route path='/selectstage' render={() => <SelectStage selectedStageName={selectedStageName} clickStage={clickStage}
-                   handleStageButton ={handleStageButton} getContents={getContents} stageContents={stageContents} />} />
+                   handleStageButton ={handleStageButton} getContents={getContents} stageContents={stageContents} 
+                   wantToMake={wantToMake} handleMakingStage={handleMakingStage} userId={userId}
+                   />} />
 
             </div>
         )
