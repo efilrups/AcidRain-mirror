@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       users.hasMany(models.stages)
       users.hasMany(models.playlogs)
     }
-  };
+  }
   users.init({
     email: {
       type: DataTypes.STRING,
@@ -34,12 +34,12 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,  // We need to pass the connection instance
     modelName: 'users',  // We need to choose the model name
     hooks: {
-      beforeCreate: (data, option) => {
+      beforeCreate: (data) => {
         var shasum = crypto.createHmac('sha512', 'thisismysecretkey');
         shasum.update(data.password);
         data.password = shasum.digest('hex');
       },
-      beforeFind: (data, option) => {
+      beforeFind: (data) => {
         if (data.where.password) {
           var shasum = crypto.createHmac('sha512', 'thisismysecretkey');
           shasum.update(data.where.password);
