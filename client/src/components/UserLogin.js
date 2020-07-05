@@ -53,10 +53,12 @@ class UserLogin extends Component {
               email : this.state.email,
               password: this.state.password,
             })
-            console.log('result: ', result);
+            console.log('result: ', result.data.session);
             
             this.props.changeUserId(result.data.nickname)
             alert('Welcome!!')
+            document.cookie.isLogin = true
+            console.log('document.cookie: ', document.cookie);
             this.props.history.push('/selectStage')
             this.setState({email: '', password: ''})
 

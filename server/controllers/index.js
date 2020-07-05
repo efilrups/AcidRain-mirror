@@ -196,7 +196,13 @@ module.exports = {
             if(result){
               console.log('result: ', result.nickname);
               // 세션 또는 토큰을 보내야 한다
+              req.session.isLogin = true
+              // req
+              console.log(req.sessionStore.sessions)
+              console.log('req: ', req.sessionID);
+
               res.status(200).send({    
+                "session": req.sessionID,
                 "nickname": result.nickname,
                 "message": "로그인되었습니다"
               })
