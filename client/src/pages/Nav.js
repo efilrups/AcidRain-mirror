@@ -13,7 +13,7 @@ class Nav extends Component {
             <div className="Nav-link">
             
              <Link to='/mypage' className="Link-mypage">마이페이지</Link>
-                <Route path="/mypage" component={MyPage}/>
+             <Route path="/mypage" render={()=><MyPage userId={userId}/>}/>
 
              <div className="Nav-userId">{ userId ? `${userId}님 산성비에 입장하셨습니다.` : `로그인 후에 이용해주세요.`}</div>
           

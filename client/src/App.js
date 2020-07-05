@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Nav, Login, PlayStage } from './pages'
 import { Route } from 'react-router-dom'
-import { Play } from './components'
+import { Play, MyPage } from './components'
 
 class App extends Component {
   state = {
-    userId: 'fakenickname',
+    userId: 'other',
     selectedStageName: 'test',
     stageContents: '',
 
@@ -48,6 +48,7 @@ class App extends Component {
         <Route path='/' render={() => <PlayStage userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
         handleGameEnd={this.handleGameEnd} 
         />} />
+        
       </div>
     )
   }

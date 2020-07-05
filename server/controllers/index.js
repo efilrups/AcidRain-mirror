@@ -1,12 +1,14 @@
 const { users, guests, playlogs, stages } = require("../models");
 const { Op } = require("sequelize");
+//const { noExtendLeft } = require("sequelize/types/lib/operators");
 
 module.exports = {
 
   // users, playlogs
     mypage: {
         get: async function (req, res) {
-            let checkUser = await users.findAll({
+            try {
+              let checkUser = await users.findAll({
                 attributes: ["email", "nickname"],
                 where: {
                     nickname: req.body.nickname
@@ -20,30 +22,33 @@ module.exports = {
                   }]
                 }
               ]
-            })
-            if(checkUser.length !== 0){
-              let result = []
-              checkUser.forEach(ele => {
-                let obj = {
-                  'email': ele.email,
-                  'nickname': ele.nickname,
-                  'playlogs': []
-                }
-                ele.playlogs.forEach(log => {
-                  let logEle = {
-                    'stagename' : log.stage.stagename,
-                    'score' : log.score,
-                    'missedcode' : log.missedcode
+              })
+              if(checkUser.length !== 0){
+                let result = []
+                checkUser.forEach(ele => {
+                  let obj = {
+                    'email': ele.email,
+                    'nickname': ele.nickname,
+                    'playlogs': []
                   }
-                  obj.playlogs.push(logEle)
-                })
-                result.push(obj)
-              });
-              res.send(result)
-            } else {
-              res.status(404).send({
-                "message": "정보가 존재하지 않습니다"
-              });
+                  ele.playlogs.forEach(log => {
+                    let logEle = {
+                      'stagename' : log.stage.stagename,
+                      'score' : log.score,
+                      'missedcode' : log.missedcode
+                    }
+                    obj.playlogs.push(logEle)
+                  })
+                  result.push(obj)
+                });
+                res.send(result)
+              } else {
+                res.status(404).send({
+                  "message": "정보가 존재하지 않습니다"
+                });
+              }
+            } catch (err) {
+              console.log('end')
             }
         },
         post: async function (req, res) {
@@ -56,11 +61,14 @@ module.exports = {
                 nickname: req.body.nickname
             }
           })
-          if(result[0] === 0){
-            res.status(404).send("이미 존재하는 닉네임입니다");
-          } else {
-            res.status(200).send("닉네임이 변경되었습니다");
-          }
+          // if(result[0] === 0){
+          //   res.status(404).send("이미 존재하는 닉네임입니다");
+          // } else {
+          //   res.status(200).send({ nickname: req.body.nickname });
+          // }
+          console.log(result)
+          res.send('보내졌다!')
+          
         }
     },
     signup: {
