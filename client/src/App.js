@@ -31,7 +31,7 @@ class App extends Component {
     this.setState({ userId: guest, isGuest: true})
   }
 
-  
+
 
 
   //스테이지 선택 버튼을 누르면 true로 값이 변하게
@@ -52,16 +52,16 @@ class App extends Component {
   render() {
     const { userId, isGuest, selectedStageName, stageContents } = this.state
     return (
-      <div>
+      <div className='app'>
         <Route path='/' render={() => <Nav userId={userId} isGuest={isGuest}/>} />
-        <Route path='/' render={() => <Login 
-          userId={userId} 
+        <Route path='/' render={() => <Login
+          userId={userId}
           changeUserId={this.changeUserId}
           changeGuest={this.changeGuest}
-          stageContents={stageContents} 
-          clickStage={this.clickStage} 
-          getContents={this.getContents} 
-          selectedStageName={selectedStageName} 
+          stageContents={stageContents}
+          clickStage={this.clickStage}
+          getContents={this.getContents}
+          selectedStageName={selectedStageName}
         />} />
         <Route path='/' render={() => <PlayStage userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
         handleGameEnd={this.handleGameEnd}

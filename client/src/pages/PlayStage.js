@@ -63,7 +63,7 @@ class PlayStage extends Component {
     const { userId, stageContents, selectedStageName,  handleGameEnd } = this.props
 
     return (
-      <div className="playStage">
+      <div className="playStage-square">
 
         {
           //1. 스테이지 선택 안한 상태, 게임 시작 안한 상태면 빈 화면 (메인화면)
