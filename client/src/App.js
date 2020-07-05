@@ -50,10 +50,10 @@ class App extends Component {
 
 
   render() {
-    const { userId, isGuest, selectedStageName, stageContents } = this.state
+    const { userId, isGuest, isLogin, selectedStageName, stageContents } = this.state
     return (
       <div className='app'>
-        <Route path='/' render={() => <Nav userId={userId} isGuest={isGuest}/>} />
+        <Route path='/' render={() => <Nav userId={userId} isGuest={isGuest} isLogin={isLogin}/>} />
         <Route path='/' render={() => <Login
           userId={userId}
           changeUserId={this.changeUserId}

@@ -30,6 +30,8 @@ class Ranking extends Component {
 
     render() {
         //react-bootstrap-table을 이용하여 table을 구현, data를 지정하고 키 값을 지정하면 저절로 표를 구현할 수 있음
+        const { isLogin } = this.props;
+        console.log(isLogin);
         return (
 
             <div className="window Ranking-window">
@@ -60,12 +62,17 @@ class Ranking extends Component {
                         </BootstrapTable>
                         </div>
 
-                        <div className="field-row" style={{ justifyContent: 'center' }}>
-                            <button onClick={() => {
-                                //스테이지 선택 버튼을 누르면 스테이지 선택 페이지로 이동
-                                this.props.history.push('/selectStage')
-                            }}>스테이지 선택</button>
-                        </div>
+                        {
+                            isLogin
+                            ? <div className="field-row" style={{ justifyContent: 'center' }}>
+                                <button onClick={() => {
+                                    //스테이지 선택 버튼을 누르면 스테이지 선택 페이지로 이동
+                                    this.props.history.push('/selectStage')
+                                }}>스테이지 선택</button>
+                            </div>
+                            : ''
+                        }
+
                     </fieldset>
 
                 </div>
