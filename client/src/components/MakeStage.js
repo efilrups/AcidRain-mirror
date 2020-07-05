@@ -8,7 +8,9 @@ class MakeStage extends Component {
         super(props)
         this.state = {
             inputStageName: this.props.editStageName,
-            inputStageContents: this.props.editStageContents
+
+            
+            inputStageContents: this.props.editStageContents? this.props.editStageContents.join('\n') : this.props.editStageName
         }
         this.textInput = React.createRef();
     }
@@ -17,8 +19,7 @@ class MakeStage extends Component {
     }
 
     handleStageContents = (e) => {
-        // console.log((e.target.value).split('\n'))
-        this.setState({inputStageContents:(e.target.value).split('\n')})
+        this.setState({inputStageContents:(e.target.value)})
     }
     
 
@@ -44,7 +45,7 @@ class MakeStage extends Component {
 
                                 <div className="field-row" style={{ justifyContent: 'center' }}>
                                     <input className="MakeStage-stagename" placeholder="스테이지의 이름을 정해주세요." type="text" 
-                                        onChange={()=>this.handleStageName} value={this.state.inputStageName}
+                                        onChange={this.handleStageName} value={this.state.inputStageName}
                                      ></input>
                                      
                                 </div>
@@ -62,7 +63,7 @@ class MakeStage extends Component {
                                         axios.post("http:localhost:5000/main/makestage",{
                                             userId: userId,
                                             stagename:this.state.inputStageName,
-                                            contents:this.state.inputStageContents
+                                            contents:this.state.inputStageContents.split('\n')
                                         })
                                         //input값을 초기화해주기
                                         this.props.resetEditingHope()

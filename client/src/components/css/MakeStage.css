@@ -14,3 +14,7 @@ textarea.MakeStage-stageContents{
 button.MakeStage-button{
     margin-top:0.6rem;
 }
+
+textarea{
+    white-space:pre-line
+}
