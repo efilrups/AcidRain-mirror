@@ -9,7 +9,7 @@ router.post("/mypage", controller.mypage.post)
 
 router.get("/selectstage", controller.selectstage.get)
 
-router.get("/playstage", controller.playstage.get)
+router.post("/playstage", controller.playstage.post)
 
 router.get("/rank", controller.rank.get)
 
