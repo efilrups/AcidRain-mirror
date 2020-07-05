@@ -12,6 +12,13 @@
   left: 18%;
   top: 45%;
 }
+#inputNickname{
+  position: absolute;
+  width: 38%;
+  height: 10%;
+  left: 18%;
+  top: 60%;
+}
 #userLogin{
   position: absolute;
   height: 70px;
@@ -39,6 +46,14 @@
   height: 20px;
   left: 18%;
   top: 70%;
+}
+
+#userSignup{
+  position: absolute;
+  height: 7rem;
+  width: 25%;
+  left: 60%;
+  top: 23%;
 }
 
 

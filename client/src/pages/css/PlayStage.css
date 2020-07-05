@@ -1,26 +1,38 @@
+#canvas {
+  /* position: absolute; */
+  width: 80%;
+  border: solid;
+}
 
-.playStage-description{
-    font-size:1.5rem;
-    margin-top:0.5rem;
-    margin-bottom:0.5rem;
+.playStage {
+  align-items: center;
+}
+
+.gameBoard {
+  text-align: center;
+}
+
+.gameRule {
+  text-align: center;
 }
 
 .playStage-description-box{
-    margin: 15rem 20rem 0 20rem
+    /* margin: 15rem 20rem 0 20rem */
+
+    /* text-align: center; */
 }
 
-.beforestart{
-    z-index: -1;
-    position:fixed;
-    height:100%;
-    width:100%;
-    background-color:lightgray;
+.playStage-description{
+    font-size:1.5rem;
+    /* margin-top:0.5rem;
+    margin-bottom:0.5rem; */
 }
 
-
-.description{
-    font-size:1rem;
-    text-align:center;
+.inputAnswer {
+  /* position: relative; */
+  width: 50%;
+  height: auto !important;
+  font-size: 1rem;
 }
 
 button{

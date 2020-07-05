@@ -82,14 +82,17 @@ module.exports = {
             nickname: req.body.nickname
           })
           res.send({
+            "result": true,
             "message": "성공적으로 가입되었습니다"
           })
         } else if(findEmail.length === 0){
           res.send({
+            "result": false,
             "message": "이미 존재하는 닉네임입니다"
           })
         } else if(findName.length === 0){
           res.send({
+            "result": false,
             "message": "이미 존재하는 이메일입니다"
           })
         }
@@ -191,8 +194,10 @@ module.exports = {
                 }
             })
             if(result){
+              console.log('result: ', result.nickname);
               // 세션 또는 토큰을 보내야 한다
               res.status(200).send({    
+                "nickname": result.nickname,
                 "message": "로그인되었습니다"
               })
             } else {

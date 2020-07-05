@@ -31,6 +31,8 @@ class App extends Component {
     this.setState({ userId: guest, isGuest: true})
   }
 
+  
+
 
   //스테이지 선택 버튼을 누르면 true로 값이 변하게 
   handleStageButton = () => {
