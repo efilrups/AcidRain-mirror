@@ -21,6 +21,16 @@ class App extends Component {
       this.setState({ selectedStageName: name })
     }
   }
+  // 유저의 로그인
+  changeUserId = (user) => {
+    this.setState({ userId: user, isLogin: true})
+  }
+  // 게스트의 로그인
+  changeGuest = () => {
+    let guest = 'Guest_이런이런'
+    this.setState({ userId: guest, isGuest: true})
+  }
+
 
   //스테이지 선택 버튼을 누르면 true로 값이 변하게 
   handleStageButton = () => {
@@ -31,6 +41,10 @@ class App extends Component {
     this.setState({ stageContents: clickedStage })
   }
 
+  //게임 끝나면 stageContents, selectedStageName은 test로, gamestart상태를 false로 변경
+  handleGameEnd = () =>{
+    this.setState({selectedStageName:'test', stageContents:''})
+  }
 
 
   render() {
@@ -38,15 +52,17 @@ class App extends Component {
     return (
       <div>
         <Route path='/' render={() => <Nav userId={userId} isGuest={isGuest}/>} />
-        <Route path='/' render=
-          {
-            () => <Login userId={userId} 
-            stageContents={stageContents} 
-            clickStage={this.clickStage} 
-            getContents={this.getContents}  
-          />} 
-        />
+        <Route path='/' render={() => <Login 
+          userId={userId} 
+          changeUserId={this.changeUserId}
+          changeGuest={this.changeGuest}
+          stageContents={stageContents} 
+          clickStage={this.clickStage} 
+          getContents={this.getContents} 
+          selectedStageName={selectedStageName} 
+        />} />
         <Route path='/' render={() => <PlayStage userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
+        handleGameEnd={this.handleGameEnd} 
         />} />
       </div>
     )

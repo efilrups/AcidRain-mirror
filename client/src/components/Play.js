@@ -90,7 +90,7 @@ class Play extends Component {
   }
 
   draw () {
-    this.ctx.fillStyle = 'rgb(179, 179, 179)';
+    this.ctx.fillStyle = '#D3D3D3';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = 'black';
     this.ctx.fillText(`점수 : ${this.score}`, 10, this.font.fontSize + 5 );
@@ -144,7 +144,7 @@ class Play extends Component {
   }
 
   render() {
-    const {userId, selectedStageName, stageContents } = this.props
+    const {userId, selectedStageName, stageContents,handleGameEnd, gameStartToggle } = this.props
     const { score } = this.state
 
     const gameEnd = (
@@ -175,7 +175,8 @@ class Play extends Component {
         {
           this.state.end
           ? <GameOver userId={userId} selectedStageName={selectedStageName}
-            stageContents={stageContents} score={score} missedCode={this.missedCode}  />
+            stageContents={stageContents} score={score} missedCode={this.missedCode} 
+            handleGameEnd={handleGameEnd} gameStartToggle={gameStartToggle} />
           : ''
         }
 

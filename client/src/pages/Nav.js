@@ -22,16 +22,21 @@ class Nav extends Component {
                 <Link to='/ranking' className="Link-ranking">랭킹</Link>
                 {
                   userId 
-                  ? isGuest 
-                    ? null 
-                    : <Link to='/mypage' className="Link-login">마이페이지</Link> 
+                  ? <Link to='/login' className="Link-login">로그아웃</Link>                 
                   : <Link to='/login' className="Link-login">로그인</Link>
                 }
-                <Route path="/ranking" component={Ranking}/>
+                {
+                  userId
+                  ? isGuest
+                    ? null
+                    : <Link to='/mypage' className="Link-mypage">마이페이지</Link> 
+                  : null
+                }
+                <Route path="/ranking" render={()=><Ranking />}/>
                 </div>
             </div>
         )
     }
 }
-
+// handleOpenModal
 export default Nav

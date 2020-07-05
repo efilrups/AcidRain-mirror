@@ -6,6 +6,8 @@
     width:34rem;
     margin:-13rem 0 0 -17rem;
     font-family: 'Nanum Myeongjo', serif;
+    color:black;
+    z-index:1;
 }
 
 .title{
@@ -17,5 +19,15 @@ button{
     margin-top: 1rem;
     margin-bottom: 1rem;
     cursor:pointer;
+}
+
+.ranking-fieldset{
+    height:20.7rem
+}
+
+.closeButton{
+    position:absolute;
+    margin:0 0 0 32rem; 
+    right:3%
 }
 
