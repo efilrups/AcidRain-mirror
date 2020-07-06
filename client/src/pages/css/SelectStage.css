@@ -30,4 +30,10 @@ button{
     font-family: 'Nanum Myeongjo', serif;
 }
 
+#gameLevel {
+    width: 50%;
+}
 
+.selectGameLevel {
+    margin: 1rem;
+}

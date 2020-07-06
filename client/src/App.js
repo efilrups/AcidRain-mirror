@@ -11,6 +11,7 @@ class App extends Component {
     selectedStageName: 'test',
     stageContents: '',
     color: "#ccc",
+    gameLevel: 0,
 
     //login상태가 되면 이 값이 true로 변하고 그 값을 이용해 로그인 여부 판단.
     isLogin: false,
@@ -24,6 +25,7 @@ class App extends Component {
     isGuest: false
     
   }
+
   // 로그인 유지
   async componentDidMount(){
     let result = await axios.post('http://localhost:5000/main/login', {
@@ -64,8 +66,11 @@ class App extends Component {
     this.setStage({ isSubmitedStage: true })
   }
 
-  getContents = (clickedStage) => {
-    this.setState({ stageContents: clickedStage })
+  getContents = (clickedStage, selectedLevel) => {
+    this.setState({
+        stageContents: clickedStage,
+        gameLevel: selectedLevel
+     })
   }
 
   //게임 끝나면 stageContents, selectedStageName은 test로, gamestart상태를 false로 변경
@@ -82,7 +87,7 @@ class App extends Component {
   }
 
   render() {
-    const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin, themaPageIsOpen, color, changeUserId } = this.state
+    const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin, themaPageIsOpen, color , gameLevel } = this.state
     return (
       <div className='app' onClick={this.closeThemaPage} style={{backgroundColor:this.state.color}}>
   
@@ -90,7 +95,7 @@ class App extends Component {
         userId={userId} 
         isGuest={isGuest} 
         isLogin={isLogin}
-        changeUserId={changeUserId}
+        changeUserId={this.changeUserId}
         themaPageIsOpen={themaPageIsOpen}
         handleThemaPage={this.handleThemaPage}
         color={color}
@@ -104,10 +109,10 @@ class App extends Component {
           logout={this.logout}
           changeUserId={this.changeUserId}
           changeGuest={this.changeGuest}
-          stageContents={stageContents} 
-          clickStage={this.clickStage} 
-          getContents={this.getContents} 
-          selectedStageName={selectedStageName} 
+          stageContents={stageContents}
+          clickStage={this.clickStage}
+          getContents={this.getContents}
+          selectedStageName={selectedStageName}
           wantToMake={wantToMake}
           handleMakingStage={this.handleMakingStage}
         />} />
@@ -117,6 +122,7 @@ class App extends Component {
         stageContents={stageContents}
         handleGameEnd={this.handleGameEnd}
         color={color}
+        gameLevel={gameLevel}
 
         />} />
       

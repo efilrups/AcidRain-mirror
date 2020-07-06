@@ -107,7 +107,7 @@ class MyPage extends Component {
                             <p className="title" style={{ textAlign: "center" }}>마이페이지</p>
                             <fieldset>
                                 <div className="field-row" style={{ justifyContent: 'center' }}>
-                                    <form onSubmit={this.handleNicknameChange}>
+                
                                         <input
                                             type="text"
                                             // placeholder={this.state.placeholder}
@@ -115,8 +115,8 @@ class MyPage extends Component {
                                             onChange={this.handleInputValueChange}
                                             size="40"
                                         />
-                                        <button type="submit">수정</button>
-                                    </form>
+                                        <button button onClick={this.handleNicknameChange}>수정</button>
+                                    
                                 </div>
 
                                 <div className="myplayLog">내 게임 기록
