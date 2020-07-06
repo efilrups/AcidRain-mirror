@@ -27,7 +27,7 @@ class MyPage extends Component {
         const { userId, changeUserId } = this.props
 
         console.log(this.props.userId)
-
+        
         axios.post('http://localhost:5000/main/mypage', {
             // 기존 유저정보의 닉네임 (this.state에서 가지고 오기)
             nickname: userId,
@@ -79,7 +79,7 @@ class MyPage extends Component {
                 })
             })
             .catch(err => {
-                alert(err)
+                console.log(err)
             })
             console.log('mount 성공')
     }
@@ -94,7 +94,7 @@ class MyPage extends Component {
                         
                         <div><br></br><br></br><br></br></div>
                         <div>
-                            <form onSubmit={this.handleNicknameChange}>
+                           
                                 <input
                                     type="text"
                                     placeholder={this.state.placeholder}
@@ -102,8 +102,8 @@ class MyPage extends Component {
                                     onChange={this.handleInputValueChange}
                                     size="40"
                                 />
-                                <button type="submit">수정</button>
-                            </form> 
+                                <button onClick={this.handleNicknameChange}>수정</button>
+                            
                         </div>
 
                         <div className="myplayLog">내 게임 기록

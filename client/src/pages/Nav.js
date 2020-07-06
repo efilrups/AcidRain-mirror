@@ -14,7 +14,7 @@ class Nav extends Component {
             <div className="Nav-square">
                 <div className="Nav-link">
                 {/* <Link to='/mypage' className="Link-mypage">마이페이지</Link> */}
-                <Route path="/mypage" render={()=><MyPage changeUserId={this.changeUserId} userId={userId}/>}/>
+                <Route path="/mypage" render={()=><MyPage changeUserId={changeUserId} userId={userId}/>}/>
                     <div className="Nav-userId">
                       {
                         userId
