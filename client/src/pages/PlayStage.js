@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom';
 import { Play } from '../components'
 import './css/PlayStage.css'
 import "98.css"
@@ -69,7 +70,7 @@ class PlayStage extends Component {
           //1. 스테이지 선택 안한 상태, 게임 시작 안한 상태면 빈 화면 (메인화면)
           //2. 스테이지 선택했고, 게임이 아직 시작 안한 상태? 게임 설명화면
           //3. 게임이 시작--> 게임화면
-          (!stageContents && !this.state.gameStart)  ? ''
+          (!stageContents && !this.state.gameStart)  ? this.props.history.push('/selectstage')
           : (stageContents &&  !this.state.gameStart) ? gameRule
          : <Play userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
          handleGameEnd={handleGameEnd} gameStartToggle={this.gameStartToggle} gameLevel={gameLevel} />
@@ -84,4 +85,4 @@ class PlayStage extends Component {
   }
 }
 
-export default PlayStage
+export default withRouter(PlayStage)
