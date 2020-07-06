@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Nav, Login, PlayStage } from './pages'
 import { Route } from 'react-router-dom'
-import { Play, MyPage } from './components'
+import { Play, Mypage } from './components'
+import cookie from 'react-cookies'
+const axios = require('axios');
 
 class App extends Component {
   state = {
@@ -9,7 +11,6 @@ class App extends Component {
     selectedStageName: 'test',
     stageContents: '',
     color: "#ccc",
-
 
     //login상태가 되면 이 값이 true로 변하고 그 값을 이용해 로그인 여부 판단.
     isLogin: false,
@@ -19,7 +20,22 @@ class App extends Component {
     wantToMake:false,
 
     //MakeThema컴포넌트 노출 여부
-    themaPageIsOpen:false
+    themaPageIsOpen:false,
+    isGuest: false
+    
+  }
+  // 로그인 유지
+  async componentDidMount(){
+    let result = await axios.post('http://localhost:5000/main/login', {
+      'session': cookie.load('sessionKey')
+    })
+    this.setState({isLogin: true, userId: result.data})
+  }
+  // 로그아웃
+  logout = () => {
+    this.setState({ isLogin: false, userId: '' })
+    cookie.remove('sessionKey')
+    console.log('this.state: ', this.state.userId);
   }
 
 
@@ -38,7 +54,7 @@ class App extends Component {
   }
   // 게스트의 로그인
   changeGuest = (guest) => {
-    this.setState({ userId: guest, isGuest: true})
+    this.setState({ userId: guest, isGuest: true, isLogin: true})
   }
 
 
@@ -82,6 +98,10 @@ class App extends Component {
         />} />
         <Route path='/' render={() => <Login
           userId={userId}
+          isLogin={isLogin}
+          isGuest={isGuest} 
+          
+          logout={this.logout}
           changeUserId={this.changeUserId}
           changeGuest={this.changeGuest}
           stageContents={stageContents} 

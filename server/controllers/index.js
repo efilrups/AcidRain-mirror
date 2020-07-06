@@ -6,6 +6,7 @@ module.exports = {
   // users, playlogs
     mypage: {
         post: async function (req, res) {
+          
           // * newnickname으로 수정하는 post 요청이라면?
           if(req.body.newnickname){
             // * 여기서 req.body.nickname은 oldnickname을 말함
@@ -131,7 +132,6 @@ module.exports = {
     
     playstage: {
         post: async function (req, res){
-          // console.log(req.body)
           let result = await stages.findAll({
             attributes: ['contents'],
             where: {
@@ -147,7 +147,7 @@ module.exports = {
           }
         },
     },
-    // 닉네임, 스테이지, 점수, 일자
+    // 닉네임, 스테이지, 점수, 일자 -> 가공해서 보내라
     rank: {
         get: async function(req, res) {
             let ranks = await playlogs.findAll({
@@ -193,16 +193,26 @@ module.exports = {
     },
     login: {
         post: async function (req, res){
+          // session
+          if(req.body.session){
+            req.sessionStore.sessions[req.body.session]
+            let session = JSON.parse(req.sessionStore.sessions[req.body.session])
+            res.send(session.nickname)
+            return
+          } else {
             let result = await users.findOne({
                 where: {
                     email: req.body.email,
                     password: req.body.password
                 }
+                
             })
+            
             if(result){
               console.log('result: ', result.nickname);
               // 세션 또는 토큰을 보내야 한다
               req.session.isLogin = true
+              req.session.nickname = result.nickname
               // req
               console.log(req.sessionStore.sessions)
               console.log('req: ', req.sessionID);
@@ -217,6 +227,7 @@ module.exports = {
                   "message": "로그인에 실패하였습니다"
               })
             }
+          }
         }
     },
     guest: {
