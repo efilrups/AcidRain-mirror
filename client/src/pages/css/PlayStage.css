@@ -1,5 +1,4 @@
 #canvas {
-  /* position: absolute; */
   width: auto;
   max-width: 96vw;
   height: 80%;
@@ -15,8 +14,6 @@
 .gameBoard {
   text-align: center;
   height: 80%;
-
-  font-family: 'Nanum Myeongjo', serif;
 }
 
 .gameRule {
@@ -24,20 +21,11 @@
   overflow: auto;
 }
 
-/* .playStage-description-box{
-    margin: 15rem 20rem 0 20rem
-
-    text-align: center;
-} */
-
 .playStage-description{
     font-size:1.5rem;
-    /* margin-top:0.5rem;
-    margin-bottom:0.5rem; */
 }
 
 .inputAnswer {
-  /* position: relative; */
   width: 40%;
   height: 100% !important;
   font-size: 1rem;
