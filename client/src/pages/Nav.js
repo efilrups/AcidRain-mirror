@@ -7,8 +7,9 @@ class Nav extends Component {
         super(props)
     }
     render() {
-        const { userId, isGuest, isLogin, logout } =  this.props
-        console.log('isGuest: ', isGuest);
+
+      const { userId, isGuest, isLogin, logout, changeUserId } =  this.props
+      console.log('isGuest: ', isGuest);
         return (
             <div className="Nav-square">
                 <div className="Nav-link">
