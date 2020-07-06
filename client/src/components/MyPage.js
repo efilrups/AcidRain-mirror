@@ -17,14 +17,14 @@ class MyPage extends Component {
                 
             ],
             placeholder: "수정할 닉네임을 입력하세요",
-            value: ""
+            // value: ""
             
         }
         this.handleNicknameChange = this.handleNicknameChange.bind(this);
         this.handleInputValueChange = this.handleInputValueChange.bind(this);
     }
 
-    handleNicknameChange(e){
+    handleNicknameChange(){
         const { userId, changeUserId } = this.props
 
         console.log(this.props.userId)
@@ -33,22 +33,24 @@ class MyPage extends Component {
             //// 기존 유저정보의 닉네임 (this.state에서 가지고 오기)
             nickname: userId,
             // 인풋 밸류로 수정할 닉네임을 받아주기
-            newnickname: this.state.value
+            newnickname: this.state.nickname
         })
         // Nav바에 보이는 닉네임 바꾸기
-        changeUserId(this.state.value)
+        changeUserId(this.state.nickname)
         // * 이제 확인해봐야할 것은 플레이스 홀더가 다시 초기화로 바뀌는지
         // * alert 메시지에 이미 존재하는 닉네임입니다 뜰 수 있게 변경
-        this.setState({
-            placeholder: "수정할 닉네임을 입력하세요",
-            value: ""
-        }, () => alert("닉네임이 수정되었습니다."))
+        alert("닉네임이 수정되었습니다.")
+
+        // this.setState({
+        //     placeholder: "수정할 닉네임을 입력하세요",
+        //     value: ""
+        // }, () => alert("닉네임이 수정되었습니다."))
         
     }
 
     handleInputValueChange(e){
         this.setState({
-            value: e.target.value
+            nickname: e.target.value
         })
         console.log(this.state.value)
     }
@@ -57,7 +59,7 @@ class MyPage extends Component {
         const { userId } = this.props
 
         axios.post('http://localhost:5000/main/mypage', {
-            nickname: "asdf"//userId
+            nickname: userId
         })
         // 여기서 해야하는게 보내준 닉네임에 따른 정보만 가지고 오기
         // post에서 첫 화면 구성은 됐는데 404 정보가 존재하지 않습니다가 문제다 그러니까 유저 정보 회원가입된걸 가져와야함
@@ -89,7 +91,7 @@ class MyPage extends Component {
                 })
             })
             .catch(err => {
-                alert(err)
+                alert('로그인 후에 이용해주세요.')
             })
             console.log('mount 성공')
     }
@@ -108,22 +110,24 @@ class MyPage extends Component {
         return (
             <div>
                 <div>
-                        <div className="mypageTitle"></div>
-                        <div><br></br><br></br><br></br></div>
-                        <div className="nickname">
-                            <form onSubmit={this.handleNicknameChange}>
+                <div className="window MyPage-window">
+                <div className="window-body">
+                    <p className="title" style={{ textAlign: "center" }}>마이페이지</p>
+                    <fieldset>
+                    <div className="field-row" style={{ justifyContent: 'center' }}>
+                    <form onSubmit={this.handleNicknameChange}>
                                 <input
                                     type="text"
-                                    placeholder={this.state.placeholder}
-                                    value={this.state.value}
+                                    // placeholder={this.state.placeholder}
+                                    value={this.state.nickname}
                                     onChange={this.handleInputValueChange}
                                     size="40"
                                 />
-                                <button type="submit">수정</button>
+                                <button type="submit" onClick={this.handleNicknameChange}>수정</button>
                             </form> 
-                        </div>
-
-                        <div className="myplayLog">내 게임 기록
+                            </div>
+                        <p className="description">내 게임 기록</p>
+                        <div className="field-row" style={{ justifyContent: 'center' }}>
                         <BootstrapTable data={this.state.myPlayLogs}
                         bordered={false}
                         headerStyle={{ 'fontStyle': 'black', 'borderBottom': 'black 0.05rem solid', 'marginBottom':'1rem', 'marginTop':'1rem', 'paddingBottom':'1rem' }}
@@ -131,15 +135,25 @@ class MyPage extends Component {
                         >
                             <TableHeaderColumn dataField='id' dataAlign='center' isKey={true} tdStyle={{ 'fontSize': '1rem',paddingRight:'2rem' }} thStyle={{ 'fontSize': '1rem',paddingLeft:'1rem' ,paddingRight:'3rem' }}>순위</TableHeaderColumn>
                             <TableHeaderColumn dataField='stagename' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight:'2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight:'3rem' }}>스테이지</TableHeaderColumn>
-                            <TableHeaderColumn dataField='score' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight:'2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight:'3rem' }}>점수</TableHeaderColumn>
-                            
-                            
+                            <TableHeaderColumn dataField='score' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight:'2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight:'3rem' }}>점수</TableHeaderColumn>                        
                         </BootstrapTable>
                         </div>
                         
+                        <div className="field-row" style={{ justifyContent: 'center' }}>
                         <button 
                         onClick={() => this.props.history.push("/selectStage")}
                         >게임하러 가기</button>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+                 
+                 
+                 
+                 
+                 
+       
+                        
                 </div>
             </div>
         )

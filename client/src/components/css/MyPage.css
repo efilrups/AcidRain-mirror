@@ -1,4 +1,18 @@
-.mypageTitle {
+.MyPage-window{
+    position: fixed;
+    top:50%;
+    left:50%;
+    height:26rem;
+    width:34rem;
+    margin:-13rem 0 0 -17rem;
+    font-family: 'Nanum Myeongjo', serif;
+}
+
+fieldset{
+    color:black
+}
+
+/* .mypageTitle {
     position: relative;
     font-size: 20 rem;
     font-family: 'Nanum Myeongjo', serif;
@@ -19,4 +33,4 @@
 .nickname {
     position: relative;
     top: 80 rem;
-}
+} */
