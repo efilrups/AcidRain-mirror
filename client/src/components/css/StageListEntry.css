@@ -1,14 +1,38 @@
-li {
+tr {
     font-size: 1rem;
-    cursor:pointer
+    cursor:pointer;
+    font-family: 'Nanum Myeongjo', serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding:4px 6px; 
+    text-align: center;
+}
+.StageListEntry-stagename{
+    padding-left:2.5rem;
+
 }
 
-/* .selected {
-    background-color: blue;
-    color:white
+.StageListEntry-createdBy{
+    padding-left:8rem;
 }
 
-.unselcted{
-    background-color:white;
-    color:blue;
-} */
+th[scope="row"]{
+    font-size:1.3rem;
+}
+
+
+div.selectingArea{
+    position: relative;
+}
+div.fa-plus-square{
+ position:absolute;
+ top:35%;
+ right:7%;
+
+}
+
+div.fa-minus-square{
+    position:absolute;
+    top:35%;
+    right:3%;
+   }

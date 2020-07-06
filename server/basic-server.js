@@ -15,7 +15,7 @@ app.use(
     session({
       secret: "@acid-rain",
       resave: false,
-      saveUninitialized: true
+      saveUninitialized: false
     })
   );
 
@@ -29,7 +29,7 @@ app.use(cookieParser());
 
 app.use(
     cors({
-      origin: ['http://localhost:3001'],
+      origin: ['http://localhost:3000'],
       methods: ['GET', 'POST'],
       credentials: true
     })
