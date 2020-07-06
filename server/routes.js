@@ -3,8 +3,6 @@ var router = require("express").Router();
 
 router.post("/signup", controller.signup.post)
 
-router.get("/mypage", controller.mypage.get)
-
 router.post("/mypage", controller.mypage.post)
 
 router.get("/selectstage", controller.selectstage.get)

@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Nav, Login, PlayStage } from './pages'
 import { Route } from 'react-router-dom'
-import { Play } from './components'
+import { Play, Mypage } from './components'
+import cookie from 'react-cookies'
+const axios = require('axios');
 
 class App extends Component {
   state = {
@@ -9,13 +11,24 @@ class App extends Component {
     selectedStageName: 'test',
     stageContents: '',
 
-
     //login상태가 되면 이 값이 true로 변하고 그 값을 이용해 로그인 여부 판단.
     isLogin: false,
     //게스트가 로그인 했을 때, 회원이 로그인 했을 때로 나눠서 Nav의 마이페이지버튼 생성, 비생성 조절
-    isGuest: true,
-    //makeStage컴포넌트의 노출 여부를 해당 state로 관리 
-    wantToMake:false,
+    isGuest: false
+    
+  }
+  // 로그인 유지
+  async componentDidMount(){
+    let result = await axios.post('http://localhost:5000/main/login', {
+      'session': cookie.load('sessionKey')
+    })
+    this.setState({isLogin: true, userId: result.data})
+  }
+  // 로그아웃
+  logout = () => {
+    this.setState({ isLogin: false, userId: '' })
+    cookie.remove('sessionKey')
+    console.log('this.state: ', this.state.userId);
   }
 
   clickStage = (name) => {
@@ -29,7 +42,7 @@ class App extends Component {
   }
   // 게스트의 로그인
   changeGuest = (guest) => {
-    this.setState({ userId: guest, isGuest: true})
+    this.setState({ userId: guest, isGuest: true, isLogin: true})
   }
 
 
@@ -56,9 +69,18 @@ class App extends Component {
     const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin } = this.state
     return (
       <div className='app'>
-        <Route path='/' render={() => <Nav userId={userId} isGuest={isGuest} isLogin={isLogin}/>} />
-        <Route path='/' render={() => <Login
-          userId={userId}
+        <Route path='/' render={() => <Nav 
+          userId={userId} 
+          isGuest={isGuest} 
+          changeUserId={this.changeUserId}
+          isLogin={isLogin}
+          logout={this.logout}
+        />} />
+
+        <Route path='/' render={() => <Login 
+          userId={userId} 
+          isLogin={isLogin}
+          logout={this.logout}
           changeUserId={this.changeUserId}
           changeGuest={this.changeGuest}
           stageContents={stageContents} 
@@ -68,9 +90,14 @@ class App extends Component {
           wantToMake={wantToMake}
           handleMakingStage={this.handleMakingStage}
         />} />
-        <Route path='/' render={() => <PlayStage userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
-        handleGameEnd={this.handleGameEnd}
+
+        <Route path='/' render={() => <PlayStage 
+          userId={userId} 
+          selectedStageName={selectedStageName} 
+          stageContents={stageContents}
+          handleGameEnd={this.handleGameEnd}
         />} />
+        
       </div>
     )
   }
