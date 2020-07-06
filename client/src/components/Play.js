@@ -6,15 +6,6 @@ class Play extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      contents: [
-        'function foo()',
-        'let x = 0',
-        'Math.floor()',
-        'setTimeout(function, 1000)',
-        'array.push()',
-        'Boolean(10 > 9)',
-        'if (day == "Monday"){ return true }'
-      ],
       end : false,
       RAIN_MAX : 15,
       score : 0,
@@ -27,8 +18,9 @@ class Play extends Component {
     this.rain_count = 0;
     this.score = 0;
     this.life = 10;
+    this.currentLife = this.life;
     this.font = {
-      fontSize : 15,
+      fontSize : 25,
       fontName : 'arial'
     };
     this.missedCode = [];
@@ -42,15 +34,20 @@ class Play extends Component {
   // canvas에 그려질 내용들 설정
   componentDidMount() {
     this.canvas = document.getElementById('canvas');
+
+    //canvas의 크기 설정
+    this.canvas.width = 1000;
+    this.canvas.height = this.canvas.width * 0.6;
+
     this.ctx = this.canvas.getContext('2d');
-
-    const { contents, RAIN_MAX } = this.state;
-
     this.ctx.font = `${this.font.fontSize}px ${this.font.fontName}`;
+
+    const { stageContents } = this.props
+    const {  RAIN_MAX } = this.state;
 
     // 내려 보내줄 개수 만큼, 내려보내줄 랜덤배열 만들기
     for (let i = 0; i < RAIN_MAX; i++) {
-      let randomContent = contents[Math.floor(Math.random() * 100) % contents.length];
+      let randomContent =  stageContents[Math.floor(Math.random() * 100) %  stageContents.length];
 
       let contentInfo = this.ctx.measureText(randomContent);
       let x = Math.round(Math.random() * (this.canvas.width - 50))
@@ -64,7 +61,7 @@ class Play extends Component {
       let codeObj = {
         code: randomContent,
         x : x,
-        y : this.font.fontSize * 2.5
+        y : 61 + this.font.fontSize
       };
 
       this.randomArr.push(codeObj);
@@ -86,7 +83,7 @@ class Play extends Component {
 
       // 마지막에 내려보낸 비의  다음에 그려질 y 위치가 캔버스의 높이보다 커지면 반복 끝
       let end = this.randomArr.every( obj => obj.code ==='');
-      if (end || this.life === 0) {
+      if (end || this.currentLife === 0) {
         console.log('stop!');
         this.setState(state => ({
           score : state.score + this.score,
@@ -98,18 +95,26 @@ class Play extends Component {
   }
 
   draw () {
-    this.ctx.fillStyle = 'rgb(179, 179, 179)';
+    const { fontSize, fontName } = this.font;
+    //canvas 배경
+    this.ctx.fillStyle = '#D3D3D3';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+    // 점수와 코멘트 피드백
+    this.ctx.font = `30px ${fontName}`;
     this.ctx.fillStyle = 'black';
-    this.ctx.fillText(`점수 : ${this.score}`, 10, this.font.fontSize + 5 );
-    this.ctx.fillText(this.comment, 450, this.font.fontSize + 5 );
+    this.ctx.fillText(`점수 : ${this.score}`, this.canvas.width * 0.05, 50);
+    this.ctx.fillStyle = 'rgb(31, 124, 247)';
+    this.ctx.fillText(this.comment, this.canvas.width * 0.8, 50);
 
     // 내려가기 시작한 코드들을 하나씩 그리기
+    this.ctx.font = `${fontSize}px ${fontName}`;
     for (let i = 0; i < this.rain_count; i++) {
       // 코드가 캔버스의 제일 아래에 내려가면 코드를 지운다.
-      if (this.randomArr[i].y > this.canvas.height - (this.font.fontSize/ 10)) {
+      if (this.randomArr[i].y > this.canvas.height - (fontSize/ 10)) {
+        // 이미 지워진 코드가 아니면 life를 깎는다.
         if (this.randomArr[i].code !== '') {
-          this.life -= 1;
+          this.currentLife -= 1;
           this.missedCode.push(this.randomArr[i].code);
         }
         this.randomArr[i].code = '';
@@ -118,11 +123,11 @@ class Play extends Component {
       // 코드 그리고 다음에 그릴 위치 내리기
       this.ctx.fillStyle = 'black';
       this.ctx.fillText(this.randomArr[i].code, this.randomArr[i].x , this.randomArr[i].y)
-      this.randomArr[i].y += this.font.fontSize;
+      this.randomArr[i].y += fontSize;
     }
 
     // ph바 그라데이션 설정
-    let gra = this.ctx.createLinearGradient(200, 5, 400, 5)
+    let gra = this.ctx.createLinearGradient(this.canvas.width * 0.35, 0, this.canvas.width * 0.65, 0);
     gra.addColorStop(0, 'rgb(247, 44, 31)');
     gra.addColorStop(0.4, 'rgb(247, 187, 31)');
     gra.addColorStop(0.6, 'rgb(191, 247, 31)');
@@ -130,10 +135,11 @@ class Play extends Component {
     gra.addColorStop(1, 'rgb(14, 67, 201)');
 
     // ph바 그리기
-    this.ctx.fillText(`ph.${this.life + 1}`, 150, this.font.fontSize + 5);
-    this.ctx.fillRect(195, 5, 210, 20);
+    this.ctx.font = `30px ${fontName}`;
+    this.ctx.fillText(`ph.${this.currentLife + 1}`, this.canvas.width * 0.66, 45);
+    this.ctx.fillRect(this.canvas.width * 0.345, 14, this.canvas.width * 0.31, 46);
     this.ctx.fillStyle = gra;
-    this.ctx.fillRect(200, 7, this.life * 20, 16);
+    this.ctx.fillRect(this.canvas.width * 0.35, 20, (this.canvas.width * 0.3) * (this.currentLife / this.life), 34);
   }
 
   deleteCode(event) {
@@ -152,11 +158,12 @@ class Play extends Component {
   }
 
   render() {
-    const {userId, selectedStageName, stageContents } = this.props
+    const {userId, selectedStageName, stageContents,handleGameEnd, gameStartToggle } = this.props
     const { score } = this.state
 
     const gameEnd = (
       <input
+        className='inputAnswer'
         type='text'
         placeholder='게임 종료'
         style={{ textAlign: "center" }}
@@ -166,15 +173,17 @@ class Play extends Component {
 
     return (
       <div className='window-body gameBoard'>
-        <canvas id='canvas' width="600" height="400" />
+        <canvas id='canvas'/>
 
-        <div style={{ textAlign: "center" }}>
+        <div>
           {
             this.state.end
             ? gameEnd
             : <input
+              className='inputAnswer'
               type='text'
               placeholder='산성비를 제거하세요'
+              style={{ textAlign: "center" }}
               onKeyUp={this.deleteCode}
             />
           }
@@ -183,7 +192,8 @@ class Play extends Component {
         {
           this.state.end
           ? <GameOver userId={userId} selectedStageName={selectedStageName}
-            stageContents={stageContents} score={score} missedCode={this.missedCode}  />
+            stageContents={stageContents} score={score} missedCode={this.missedCode}
+            handleGameEnd={handleGameEnd} gameStartToggle={gameStartToggle} />
           : ''
         }
 

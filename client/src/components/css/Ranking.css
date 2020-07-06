@@ -1,10 +1,13 @@
 .Ranking-window{
-    position: absolute;
+    position: fixed;
     top:50%;
     left:50%;
     height:26rem;
     width:34rem;
     margin:-13rem 0 0 -17rem;
+    font-family: 'Nanum Myeongjo', serif;
+    color:black;
+    z-index:1;
 }
 
 .title{
@@ -18,6 +21,13 @@ button{
     cursor:pointer;
 }
 
-fieldset{
-    height:19.8rem
+.ranking-fieldset{
+    height:20.7rem
 }
+
+.closeButton{
+    position:absolute;
+    margin:0 0 0 32rem; 
+    right:3%
+}
+

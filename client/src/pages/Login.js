@@ -1,32 +1,26 @@
 import React, { Component } from 'react'
 import { Route, Switch } from "react-router-dom";
 import { UserLogin, GuestLogin, Signup } from '../components'
-import { SelectStage,PlayStage } from './index'
+import { SelectStage } from './index'
+import './css/Login.css'
+
 
 class Login extends Component {
-    constructor(props){
-        super(props)
-        this.state = {
-
-        }
-
-    }
+    
 
     render() {
-        const { userId, selectedStageName, stageContents, missedCode, score, clickStage,  getContent } = this.props;
+        const { userId, selectedStageName, handleStageButton , clickStage, getContents, stageContents, changeGuest, changeUserId } = this.props;
         return (
             <div>
-            Login Route 확인용
-                <UserLogin/>
-                <GuestLogin/>
-                <Signup/>
-
                 <Switch>
-                <Route path='/playstage' render={()=><PlayStage userId={userId} selectedStageName={selectedStageName} 
-                    stageContents={stageContents} missedCode={missedCode} score={score} 
-                />}/>
-                <Route path='/selectstage' render={() => <SelectStage selectedStageName={selectedStageName} clickStage={clickStage}  getContent={getContent}/>}/>
+                  <Route path='/login'><UserLogin changeGuest={changeGuest} changeUserId={changeUserId}></UserLogin></Route>
+                  <Route path='/signup'><Signup></Signup></Route>
+                  {/* <GuestLogin /> */}
+                  
                 </Switch>
+                <Route path='/selectstage' render={() => <SelectStage selectedStageName={selectedStageName} clickStage={clickStage}
+                   handleStageButton ={handleStageButton} getContents={getContents} stageContents={stageContents} />} />
+
             </div>
         )
     }
