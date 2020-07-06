@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       stages.belongsTo(models.users, { foreignKey: 'userid' })
       stages.hasMany(models.playlogs)
     }
-  };
+  }
   stages.init({
     stagename: {
       type: DataTypes.STRING,

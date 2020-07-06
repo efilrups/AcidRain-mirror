@@ -53,10 +53,12 @@ class UserLogin extends Component {
               email : this.state.email,
               password: this.state.password,
             })
-            console.log('result: ', result);
+            console.log('result: ', result.data.session);
             
             this.props.changeUserId(result.data.nickname)
             alert('Welcome!!')
+            document.cookie.isLogin = true
+            console.log('document.cookie: ', document.cookie);
             this.props.history.push('/selectStage')
             this.setState({email: '', password: ''})
 
@@ -72,7 +74,7 @@ class UserLogin extends Component {
       return (
         <div className="window Login-window">
           <div className="title-bar">
-            <div className="title-bar-text">login</div>
+            <div className="title-bar-text">Login</div>
           </div>
           <div className="window-body">
             <fieldset id="login">
@@ -93,7 +95,9 @@ class UserLogin extends Component {
               />
 
               <button id="userLogin" onClick={this.enter.bind(this)}>로그인</button>
-              <button id="guestLogin" onClick={this.props.changeGuest}>게스트로그인</button>
+              <button id="guestLogin" 
+                onClick={() => this.props.history.push('/guestLogin')}
+              >게스트로그인</button>
               <button id="signupBtn" 
                 onClick={() => this.props.history.push('/signup')}
               >회원가입</button>

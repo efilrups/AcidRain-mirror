@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
 import { StageListEntry } from '../components';
+import { MakeStage } from '../components/index'
 import './css/SelectStage.css'
 import "98.css"
 const axios = require('axios');
@@ -9,28 +10,39 @@ class SelectStage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            stageNames: []
+            savedStages: [],
+            editStageName: '',
+            editStageContents: ''
         }
+    }
+
+    handleEditStageName = (stageName) => {
+        this.setState({ editStageName: stageName })
+    }
+
+    handleEditStageContents = (editStageContents) => {
+        this.setState({ editStageContents: editStageContents })
+    }
+
+    resetEditingHope = () => {
+        this.setState({
+            editStageName: '',
+            editStageContents: ''
+        })
     }
 
     async componentDidMount() {
         //selectStage 경로로 이동하면 stage테이블에 저장된 데이터를 모두 가져오고 stageNames에 담김
         await axios.get('http://localhost:5000/main/selectstage')
-
             .then(res => {
-                let stageNames = []
-                for (let objData of res.data) {
-                    if ('stagename' in objData) {
-                        stageNames.push(objData['stagename'])
-                    }
-                }
-                this.setState({ stageNames: stageNames })
+                this.setState({ savedStages: res.data })
             })
 
     }
 
     render() {
-        const { clickStage, selectedStageName } = this.props
+        const { clickStage, selectedStageName, wantToMake, handleMakingStage, userId } = this.props
+        const { editStageContents, editStageName } = this.state
         return (
             <div className="window SelectStage-window">
                 <div className="window-body">
@@ -40,15 +52,26 @@ class SelectStage extends Component {
                     <fieldset>
                         <p className="description">스테이지를 선택하세요 !</p>
                         <ul className={"tree-view"}>
-                            {this.state.stageNames.map((stageName, i) => (
+                            <tr>
+                                <th scope="col" className="StageListEntry-stagename">스테이지</th>
+                                <th scope="col" className="StageListEntry-createdBy">닉네임</th>
 
+                            </tr>
+
+                            {this.state.savedStages.map((savedStage, i) => (
                                 <StageListEntry
-                                //isSelected:선택한 stage이름과 현재 stage가 같다면
-                                    isSelected={selectedStageName === stageName}
-                                    stageName={stageName}
+                                    //isSelected:선택한 stage이름과 현재 stage가 같다면
+                                    isSelected={selectedStageName === savedStage.stagename}
+                                    stageName={savedStage.stagename}
+                                    createdBy={savedStage.createdBy}
                                     clickStage={clickStage}
                                     key={i}
-
+                                    editStageName={editStageName}
+                                    editStageContents={editStageContents}
+                                    selectedStageName={selectedStageName}
+                                    handleEditStageContents={this.handleEditStageContents}
+                                    handleEditStageName={this.handleEditStageName}
+                                    handleMakingStage={handleMakingStage}
                                 />
 
                             ))}
@@ -58,26 +81,25 @@ class SelectStage extends Component {
                             <button onClick={() => {
                                 //버튼 누르면 서버에 현재 선택한 stageName을 post요청으로 보내고, 해당 stageName에 대한 content를 받아온다. 
                                 ///playstage로 이동
-
-                                // axios.get("http://localhost:5000/main/playstage",this.props.stageName)
-                                // .then(res=>{
-                                //     console.log(res.data)
-                                //     this.props.getContents(res.data)
-                                // }) 
-                                //--> 아직 api요청이 안 이루어져서 하드코딩 해놨슴당
-
-                                this.props.getContents([
-                                    'function foo()',
-                                    'let x = 0',
-                                    'Math.floor()',
-                                    'setTimeout(function, 1000)',
-                                    'array.push()',
-                                    'Boolean(10 > 9)',
-                                    'if (day == "Monday"){ return true }'
-                                ])
+                                axios.post("http://localhost:5000/main/playstage", {
+                                    stagename: selectedStageName
+                                })
+                                    .then(res => {
+                                        this.props.getContents(JSON.parse(res.data[0].contents))
+                                    })
                                 this.props.history.push('/playstage')
 
                             }}>플레이</button>
+                            <button onClick={() => {
+                                //모달의 오픈,클로즈 여부를 관리하는 이벤트를 실행시킴
+                                handleMakingStage()
+
+                            }}>만들기</button>
+                            {wantToMake ? <MakeStage handleMakingStage={handleMakingStage} userId={userId}
+                                editStageName={editStageName}
+                                editStageContents={editStageContents}
+                                resetEditingHope={this.resetEditingHope} />
+                                : ''}
                         </div>
                     </fieldset>
                 </div>

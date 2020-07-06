@@ -19,6 +19,13 @@
   left: 18%;
   top: 60%;
 }
+#inputGuest{
+  position: absolute;
+  width: 65%;
+  height: 10%;
+  left: 18%;
+  top: 45%;
+}
 #userLogin{
   position: absolute;
   height: 70px;
@@ -30,6 +37,13 @@
   position: absolute;
   height: 30px;
   width: 38%;
+  left: 18%;
+  top: 55%;
+}
+#guestBtn{
+  position: absolute;
+  height: 30px;
+  width: 65%;
   left: 18%;
   top: 55%;
 }
