@@ -17,6 +17,9 @@ class SelectStage extends Component {
         }
         this.rangeChange = this.rangeChange.bind(this);
     }
+    componentWillMount(){
+      
+    }
 
     handleEditStageName = (stageName) => {
         this.setState({ editStageName: stageName })
@@ -47,6 +50,13 @@ class SelectStage extends Component {
             })
 
     }
+
+    // async componentDidUpdate(){
+    //   await axios.get('http://localhost:5000/main/selectstage')
+    //         .then(res => {
+    //             this.setState({ savedStages: res.data })
+    //         })
+    // }
 
     render() {
         const { clickStage, selectedStageName, wantToMake, handleMakingStage, userId } = this.props
@@ -80,6 +90,8 @@ class SelectStage extends Component {
                                     handleEditStageContents={this.handleEditStageContents}
                                     handleEditStageName={this.handleEditStageName}
                                     handleMakingStage={handleMakingStage}
+                                    userId={userId}
+                                    refresh={this.refresh}
                                 />
 
                             ))}
@@ -107,7 +119,6 @@ class SelectStage extends Component {
                             <button onClick={() => {
                                 //모달의 오픈,클로즈 여부를 관리하는 이벤트를 실행시킴
                                 handleMakingStage()
-
                             }}>만들기</button>
                             {wantToMake ? <MakeStage handleMakingStage={handleMakingStage} userId={userId}
                                 editStageName={editStageName}

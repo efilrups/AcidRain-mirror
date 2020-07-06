@@ -76,8 +76,6 @@ class PlayStage extends Component {
           : (stageContents &&  !this.state.gameStart) ? gameRule
          : <Play userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
          handleGameEnd={handleGameEnd} gameStartToggle={this.gameStartToggle} color={color}  gameLevel={gameLevel}/>
-
-
         }
 
 

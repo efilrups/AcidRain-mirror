@@ -8,7 +8,7 @@ const axios = require('axios');
 class App extends Component {
   state = {
     userId: '',
-    selectedStageName: 'test',
+    selectedStageName: '',
     stageContents: '',
     color: "#ccc",
     gameLevel: 0,
