@@ -18,11 +18,13 @@
 
 .gameRule {
   text-align: center;
+  height: calc(100vh - 3rem);
   overflow: auto;
 }
 
 .playStage-description{
-    font-size:1.5rem;
+  font-size:1.5rem;
+  overflow:
 }
 
 .inputAnswer {
