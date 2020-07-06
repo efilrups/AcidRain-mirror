@@ -12,6 +12,10 @@ fieldset{
     height:21rem
 }
 
+.tree-view{
+  height: 11rem;
+  overflow: scroll;
+}
 
 .title{
     font-size:1rem;
@@ -30,4 +34,10 @@ button{
     font-family: 'Nanum Myeongjo', serif;
 }
 
+#gameLevel {
+    width: 50%;
+}
 
+.selectGameLevel {
+    margin: 1rem;
+}

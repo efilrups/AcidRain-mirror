@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { MyPage, Ranking } from '../components'
+import { MyPage, Ranking, MakeThema } from '../components'
 import { Route, Link } from 'react-router-dom';
 import './css/Nav.css'
 class Nav extends Component {
@@ -7,12 +7,14 @@ class Nav extends Component {
         super(props)
     }
     render() {
-        const { userId, isGuest, isLogin, logout } =  this.props
+
+      const { userId, isGuest, isLogin, logout, changeUserId,  themaPageIsOpen, handleThemaPage, color, handleColorChange } =  this.props
+      console.log('isGuest: ', isGuest);
         return (
             <div className="Nav-square">
                 <div className="Nav-link">
                 {/* <Link to='/mypage' className="Link-mypage">마이페이지</Link> */}
-                <Route path="/mypage" render={()=><MyPage changeUserId={this.changeUserId} userId={userId}/>}/>
+                <Route path="/mypage" render={()=><MyPage changeUserId={changeUserId} userId={userId}/>}/>
                     <div className="Nav-userId">
                       {
                         userId
@@ -29,10 +31,16 @@ class Nav extends Component {
                     {
                       userId
                       ? isGuest
-                        ? null
-                        : <Link to='/mypage' className="Link-mypage">마이페이지</Link>
+                        ? null : 
+                        <Link to='/mypage' className="Link-mypage">마이페이지</Link>
                       : null
                     }
+                    <span className="Link-makeThema" onClick={handleThemaPage}>배경색</span>
+                   { themaPageIsOpen ?  
+                   <div className="makeThema-box">
+                   <MakeThema themaPageIsOpen={themaPageIsOpen} handleThemaPage={handleThemaPage} color={color} handleColorChange={handleColorChange} /> 
+                   </div>
+                   : '' }
                     <Route path="/ranking" render={()=><Ranking isLogin={isLogin} />}/>
                 </div>
             </div>

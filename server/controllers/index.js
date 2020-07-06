@@ -6,6 +6,7 @@ module.exports = {
   // users, playlogs
     mypage: {
         post: async function (req, res) {
+          
           // * newnickname으로 수정하는 post 요청이라면?
           if(req.body.newnickname){
             // * 여기서 req.body.nickname은 oldnickname을 말함
@@ -131,19 +132,47 @@ module.exports = {
     
     playstage: {
         post: async function (req, res){
-          let result = await stages.findAll({
-            attributes: ['contents'],
-            where: {
-              stagename: req.body.stagename
+          
+          if(req.body.userid){
+            let find = await users.findOne({
+              where: {
+                nickname: req.body.userid
+              }
+            })
+            console.log('find.id: ', find.id);
+            console.log('find.id: ', req.body.stagename);
+
+            // 삭제하는가
+            if(req.body.delete){
+              let result = await stages.destroy({
+                where:{
+                  userid: find.id,
+                  stagename: req.body.stagename
+                }
+              })
+              console.log('result: ', result);
+
+              if(result === 0){
+                res.status(404).send('다시 시도해주세요')
+              } else {
+                res.status(200).send('삭제되었습니다')
+              }
+            } else {
+              let result = await stages.findAll({
+                attributes: ['contents'],
+                where: {
+                  userid: find.id,
+                  stagename: req.body.stagename
+                }
+              })
+              if(result.length !== 0){
+                res.status(200).send(result)
+              }
             }
-          })
-          if(result.length !== 0){
-            res.status(200).send(result)
-          } else {
-            res.status(404).send({
-              "message": "정보가 존재하지 않습니다"
-            });
-          }
+          } 
+          res.status(404).send({
+            "message": "정보가 존재하지 않습니다"
+          });
         },
     },
     // 닉네임, 스테이지, 점수, 일자 -> 가공해서 보내라
@@ -275,8 +304,35 @@ module.exports = {
 
     makestage: {
       post: async function (req, res) {
-        console.log('awefawef')
-        res.send()
+        console.log(req.body)
+        let find = await users.findOne({
+          attributes: ['id'],
+          where: {
+            nickname: req.body.userId
+          }
+        })
+
+        let conflict = await stages.findAll({
+          where: {
+            stagename: req.body.stagename
+          }
+        })
+        
+        console.log('conflict: ', conflict);
+        if(conflict.length === 0){
+          await stages.create({
+            userid: find.id,
+            stagename: req.body.stagename,
+            contents: JSON.stringify(req.body.contents)
+          })
+          res.status(200).send({
+            'message': '성공적으로 생성되었습니다.'
+          })
+        } else {
+          res.status(200).send({
+            'message': '이미 존재하는 스테이지 이름입니다'
+          })
+        }
       }
     }
 }

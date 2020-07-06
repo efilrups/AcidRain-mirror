@@ -6,6 +6,28 @@
     padding:0 1% 0 1%
 }
 
+.Link-makeThema {
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    font-size: 1rem;
+    position:absolute;
+    left:3%;
+    top:50%;
+    transform:translate(0,-50%);
+    cursor: pointer;
+}
+
+.Link-makeThema:hover{
+    color: yellow;
+  }
+
+.makeThema-box{
+    position: absolute;
+    top:80%;
+    margin-left:1rem;
+
+}
 
 .Link-mypage{
     text-decoration: none;
@@ -14,8 +36,13 @@
     font-size: 1rem;
     position: absolute;
     top:50%;
+    left:8%;
     transform:translate(0,-50%);
+    cursor: pointer;
 }
+.Link-mypage:hover{
+    color: yellow;
+  }
 
 .Nav-userId{
     color: white;
@@ -48,10 +75,12 @@
     display: inline-block;
     position:absolute;
     top:50%;
-    right:10%;
+    right:8%;
     transform:translate(0,-50%);
     font-size: 1rem;
 }
 .Link-login:hover{
   color: white;
 }
+
+

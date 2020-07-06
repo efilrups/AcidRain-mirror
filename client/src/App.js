@@ -8,15 +8,24 @@ const axios = require('axios');
 class App extends Component {
   state = {
     userId: '',
-    selectedStageName: 'test',
+    selectedStageName: '',
     stageContents: '',
+    color: "#ccc",
+    gameLevel: 0,
 
     //login상태가 되면 이 값이 true로 변하고 그 값을 이용해 로그인 여부 판단.
     isLogin: false,
     //게스트가 로그인 했을 때, 회원이 로그인 했을 때로 나눠서 Nav의 마이페이지버튼 생성, 비생성 조절
+    isGuest: true,
+    //makeStage컴포넌트의 노출 여부를 해당 state로 관리 
+    wantToMake:false,
+
+    //MakeThema컴포넌트 노출 여부
+    themaPageIsOpen:false,
     isGuest: false
     
   }
+
   // 로그인 유지
   async componentDidMount(){
     let result = await axios.post('http://localhost:5000/main/login', {
@@ -31,6 +40,11 @@ class App extends Component {
     console.log('this.state: ', this.state.userId);
   }
 
+
+  handleColorChange = color => {
+    this.setState({ color: color.hex });
+  };
+  
   clickStage = (name) => {
     if (name !== this.state.selectedStageName) {
       this.setState({ selectedStageName: name })
@@ -52,8 +66,11 @@ class App extends Component {
     this.setStage({ isSubmitedStage: true })
   }
 
-  getContents = (clickedStage) => {
-    this.setState({ stageContents: clickedStage })
+  getContents = (clickedStage, selectedLevel) => {
+    this.setState({
+        stageContents: clickedStage,
+        gameLevel: selectedLevel
+     })
   }
 
   //게임 끝나면 stageContents, selectedStageName은 test로, gamestart상태를 false로 변경
@@ -65,39 +82,50 @@ class App extends Component {
     this.setState({ wantToMake : !this.state.wantToMake})
   }
 
-  render() {
-    const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin } = this.state
-    return (
-      <div className='app'>
-        <Route path='/' render={() => <Nav 
-          userId={userId} 
-          isGuest={isGuest} 
-          changeUserId={this.changeUserId}
-          isLogin={isLogin}
-          logout={this.logout}
-        />} />
+  handleThemaPage = () => {
+    this.setState({themaPageIsOpen: !this.state.themaPageIsOpen})
+  }
 
-        <Route path='/' render={() => <Login 
-          userId={userId} 
+  render() {
+    const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin, themaPageIsOpen, color , gameLevel } = this.state
+    return (
+      <div className='app' onClick={this.closeThemaPage} style={{backgroundColor:this.state.color}}>
+  
+        <Route path='/' render={() => <Nav 
+        userId={userId} 
+        isGuest={isGuest} 
+        isLogin={isLogin}
+        changeUserId={this.changeUserId}
+        themaPageIsOpen={themaPageIsOpen}
+        handleThemaPage={this.handleThemaPage}
+        color={color}
+        handleColorChange={this.handleColorChange}
+        />} />
+        <Route path='/' render={() => <Login
+          userId={userId}
           isLogin={isLogin}
+          isGuest={isGuest} 
+          
           logout={this.logout}
           changeUserId={this.changeUserId}
           changeGuest={this.changeGuest}
-          stageContents={stageContents} 
-          clickStage={this.clickStage} 
-          getContents={this.getContents} 
-          selectedStageName={selectedStageName} 
+          stageContents={stageContents}
+          clickStage={this.clickStage}
+          getContents={this.getContents}
+          selectedStageName={selectedStageName}
           wantToMake={wantToMake}
           handleMakingStage={this.handleMakingStage}
         />} />
-
         <Route path='/' render={() => <PlayStage 
-          userId={userId} 
-          selectedStageName={selectedStageName} 
-          stageContents={stageContents}
-          handleGameEnd={this.handleGameEnd}
+        userId={userId} 
+        selectedStageName={selectedStageName} 
+        stageContents={stageContents}
+        handleGameEnd={this.handleGameEnd}
+        color={color}
+        gameLevel={gameLevel}
+
         />} />
-        
+      
       </div>
     )
   }

@@ -28,11 +28,19 @@ div.fa-plus-square{
  position:absolute;
  top:35%;
  right:7%;
-
 }
+
+div.fa-plus-square:hover{
+    transform:scale(1.5)
+  }
+
 
 div.fa-minus-square{
     position:absolute;
     top:35%;
     right:3%;
    }
+
+div.fa-minus-square:hover{
+    transform:scale(1.5)
+  }
