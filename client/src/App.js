@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Nav, Login, PlayStage } from './pages'
 import { Route } from 'react-router-dom'
-import { Play } from './components'
+import { Play, MyPage } from './components'
 
 class App extends Component {
   state = {
@@ -66,7 +66,7 @@ class App extends Component {
   }
 
   render() {
-    const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin, themaPageIsOpen, color } = this.state
+    const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin, themaPageIsOpen, color, changeUserId } = this.state
     return (
       <div className='app' onClick={this.closeThemaPage} style={{backgroundColor:this.state.color}}>
   
@@ -74,6 +74,7 @@ class App extends Component {
         userId={userId} 
         isGuest={isGuest} 
         isLogin={isLogin}
+        changeUserId={changeUserId}
         themaPageIsOpen={themaPageIsOpen}
         handleThemaPage={this.handleThemaPage}
         color={color}

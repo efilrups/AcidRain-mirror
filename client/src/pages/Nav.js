@@ -7,11 +7,12 @@ class Nav extends Component {
         super(props)
     }
     render() {
-        const { userId, isGuest, isLogin, themaPageIsOpen, handleThemaPage, color, handleColorChange } =  this.props
+        const { userId, isGuest, isLogin, themaPageIsOpen, handleThemaPage, color, handleColorChange, changeUserId } =  this.props
         return (
             <div className="Nav-square">
                 <div className="Nav-link">
-                    <Route path="/mypage" component={MyPage}/>
+                <Link to='/mypage' className="Link-mypage">마이페이지</Link>
+                <Route path="/mypage" render={()=><MyPage changeUserId={changeUserId} userId={userId}/>}/>
                     <div className="Nav-userId">
                       {
                         userId
