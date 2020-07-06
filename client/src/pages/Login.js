@@ -6,17 +6,17 @@ import './css/Login.css'
 
 
 class Login extends Component {
-    
+
 
     render() {
         const { userId, selectedStageName, handleStageButton , clickStage, getContents, stageContents, changeGuest, changeUserId,wantToMake, handleMakingStage } = this.props;
         return (
-            <div>
+            <div className='Login-square'>
                 <Switch>
                   <Route path='/login'><UserLogin changeGuest={changeGuest} changeUserId={changeUserId}></UserLogin></Route>
                   <Route path='/signup'><Signup></Signup></Route>
                   {/* <GuestLogin /> */}
-                  
+
                 </Switch>
                 <Route path='/selectstage' render={() => <SelectStage selectedStageName={selectedStageName} clickStage={clickStage}
                    handleStageButton ={handleStageButton} getContents={getContents} stageContents={stageContents} 

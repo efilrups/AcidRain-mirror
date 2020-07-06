@@ -33,7 +33,7 @@ class App extends Component {
     this.setState({ userId: guest, isGuest: true})
   }
 
-  
+
 
   //스테이지 선택 버튼을 누르면 true로 값이 변하게
   handleStageButton = () => {
@@ -54,12 +54,12 @@ class App extends Component {
   }
 
   render() {
-    const { userId, isGuest, selectedStageName, stageContents, wantToMake } = this.state
+    const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin } = this.state
     return (
-      <div>
-        <Route path='/' render={() => <Nav userId={userId} isGuest={isGuest}/>} />
-        <Route path='/' render={() => <Login 
-          userId={userId} 
+      <div className='app'>
+        <Route path='/' render={() => <Nav userId={userId} isGuest={isGuest} isLogin={isLogin}/>} />
+        <Route path='/' render={() => <Login
+          userId={userId}
           changeUserId={this.changeUserId}
           changeGuest={this.changeGuest}
           stageContents={stageContents} 
