@@ -1,18 +1,27 @@
 #canvas {
   /* position: absolute; */
-  width: 80%;
+  width: auto;
+  max-width: 96vw;
+  height: 80%;
+  max-height: 57.6vw;
+  border-bottom: solid;
 }
 
 .playStage-square {
   align-items: center;
+  height: 100%;
 }
 
 .gameBoard {
   text-align: center;
+  height: 80%;
+
+  font-family: 'Nanum Myeongjo', serif;
 }
 
 .gameRule {
   text-align: center;
+  overflow: auto;
 }
 
 /* .playStage-description-box{
@@ -29,8 +38,8 @@
 
 .inputAnswer {
   /* position: relative; */
-  width: 50%;
-  height: auto !important;
+  width: 40%;
+  height: 100% !important;
   font-size: 1rem;
 }
 
