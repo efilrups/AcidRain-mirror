@@ -3,52 +3,10 @@ const { Op } = require("sequelize");
 //const { noExtendLeft } = require("sequelize/types/lib/operators");
 
 module.exports = {
-
   // users, playlogs
     mypage: {
-        get: async function (req, res) {
-          // let checkUser = await users.findAll({
-          //   attributes: ["email", "nickname"],
-          //   where: {
-          //       nickname: req.body.nickname
-          //   },
-          //   include: [{
-          //     model: playlogs,
-          //     attributes: ["score", "missedcode"],
-          //     include: [{
-          //       model: stages,
-          //       attributes: ["stagename"]
-          //     }]
-          //   }
-          // ]
-          // })
-          // if(checkUser.length !== 0){
-          //   let result = []
-          //   checkUser.forEach(ele => {
-          //     let obj = {
-          //       'email': ele.email,
-          //       'nickname': ele.nickname,
-          //       'playlogs': []
-          //     }
-          //     ele.playlogs.forEach(log => {
-          //       let logEle = {
-          //         'stagename' : log.stage.stagename,
-          //         'score' : log.score,
-          //         'missedcode' : log.missedcode
-          //       }
-          //       obj.playlogs.push(logEle)
-          //     })
-          //     result.push(obj)
-          //   });
-          //   res.send(result)
-          // } else {
-          //   res.status(404).send({
-          //     "message": "정보가 존재하지 않습니다"
-          //   });
-          // }
-        },
         post: async function (req, res) {
-          // * newnickname 수정 post 요청이라면?
+          // * newnickname으로 수정하는 post 요청이라면?
           if(req.body.newnickname){
             // * 여기서 req.body.nickname은 oldnickname을 말함
             // * 클라이언트에서 oldnickname 이랑 newnickname을 따로 받아올 것
@@ -64,8 +22,8 @@ module.exports = {
             } else {
               res.status(200).send({ nickname: req.body.nickname });
             }
-            // * -------------------------------
-            // * 그냥 mypage 불러오는 화면이라면?
+            
+            // componentDidMount() 로 mypage 불러오는 화면이라면?
           } else {
             let checkUser = await users.findAll({
               attributes: ["email", "nickname"],
