@@ -11,20 +11,24 @@ class App extends Component {
     selectedStageName: 'test',
     stageContents: '',
 
-
     //login상태가 되면 이 값이 true로 변하고 그 값을 이용해 로그인 여부 판단.
     isLogin: false,
     //게스트가 로그인 했을 때, 회원이 로그인 했을 때로 나눠서 Nav의 마이페이지버튼 생성, 비생성 조절
     isGuest: false
     
   }
+  // 로그인 유지
   async componentDidMount(){
     let result = await axios.post('http://localhost:5000/main/login', {
       'session': cookie.load('sessionKey')
     })
-
-    console.log('-------------', result)
-
+    this.setState({isLogin: true, userId: result.data})
+  }
+  // 로그아웃
+  logout = () => {
+    this.setState({ isLogin: false, userId: '' })
+    cookie.remove('sessionKey')
+    console.log('this.state: ', this.state.userId);
   }
 
   clickStage = (name) => {
@@ -43,7 +47,6 @@ class App extends Component {
 
 
 
-
   //스테이지 선택 버튼을 누르면 true로 값이 변하게
   handleStageButton = () => {
     this.setStage({ isSubmitedStage: true })
@@ -58,20 +61,26 @@ class App extends Component {
     this.setState({selectedStageName:'test', stageContents:''})
   }
 
+  handleMakingStage = () => {
+    this.setState({ wantToMake : !this.state.wantToMake})
+  }
 
   render() {
-    const { userId, isGuest, isLogin, selectedStageName, stageContents } = this.state
+    const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin } = this.state
     return (
       <div className='app'>
-        <Route path='/' render={() => <Nav userId={userId} isGuest={isGuest} isLogin={isLogin}/>} />
+        <Route path='/' render={() => <Nav userId={userId} isGuest={isGuest} isLogin={isLogin} logout={this.logout}/>} />
         <Route path='/' render={() => <Login
           userId={userId}
+          isLogin={isLogin}
           changeUserId={this.changeUserId}
           changeGuest={this.changeGuest}
-          stageContents={stageContents}
-          clickStage={this.clickStage}
-          getContents={this.getContents}
-          selectedStageName={selectedStageName}
+          stageContents={stageContents} 
+          clickStage={this.clickStage} 
+          getContents={this.getContents} 
+          selectedStageName={selectedStageName} 
+          wantToMake={wantToMake}
+          handleMakingStage={this.handleMakingStage}
         />} />
         <Route path='/' render={() => <PlayStage userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
         handleGameEnd={this.handleGameEnd}

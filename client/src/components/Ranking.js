@@ -23,7 +23,6 @@ class Ranking extends Component {
         await axios.get('http://localhost:5000/main/rank')
         // await axios.get('http://13.125.33.38:5000/main/rank')
             .then(res => {
-                console.log(res.data)
                 this.setState({ rankingOfTop10: res.data })
             })
     }
@@ -46,7 +45,7 @@ class Ranking extends Component {
 
                     <p className="title" style={{ textAlign: "center" }}>점수판</p>
 
-                    <fieldset>
+                    <fieldset className="Ranking-fieldset">
                     <div className="field-row" style={{ justifyContent: 'center' }}>
                         <BootstrapTable data={this.state.rankingOfTop10}
                         bordered={false}

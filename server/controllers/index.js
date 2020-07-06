@@ -125,7 +125,7 @@ module.exports = {
       },
     
     playstage: {
-        get: async function (req, res){
+        post: async function (req, res){
           let result = await stages.findAll({
             attributes: ['contents'],
             where: {
@@ -141,7 +141,7 @@ module.exports = {
           }
         },
     },
-    // 닉네임, 스테이지, 점수, 일자
+    // 닉네임, 스테이지, 점수, 일자 -> 가공해서 보내라
     rank: {
         get: async function(req, res) {
             let ranks = await playlogs.findAll({
@@ -187,28 +187,26 @@ module.exports = {
     },
     login: {
         post: async function (req, res){
+          // session
           if(req.body.session){
-            // req.sessionStore.sessions
-            console.log('req.sessionStore.sessions: ', req.sessionStore.sessions);
             req.sessionStore.sessions[req.body.session]
             let session = JSON.parse(req.sessionStore.sessions[req.body.session])
-            console.log('session: ', session.isLogin);
-
-            res.end()
+            res.send(session.nickname)
             return
           } else {
-
             let result = await users.findOne({
                 where: {
                     email: req.body.email,
                     password: req.body.password
                 }
+                
             })
             
             if(result){
               console.log('result: ', result.nickname);
               // 세션 또는 토큰을 보내야 한다
               req.session.isLogin = true
+              req.session.nickname = result.nickname
               // req
               console.log(req.sessionStore.sessions)
               console.log('req: ', req.sessionID);

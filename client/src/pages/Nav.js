@@ -7,7 +7,7 @@ class Nav extends Component {
         super(props)
     }
     render() {
-        const { userId, isGuest, isLogin } =  this.props
+        const { userId, isGuest, isLogin, logout } =  this.props
         return (
             <div className="Nav-square">
                 <div className="Nav-link">
@@ -22,7 +22,7 @@ class Nav extends Component {
                     <Link to='/ranking' className="Link-ranking">랭킹</Link>
                     {
                       userId
-                      ? <Link to='/login' className="Link-login">로그아웃</Link>
+                      ? <Link to='/login' className="Link-login" onClick={logout}>로그아웃</Link>
                       : <Link to='/login' className="Link-login">로그인</Link>
                     }
                     {

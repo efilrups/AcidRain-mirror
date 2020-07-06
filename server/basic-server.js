@@ -28,12 +28,12 @@ app.use(morgan('dev'))
 app.use(cookieParser());
 
 app.use(
-  cors({
-    origin: ['http://localhost:3001'],
-    methods: ['GET', 'POST'],
-    credentials: true
-  })
-);
+    cors({
+      origin: ['http://localhost:3000'],
+      methods: ['GET', 'POST'],
+      credentials: true
+    })
+  );
 
 app.use("/main", router)
 

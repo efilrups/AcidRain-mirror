@@ -9,7 +9,6 @@ class UserLogin extends Component {
     this.state = {
       email: '',
       password: '',
-      userId: '오마이갇'
     }
   }
 
@@ -73,42 +72,42 @@ class UserLogin extends Component {
       }
     }
     render() {
-      return (
-        <div className="window Login-window">
-          <div className="title-bar">
-            <div className="title-bar-text">Login</div>
+      const { isLogin } = this.props;
+        return (
+          <div className="window Login-window">
+            <div className="title-bar">
+              <div className="title-bar-text">Login</div>
+            </div>
+            <div className="window-body">
+              <fieldset id="login">
+                <p className="title" style={{ textAlign: "center" }}></p>
+                <input 
+                  id="inputEmail" type="text" 
+                  value={this.state.email}
+                  onChange={this.inputEmail.bind(this)} 
+                  onKeyDown={this.enter.bind(this)}
+                  placeholder="이메일을 입력하세요"
+                />
+                <input 
+                  id="inputPassword" type="password" 
+                  value={this.state.password}
+                  onChange={this.inputPassword.bind(this)} 
+                  onKeyDown={this.enter.bind(this)}
+                  placeholder="비밀번호를 입력하세요"
+                />
+                <button id="userLogin" onClick={this.enter.bind(this)}>로그인</button>
+                <button id="guestLogin" 
+                  onClick={() => this.props.history.push('/guestLogin')}
+                >게스트로그인</button>
+                <button id="signupBtn" 
+                  onClick={() => this.props.history.push('/signup')}
+                >회원가입</button>
+                <button id="socialLogin">소셜 로그인</button>
+              </fieldset>
+            </div>
           </div>
-          <div className="window-body">
-            <fieldset id="login">
-              <p className="title" style={{ textAlign: "center" }}></p>
-              <input 
-                id="inputEmail" type="text" 
-                value={this.state.email}
-                onChange={this.inputEmail.bind(this)} 
-                onKeyDown={this.enter.bind(this)}
-                placeholder="이메일을 입력하세요"
-              />
-              <input 
-                id="inputPassword" type="password" 
-                value={this.state.password}
-                onChange={this.inputPassword.bind(this)} 
-                onKeyDown={this.enter.bind(this)}
-                placeholder="비밀번호를 입력하세요"
-              />
-
-              <button id="userLogin" onClick={this.enter.bind(this)}>로그인</button>
-              <button id="guestLogin" 
-                onClick={() => this.props.history.push('/guestLogin')}
-              >게스트로그인</button>
-              <button id="signupBtn" 
-                onClick={() => this.props.history.push('/signup')}
-              >회원가입</button>
-              <button id="socialLogin">소셜 로그인</button>
-            </fieldset>
-          </div>
-        </div>
-      )
-    }
+        )
+      }
 }
 
 export default withRouter(UserLogin)
