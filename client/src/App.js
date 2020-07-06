@@ -98,7 +98,7 @@ class App extends Component {
           handleMakingStage={this.handleMakingStage}
         />} />
 
-        <Route path='/' render={() => <PlayStage
+        <Route exact path='/playStage' render={() => <PlayStage
           userId={userId}
           selectedStageName={selectedStageName}
           stageContents={stageContents}
