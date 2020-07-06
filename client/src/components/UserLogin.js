@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
+import cookie from 'react-cookies'
 const axios = require('axios');
 
 class UserLogin extends Component {
@@ -57,8 +58,9 @@ class UserLogin extends Component {
             
             this.props.changeUserId(result.data.nickname)
             alert('Welcome!!')
-            document.cookie.isLogin = true
-            console.log('document.cookie: ', document.cookie);
+            cookie.save('sessionKey', result.data.session)
+            // cookie.load('sessionKey')
+            console.log('cookie', cookie.load('sessionKey'));
             this.props.history.push('/selectStage')
             this.setState({email: '', password: ''})
 

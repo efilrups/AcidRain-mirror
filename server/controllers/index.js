@@ -187,12 +187,24 @@ module.exports = {
     },
     login: {
         post: async function (req, res){
+          if(req.body.session){
+            // req.sessionStore.sessions
+            console.log('req.sessionStore.sessions: ', req.sessionStore.sessions);
+            req.sessionStore.sessions[req.body.session]
+            let session = JSON.parse(req.sessionStore.sessions[req.body.session])
+            console.log('session: ', session.isLogin);
+
+            res.end()
+            return
+          } else {
+
             let result = await users.findOne({
                 where: {
                     email: req.body.email,
                     password: req.body.password
                 }
             })
+            
             if(result){
               console.log('result: ', result.nickname);
               // 세션 또는 토큰을 보내야 한다
@@ -211,6 +223,7 @@ module.exports = {
                   "message": "로그인에 실패하였습니다"
               })
             }
+          }
         }
     },
     guest: {

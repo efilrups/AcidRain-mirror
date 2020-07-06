@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Nav, Login, PlayStage } from './pages'
 import { Route } from 'react-router-dom'
 import { Play } from './components'
+import cookie from 'react-cookies'
+const axios = require('axios');
 
 class App extends Component {
   state = {
@@ -14,6 +16,15 @@ class App extends Component {
     isLogin: false,
     //게스트가 로그인 했을 때, 회원이 로그인 했을 때로 나눠서 Nav의 마이페이지버튼 생성, 비생성 조절
     isGuest: false
+    
+  }
+  async componentDidMount(){
+    let result = await axios.post('http://localhost:5000/main/login', {
+      'session': cookie.load('sessionKey')
+    })
+
+    console.log('-------------', result)
+
   }
 
   clickStage = (name) => {
