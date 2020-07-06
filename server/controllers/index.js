@@ -7,68 +7,107 @@ module.exports = {
   // users, playlogs
     mypage: {
         get: async function (req, res) {
-            try {
-              let checkUser = await users.findAll({
-                attributes: ["email", "nickname"],
-                where: {
-                    nickname: req.body.nickname
-                },
-                include: [{
-                  model: playlogs,
-                  attributes: ["score", "missedcode"],
-                  include: [{
-                    model: stages,
-                    attributes: ["stagename"]
-                  }]
-                }
-              ]
-              })
-              if(checkUser.length !== 0){
-                let result = []
-                checkUser.forEach(ele => {
-                  let obj = {
-                    'email': ele.email,
-                    'nickname': ele.nickname,
-                    'playlogs': []
-                  }
-                  ele.playlogs.forEach(log => {
-                    let logEle = {
-                      'stagename' : log.stage.stagename,
-                      'score' : log.score,
-                      'missedcode' : log.missedcode
-                    }
-                    obj.playlogs.push(logEle)
-                  })
-                  result.push(obj)
-                });
-                res.send(result)
-              } else {
-                res.status(404).send({
-                  "message": "정보가 존재하지 않습니다"
-                });
-              }
-            } catch (err) {
-              console.log('end')
-            }
+          // let checkUser = await users.findAll({
+          //   attributes: ["email", "nickname"],
+          //   where: {
+          //       nickname: req.body.nickname
+          //   },
+          //   include: [{
+          //     model: playlogs,
+          //     attributes: ["score", "missedcode"],
+          //     include: [{
+          //       model: stages,
+          //       attributes: ["stagename"]
+          //     }]
+          //   }
+          // ]
+          // })
+          // if(checkUser.length !== 0){
+          //   let result = []
+          //   checkUser.forEach(ele => {
+          //     let obj = {
+          //       'email': ele.email,
+          //       'nickname': ele.nickname,
+          //       'playlogs': []
+          //     }
+          //     ele.playlogs.forEach(log => {
+          //       let logEle = {
+          //         'stagename' : log.stage.stagename,
+          //         'score' : log.score,
+          //         'missedcode' : log.missedcode
+          //       }
+          //       obj.playlogs.push(logEle)
+          //     })
+          //     result.push(obj)
+          //   });
+          //   res.send(result)
+          // } else {
+          //   res.status(404).send({
+          //     "message": "정보가 존재하지 않습니다"
+          //   });
+          // }
         },
         post: async function (req, res) {
-          // * 여기서 req.body.nickname은 oldnickname을 말함
-          // * 클라이언트에서 oldnickname 이랑 newnickname을 따로 받아올 것
-          let result = await users.update({
-            nickname: req.body.newnickname
-          }, {
-            where: {
-                nickname: req.body.nickname
+          // * newnickname 수정 post 요청이라면?
+          if(req.body.newnickname){
+            // * 여기서 req.body.nickname은 oldnickname을 말함
+            // * 클라이언트에서 oldnickname 이랑 newnickname을 따로 받아올 것
+            let result = await users.update({
+              nickname: req.body.newnickname
+            }, {
+              where: {
+                  nickname: req.body.nickname
+              }
+            })
+            if(result[0] === 0){
+              res.status(404).send("이미 존재하는 닉네임입니다");
+            } else {
+              res.status(200).send({ nickname: req.body.nickname });
             }
-          })
-          // if(result[0] === 0){
-          //   res.status(404).send("이미 존재하는 닉네임입니다");
-          // } else {
-          //   res.status(200).send({ nickname: req.body.nickname });
-          // }
-          console.log(result)
-          res.send('보내졌다!')
-          
+            // * -------------------------------
+            // * 그냥 mypage 불러오는 화면이라면?
+          } else {
+            let checkUser = await users.findAll({
+              attributes: ["email", "nickname"],
+              where: {
+                  nickname: req.body.nickname
+              },
+              include: [{
+                model: playlogs,
+                attributes: ["score", "missedcode"],
+                include: [{
+                  model: stages,
+                  attributes: ["stagename"]
+                }]
+              }
+            ]
+            })
+            if(checkUser.length !== 0){
+              let result = []
+              checkUser.forEach(ele => {
+                let obj = {
+                  'email': ele.email,
+                  'nickname': ele.nickname,
+                  'playlogs': []
+                }
+                ele.playlogs.forEach(log => {
+                  let logEle = {
+                    'stagename' : log.stage.stagename,
+                    'score' : log.score,
+                    'missedcode' : log.missedcode
+                  }
+                  obj.playlogs.push(logEle)
+                })
+                result.push(obj)
+              });
+              console.log('!!!!!')
+              res.status(200).send(result)
+            } else {
+              res.status(404).send({
+                "message": "정보가 존재하지 않습니다"
+              });
+            }
+          }
         }
     },
     signup: {
@@ -90,14 +129,17 @@ module.exports = {
             nickname: req.body.nickname
           })
           res.send({
+            "result": true,
             "message": "성공적으로 가입되었습니다"
           })
         } else if(findEmail.length === 0){
           res.send({
+            "result": false,
             "message": "이미 존재하는 닉네임입니다"
           })
         } else if(findName.length === 0){
           res.send({
+            "result": false,
             "message": "이미 존재하는 이메일입니다"
           })
         }
@@ -199,8 +241,10 @@ module.exports = {
                 }
             })
             if(result){
+              console.log('result: ', result.nickname);
               // 세션 또는 토큰을 보내야 한다
               res.status(200).send({    
+                "nickname": result.nickname,
                 "message": "로그인되었습니다"
               })
             } else {

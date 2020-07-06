@@ -25,28 +25,25 @@ class MyPage extends Component {
     }
 
     handleNicknameChange(e){
+        const { userId, changeUserId } = this.props
+
         console.log(this.props.userId)
 
         axios.post('http://localhost:5000/main/mypage', {
             //// 기존 유저정보의 닉네임 (this.state에서 가지고 오기)
-            nickname: this.props.userId,
+            nickname: userId,
             // 인풋 밸류로 수정할 닉네임을 받아주기
             newnickname: this.state.value
         })
-        .then(res => alert(res.json()))
-        // * 바꾼 닉네임을 Nav 에 표현해주어야 한다. newnickname: this.state.value을 Nav userid로 바꾸기 
-        // * state 끌어올리기를 해줘야 한다.
-        // * MyPage > Nav > App으로 끌어올리기
-        // .then(res => {
-        //     alert('asdf')
-        // })
+        // Nav바에 보이는 닉네임 바꾸기
+        changeUserId(this.state.value)
+        // * 이제 확인해봐야할 것은 플레이스 홀더가 다시 초기화로 바뀌는지
+        // * alert 메시지에 이미 존재하는 닉네임입니다 뜰 수 있게 변경
+        this.setState({
+            placeholder: "수정할 닉네임을 입력하세요",
+            value: ""
+        }, () => alert("닉네임이 수정되었습니다."))
         
-        // this.setState({
-        //     placeholder: "수정할 닉네임을 입력하세요",
-        //     value: ""
-        // }, () => alert('닉네임이 수정되었습니다.'))
-        
-        // 여기서 수정하고 나서 placeholder를 "수정할 닉네임을 입력하세요"로 다시 바꿔주기
     }
 
     handleInputValueChange(e){
@@ -56,34 +53,54 @@ class MyPage extends Component {
         console.log(this.state.value)
     }
 
-    async componentDidMount() {
-        console.log('mount 성공')
-        await axios.get('http://localhost:5000/main/mypage')
-        //여기서 해야하는게 보내준 닉네임에 따른 정보만 가지고 오기
-            // .then(res => {
-            //     let myPlayLogs = {}
-            //     // 여기서 res를 콘솔에 찍어보고 수정하고 싶은데
-            //     console.log(res.body)
-            //     for (let playlogKey of res.body) {
-            //         if ('stagename' in playlogKey) {
-            //             myPlayLogs.stagename = playlogKey['stagename'];
-            //         } else if ('score' in playlogKey) {
-            //             myPlayLogs.score = playlogKey['score'];
-            //         } else if ('missedcode' in playlogKey) {
-            //             myPlayLogs.missedcode = playlogKey['missedcode']
-            //         }
-            //     }
-            //     this.setState({
-            //         myPlayLogs
-            //     })
-            // })
+    componentDidMount() {
+        const { userId } = this.props
+
+        axios.post('http://localhost:5000/main/mypage', {
+            nickname: "asdf"//userId
+        })
+        // 여기서 해야하는게 보내준 닉네임에 따른 정보만 가지고 오기
+        // post에서 첫 화면 구성은 됐는데 404 정보가 존재하지 않습니다가 문제다 그러니까 유저 정보 회원가입된걸 가져와야함
+        // * res.body가 NOT iterable -> 그러면 res.body가 뭐지? undefined네..
+        // * nickname을 서버에 보내주고 서버에서 가져온 res를 state에 넣어주기
+        // * state에 들어간 playlog를 화면에 표시하는 방법
+            .then(res => {
+                // myPlayLog (스테이지, 스코어) 를 객체로 받아와서 state에 푸쉬
+                let myPlayLogs = []
+                let myPlayLog = {}
+                // 여기서 res를 콘솔에 찍어보고 수정하고 싶은데
+                //console.log(res.data[0].playlogs)
+                for (let i=0; i<res.data[0].playlogs; i++){
+                    myPlayLog["stagename"] = res.data[0].playlogs[i].stagename
+                    myPlayLog["score"] = res.data[0].playlogs[i].score
+                    myPlayLogs.push(myPlayLog)
+                }
+                // for (let playlogKey of res.body) {
+                //     if ('stagename' in playlogKey) {
+                //         myPlayLog.stagename = playlogKey['stagename'];
+                //     } else if ('score' in playlogKey) {
+                //         myPlayLog.score = playlogKey['score'];
+                //     }
+                //     myPlayLogs.push(myPlayLog)
+                // }
+                console.log(myPlayLogs)
+                this.setState({
+                    myPlayLogs: myPlayLogs
+                })
+            })
+            .catch(err => {
+                alert(err)
+            })
+            console.log('mount 성공')
     }
-    // * nickname 입력 칸 + 수정 버튼
+    // TO DO LIST
+    //// nickname 입력 칸 + 수정 버튼
     // * myPlayLogs 출력 (stage, score, missedcode)
+    // 이것도 req.body에 내용을 담아주려면 get요청이 아니라 post요청이 되어야 하는데 post를 2개 받을 수가 있나?
     //// 게임하기를 누르면 selectStage 로 이동
-    // * 닉네임 변경하면 알림 띄우기 (닉네임이 수정되었습니다.)
-    // * 순위를 가져올 수 있나?
-    // * 로그인 된 user 정보를 받아오는 방법
+    //// 닉네임 변경하면 알림 띄우기 (닉네임이 수정되었습니다.)
+    // 순위를 가져올 수 있나?
+    //// 로그인 된 user 정보를 받아오는 방법
     // * CSS 위치 수정
     //// 렌더가 왜 두번되지ㅠㅠ엉엉 (App.js에 추가하면 그렇다)
 
@@ -115,7 +132,7 @@ class MyPage extends Component {
                             <TableHeaderColumn dataField='id' dataAlign='center' isKey={true} tdStyle={{ 'fontSize': '1rem',paddingRight:'2rem' }} thStyle={{ 'fontSize': '1rem',paddingLeft:'1rem' ,paddingRight:'3rem' }}>순위</TableHeaderColumn>
                             <TableHeaderColumn dataField='stagename' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight:'2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight:'3rem' }}>스테이지</TableHeaderColumn>
                             <TableHeaderColumn dataField='score' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight:'2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight:'3rem' }}>점수</TableHeaderColumn>
-                            <TableHeaderColumn dataField='missedcode' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight:'2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight:'3rem' }}>놓친 코드</TableHeaderColumn>
+                            
                             
                         </BootstrapTable>
                         </div>
