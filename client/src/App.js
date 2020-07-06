@@ -8,6 +8,7 @@ class App extends Component {
     userId: '',
     selectedStageName: 'test',
     stageContents: '',
+    color: "#ccc",
 
 
     //login상태가 되면 이 값이 true로 변하고 그 값을 이용해 로그인 여부 판단.
@@ -16,8 +17,16 @@ class App extends Component {
     isGuest: true,
     //makeStage컴포넌트의 노출 여부를 해당 state로 관리 
     wantToMake:false,
+
+    //MakeThema컴포넌트 노출 여부
+    themaPageIsOpen:false
   }
 
+
+  handleColorChange = color => {
+    this.setState({ color: color.hex });
+  };
+  
   clickStage = (name) => {
     if (name !== this.state.selectedStageName) {
       this.setState({ selectedStageName: name })
@@ -52,11 +61,24 @@ class App extends Component {
     this.setState({ wantToMake : !this.state.wantToMake})
   }
 
+  handleThemaPage = () => {
+    this.setState({themaPageIsOpen: !this.state.themaPageIsOpen})
+  }
+
   render() {
-    const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin } = this.state
+    const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin, themaPageIsOpen, color } = this.state
     return (
-      <div className='app'>
-        <Route path='/' render={() => <Nav userId={userId} isGuest={isGuest} isLogin={isLogin}/>} />
+      <div className='app' onClick={this.closeThemaPage} style={{backgroundColor:this.state.color}}>
+  
+        <Route path='/' render={() => <Nav 
+        userId={userId} 
+        isGuest={isGuest} 
+        isLogin={isLogin}
+        themaPageIsOpen={themaPageIsOpen}
+        handleThemaPage={this.handleThemaPage}
+        color={color}
+        handleColorChange={this.handleColorChange}
+        />} />
         <Route path='/' render={() => <Login
           userId={userId}
           changeUserId={this.changeUserId}
@@ -68,9 +90,15 @@ class App extends Component {
           wantToMake={wantToMake}
           handleMakingStage={this.handleMakingStage}
         />} />
-        <Route path='/' render={() => <PlayStage userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
+        <Route path='/' render={() => <PlayStage 
+        userId={userId} 
+        selectedStageName={selectedStageName} 
+        stageContents={stageContents}
         handleGameEnd={this.handleGameEnd}
+        color={color}
+
         />} />
+      
       </div>
     )
   }
