@@ -221,10 +221,12 @@ module.exports = {
                 "nickname": result.nickname,
                 "message": "로그인되었습니다"
               })
+              res.end()
             } else {
               res.status(404).send({    
                   "message": "로그인에 실패하였습니다"
               })
+              res.end()
             }
           }
         }
@@ -252,7 +254,6 @@ module.exports = {
         }
       }
     },
-
     // 만약에 게임하지 않고 데이터를 보낸다면?
     gameover: {
       post: async function (req, res){
@@ -269,6 +270,13 @@ module.exports = {
         res.send({
           "message": "게임정보를 성공적으로 저장하였습니다"
         })
+      }
+    },
+
+    makestage: {
+      post: async function (req, res) {
+        console.log('awefawef')
+        res.send()
       }
     }
 }

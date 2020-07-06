@@ -17,4 +17,6 @@ router.post("/guest", controller.guest.post)
 
 router.post("/gameover", controller.gameover.post)
 
+router.post("/makestage", controller.makestage.post)
+
 module.exports = router;

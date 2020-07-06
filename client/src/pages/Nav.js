@@ -8,7 +8,6 @@ class Nav extends Component {
     }
     render() {
         const { userId, isGuest, isLogin, logout } =  this.props
-        console.log('isGuest: ', isGuest);
         return (
             <div className="Nav-square">
                 <div className="Nav-link">

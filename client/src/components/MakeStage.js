@@ -55,6 +55,8 @@ class MakeStage extends Component {
                                 <div className="field-row" style={{ justifyContent: 'center' }}>
                                     <button className="MakeStage-button" onClick={() => {
                                         //db에 저장하는 post요청, 창닫기 
+                                        console.log('inputStageName: ', inputStageName);
+
                                         axios.post("http:localhost:5000/main/makestage",{
                                             userId: userId,
                                             stagename:inputStageName,

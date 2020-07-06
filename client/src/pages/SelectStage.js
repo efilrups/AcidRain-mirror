@@ -15,6 +15,9 @@ class SelectStage extends Component {
             editStageContents: ''
         }
     }
+    componentWillMount(){
+      
+    }
 
     handleEditStageName = (stageName) => {
         this.setState({ editStageName: stageName })
