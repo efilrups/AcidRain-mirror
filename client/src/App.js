@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Nav, Login, PlayStage } from './pages'
 import { Route } from 'react-router-dom'
-import { Play } from './components'
+import { Play, MyPage } from './components'
 
 class App extends Component {
   state = {
@@ -56,9 +56,15 @@ class App extends Component {
     const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin } = this.state
     return (
       <div className='app'>
-        <Route path='/' render={() => <Nav userId={userId} isGuest={isGuest} isLogin={isLogin}/>} />
-        <Route path='/' render={() => <Login
-          userId={userId}
+        <Route path='/' render={() => <Nav 
+          userId={userId} 
+          isGuest={isGuest} 
+          changeUserId={this.changeUserId}
+          isLogin={isLogin}
+        />} />
+
+        <Route path='/' render={() => <Login 
+          userId={userId} 
           changeUserId={this.changeUserId}
           changeGuest={this.changeGuest}
           stageContents={stageContents} 
@@ -68,9 +74,14 @@ class App extends Component {
           wantToMake={wantToMake}
           handleMakingStage={this.handleMakingStage}
         />} />
-        <Route path='/' render={() => <PlayStage userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
-        handleGameEnd={this.handleGameEnd}
+
+        <Route path='/' render={() => <PlayStage 
+          userId={userId} 
+          selectedStageName={selectedStageName} 
+          stageContents={stageContents}
+          handleGameEnd={this.handleGameEnd}
         />} />
+        
       </div>
     )
   }
