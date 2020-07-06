@@ -12,8 +12,10 @@ class SelectStage extends Component {
         this.state = {
             savedStages: [],
             editStageName: '',
-            editStageContents: ''
+            editStageContents: '',
+            gameLevel: 1
         }
+        this.rangeChange = this.rangeChange.bind(this);
     }
 
     handleEditStageName = (stageName) => {
@@ -31,6 +33,12 @@ class SelectStage extends Component {
         })
     }
 
+    rangeChange (obj) {
+        this.setState({
+            gameLevel: document.getElementById('gameLevel').value
+        });
+    }
+
     async componentDidMount() {
         //selectStage 경로로 이동하면 stage테이블에 저장된 데이터를 모두 가져오고 stageNames에 담김
         await axios.get('http://localhost:5000/main/selectstage')
@@ -42,7 +50,7 @@ class SelectStage extends Component {
 
     render() {
         const { clickStage, selectedStageName, wantToMake, handleMakingStage, userId } = this.props
-        const { editStageContents, editStageName } = this.state
+        const { editStageContents, editStageName, gameLevel } = this.state
         return (
             <div className="window SelectStage-window">
                 <div className="window-body">
@@ -77,16 +85,22 @@ class SelectStage extends Component {
                             ))}
                         </ul>
 
+                        <div className="selectGameLevel" style={{ textAlign: 'center' }}>
+                            <div>플레이 할 난이도를 선택하세요 (1 - 10)</div>
+                            <input type="range" id='gameLevel' defaultValue="1"  min={1} max={10} step={1} onChange={this.rangeChange}/>
+                            <div > 현재 난이도 : {gameLevel} </div>
+                        </div>
+
                         <div className="field-row" style={{ justifyContent: 'center' }}>
-                            <button onClick={() => {
-                                //버튼 누르면 서버에 현재 선택한 stageName을 post요청으로 보내고, 해당 stageName에 대한 content를 받아온다. 
+                            <button onClick={ () => {
+                                //버튼 누르면 서버에 현재 선택한 stageName을 post요청으로 보내고, 해당 stageName에 대한 content를 받아온다.
                                 ///playstage로 이동
                                 axios.post("http://localhost:5000/main/playstage", {
                                     stagename: selectedStageName
                                 })
-                                    .then(res => {
-                                        this.props.getContents(JSON.parse(res.data[0].contents))
-                                    })
+                                .then(res => {
+                                    this.props.getContents(JSON.parse(res.data[0].contents), gameLevel)
+                                })
                                 this.props.history.push('/playstage')
 
                             }}>플레이</button>
