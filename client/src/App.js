@@ -28,8 +28,7 @@ class App extends Component {
     this.setState({ userId: user, isLogin: true})
   }
   // 게스트의 로그인
-  changeGuest = () => {
-    let guest = 'Guest_이런이런'
+  changeGuest = (guest) => {
     this.setState({ userId: guest, isGuest: true})
   }
 

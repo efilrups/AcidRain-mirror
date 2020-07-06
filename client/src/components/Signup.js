@@ -36,6 +36,7 @@ class Signup extends Component {
   }
   enter = (async (event) => {
     console.log(event.key)
+    console.log('this.state.nickname.indexOf("Guest_"): ', this.state.nickname.indexOf("Guest_"));
     if(event.key === 'Enter' || event.nativeEvent.type === 'click'){
       if(this.state.email === ''){
         alert('이메일을 입력하세요')
@@ -48,6 +49,9 @@ class Signup extends Component {
         document.querySelector("#inputPassword").focus();
       } else if (this.state.nickname === '') {
         alert('닉네임을 입력하세요')
+        document.querySelector("#inputNickname").focus();
+      } else if (this.state.nickname.indexOf("Guest_") === 0 || this.state.nickname.indexOf("guest_") === 0){
+        alert('닉네임을 올바르게 입력하세요("Guest_"를 포함할 수 없습니다.)')
         document.querySelector("#inputNickname").focus();
       }
       // 입력창에 모두 올바르게 입력완료
@@ -74,7 +78,7 @@ class Signup extends Component {
       <div className="window Login-window">
         <div className="title-bar">
           <div className="title-bar-controls">
-            <div className="title-bar-text">signup</div>
+            <div className="title-bar-text">Signup</div>
             <button className="closeButton" aria-label="Close" onClick={()=>{this.props.history.push('/login')}}></button>
           </div>
         </div>
@@ -100,7 +104,10 @@ class Signup extends Component {
               onKeyDown={this.enter.bind(this)}
             />
 
-            <button id="userSignup">회원가입</button>
+            <button 
+              id="userSignup"
+              onClick={this.enter.bind(this)}
+            >회원가입</button>
           </fieldset>
         </div>
       </div>

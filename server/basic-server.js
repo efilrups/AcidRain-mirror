@@ -15,7 +15,7 @@ app.use(
     session({
       secret: "@acid-rain",
       resave: false,
-      saveUninitialized: true
+      saveUninitialized: false
     })
   );
 
