@@ -61,23 +61,24 @@ class PlayStage extends Component {
     </div>
     )
 
-    const { userId, stageContents, selectedStageName,  handleGameEnd, color, gameLevel } = this.props
+    const { isLogin, userId, stageContents, selectedStageName,  handleGameEnd, color, gameLevel } = this.props
 
     return (
       <div className="playStage-square">
 
         {
-          //1. 스테이지 선택 안한 상태, 게임 시작 안한 상태면 빈 화면 (메인화면)
+          
+          //1. 로그인 했고 스테이지 선택 안한 상태, 게임 시작 안한 상태면 빈 화면 (메인화면)
           //2. 스테이지 선택했고, 게임이 아직 시작 안한 상태? 게임 설명화면
           //3. 게임이 시작--> 게임화면
-          (!stageContents && !this.state.gameStart)  ? this.props.history.push('/selectstage')
+          
+          (!stageContents && !this.state.gameStart)  ? ''
           : (stageContents &&  !this.state.gameStart) ? gameRule
          : <Play userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
          handleGameEnd={handleGameEnd} gameStartToggle={this.gameStartToggle} color={color}  gameLevel={gameLevel}/>
 
 
         }
-
 
 
       </div>
