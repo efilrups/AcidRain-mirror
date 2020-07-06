@@ -290,12 +290,12 @@ module.exports = {
         }
         await playlogs.create({
           score: req.body.score,
-          stageid: req.body.stageid,
-          userid: req.body.userid,
+          missedcode: req.body.missedcode,
+          nickname: req.body.nickname,
+          stagename: req.body.stagename,
           guestid: req.body.guestid,
-          missedcode: req.body.missedCode,
         })
-        res.send({
+        res.status(200).send({
           "message": "게임정보를 성공적으로 저장하였습니다"
         })
       }

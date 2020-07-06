@@ -5,8 +5,8 @@ module.exports = {
     await queryInterface.bulkInsert('playlogs', [{
       score: 500,
       missedcode: JSON.stringify(['code1', 'code2']),
-      userid: '1',
-      stageid: '1',
+      nickname: '1',
+      stagename: '1',
       // guestid: '1',
       createdAt: new Date(),
       updatedAt: new Date()
