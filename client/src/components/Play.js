@@ -7,8 +7,10 @@ class Play extends Component {
     super(props);
     this.state = {
       end : false,
+      // 나오는 코드의 개수
       RAIN_MAX : 15,
       score : 0,
+      gameLevel: this.props.gameLevel
     }
 
     // canvas 관련 초기화
@@ -70,7 +72,7 @@ class Play extends Component {
   }
 
   start() {
-    const { RAIN_MAX } = this.state;
+    const { RAIN_MAX, gameLevel } = this.state;
     let move = setInterval(function () {
       // 한 번도 안내려보냈으면 무조건 한 번 내려보내고 아니면 45퍼의 확률로 내려보내지 않음
       if (this.rain_count === 0) {
@@ -91,7 +93,7 @@ class Play extends Component {
         }))
         clearInterval(move);
         }
-    }.bind(this), 500);
+    }.bind(this), 500 + (11 - gameLevel) * 100);
   }
 
   draw () {
@@ -158,7 +160,7 @@ class Play extends Component {
   }
 
   render() {
-    const {userId, selectedStageName, stageContents,handleGameEnd, gameStartToggle } = this.props
+    const {userId, selectedStageName, stageContents,handleGameEnd, gameStartToggle, gameLevel } = this.props
     const { score } = this.state
 
     const gameEnd = (

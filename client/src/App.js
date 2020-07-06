@@ -8,13 +8,13 @@ class App extends Component {
     userId: '',
     selectedStageName: 'test',
     stageContents: '',
-
+    gameLevel: 0,
 
     //login상태가 되면 이 값이 true로 변하고 그 값을 이용해 로그인 여부 판단.
     isLogin: false,
     //게스트가 로그인 했을 때, 회원이 로그인 했을 때로 나눠서 Nav의 마이페이지버튼 생성, 비생성 조절
-    isGuest: true,
-    //makeStage컴포넌트의 노출 여부를 해당 state로 관리 
+    isGuest: false,
+    //makeStage컴포넌트의 노출 여부를 해당 state로 관리
     wantToMake:false,
   }
 
@@ -39,8 +39,11 @@ class App extends Component {
     this.setStage({ isSubmitedStage: true })
   }
 
-  getContents = (clickedStage) => {
-    this.setState({ stageContents: clickedStage })
+  getContents = (clickedStage, selectedLevel) => {
+    this.setState({
+        stageContents: clickedStage,
+        gameLevel: selectedLevel
+     })
   }
 
   //게임 끝나면 stageContents, selectedStageName은 test로, gamestart상태를 false로 변경
@@ -53,7 +56,7 @@ class App extends Component {
   }
 
   render() {
-    const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin } = this.state
+    const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin, gameLevel } = this.state
     return (
       <div className='app'>
         <Route path='/' render={() => <Nav userId={userId} isGuest={isGuest} isLogin={isLogin}/>} />
@@ -61,15 +64,15 @@ class App extends Component {
           userId={userId}
           changeUserId={this.changeUserId}
           changeGuest={this.changeGuest}
-          stageContents={stageContents} 
-          clickStage={this.clickStage} 
-          getContents={this.getContents} 
-          selectedStageName={selectedStageName} 
+          stageContents={stageContents}
+          clickStage={this.clickStage}
+          getContents={this.getContents}
+          selectedStageName={selectedStageName}
           wantToMake={wantToMake}
           handleMakingStage={this.handleMakingStage}
         />} />
         <Route path='/' render={() => <PlayStage userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
-        handleGameEnd={this.handleGameEnd}
+        handleGameEnd={this.handleGameEnd} gameLevel={gameLevel}
         />} />
       </div>
     )
