@@ -61,7 +61,7 @@ class PlayStage extends Component {
     </div>
     )
 
-    const { userId, stageContents, selectedStageName,  handleGameEnd, gameLevel } = this.props
+    const { userId, stageContents, selectedStageName,  handleGameEnd, color, gameLevel } = this.props
 
     return (
       <div className="playStage-square">
@@ -73,7 +73,7 @@ class PlayStage extends Component {
           (!stageContents && !this.state.gameStart)  ? this.props.history.push('/selectstage')
           : (stageContents &&  !this.state.gameStart) ? gameRule
          : <Play userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
-         handleGameEnd={handleGameEnd} gameStartToggle={this.gameStartToggle} gameLevel={gameLevel} />
+         handleGameEnd={handleGameEnd} gameStartToggle={this.gameStartToggle} color={color}  gameLevel={gameLevel}/>
 
 
         }

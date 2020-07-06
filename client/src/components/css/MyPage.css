@@ -1,7 +1,36 @@
-.myplayLog {
+.MyPage-window{
+    position: fixed;
+    top:50%;
+    left:50%;
+    height:26rem;
+    width:34rem;
+    margin:-13rem 0 0 -17rem;
+    font-family: 'Nanum Myeongjo', serif;
+    font-size:1rem;
     text-align: center;
-    color:black;
-    /*폰트사이즈*/
 }
 
-/*닉네임 인풋 위치*/
+fieldset{
+    color:black
+}
+
+
+
+ /* .mypageTitle {
+    position: relative;
+    font-size: 20 rem;
+    font-family: 'Nanum Myeongjo', serif;
+    color: blue;
+    text-align: center;
+    top: 4000 rem;
+    left: 4000 rem;
+}
+
+.myplayLog {
+    text-align: center;
+}
+
+.nickname {
+    position: relative;
+    top: 80 rem;
+}  */

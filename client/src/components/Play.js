@@ -99,7 +99,7 @@ class Play extends Component {
   draw () {
     const { fontSize, fontName } = this.font;
     //canvas 배경
-    this.ctx.fillStyle = '#D3D3D3';
+    this.ctx.fillStyle = this.props.color;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     // 점수와 코멘트 피드백

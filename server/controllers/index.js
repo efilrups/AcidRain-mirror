@@ -6,6 +6,7 @@ module.exports = {
   // users, playlogs
     mypage: {
         post: async function (req, res) {
+          
           // * newnickname으로 수정하는 post 요청이라면?
           if(req.body.newnickname){
             // * 여기서 req.body.nickname은 oldnickname을 말함
