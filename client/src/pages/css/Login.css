@@ -47,6 +47,13 @@
   left: 18%;
   top: 55%;
 }
+#selectBtn{
+  position: absolute;
+  height: 30px;
+  width: 65%;
+  left: 18%;
+  top: 40%;
+}
 #guestLogin{
   position: absolute;
   width: 23%;

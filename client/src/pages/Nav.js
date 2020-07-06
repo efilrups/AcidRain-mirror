@@ -7,12 +7,14 @@ class Nav extends Component {
         super(props)
     }
     render() {
-        const { userId, isGuest, isLogin, changeUserId } =  this.props
+
+      const { userId, isGuest, isLogin, logout, changeUserId } =  this.props
+      console.log('isGuest: ', isGuest);
         return (
             <div className="Nav-square">
                 <div className="Nav-link">
-                <Link to='/mypage' className="Link-mypage">마이페이지</Link>
-                <Route path="/mypage" render={()=><MyPage changeUserId={changeUserId} userId={userId}/>}/>
+                {/* <Link to='/mypage' className="Link-mypage">마이페이지</Link> */}
+                <Route path="/mypage" render={()=><MyPage changeUserId={this.changeUserId} userId={userId}/>}/>
                     <div className="Nav-userId">
                       {
                         userId
@@ -23,7 +25,7 @@ class Nav extends Component {
                     <Link to='/ranking' className="Link-ranking">랭킹</Link>
                     {
                       userId
-                      ? <Link to='/login' className="Link-login">로그아웃</Link>
+                      ? <Link to='/login' className="Link-login" onClick={logout}>로그아웃</Link>
                       : <Link to='/login' className="Link-login">로그인</Link>
                     }
                     {
