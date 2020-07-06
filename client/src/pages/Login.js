@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Switch } from "react-router-dom";
-import { UserLogin, GuestLogin, Signup } from '../components'
+import { UserLogin, GuestLogin, Signup, LoggedIn } from '../components'
 import { SelectStage } from './index'
 import './css/Login.css'
 
@@ -9,11 +9,11 @@ class Login extends Component {
 
 
     render() {
-        const { userId, selectedStageName, handleStageButton , clickStage, getContents, stageContents, changeGuest, changeUserId,wantToMake, handleMakingStage } = this.props;
+        const { userId, isLogin, selectedStageName, handleStageButton , clickStage, getContents, stageContents, changeGuest, changeUserId,wantToMake, handleMakingStage, logout } = this.props;
         return (
             <div className='Login-square'>
                 <Switch>
-                  <Route path='/login'><UserLogin changeGuest={changeGuest} changeUserId={changeUserId} /></Route>
+                  <Route path='/login'><UserLogin changeGuest={changeGuest} changeUserId={changeUserId} isLogin={isLogin} userId={userId} logout={logout}/></Route>
                   <Route path='/signup'><Signup /></Route>
                   <Route path='/guestLogin'><GuestLogin changeGuest={changeGuest}/></Route>
                 </Switch>
