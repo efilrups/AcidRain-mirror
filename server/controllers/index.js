@@ -1,25 +1,44 @@
 const { users, guests, playlogs, stages } = require("../models");
 const { Op } = require("sequelize");
+//const { noExtendLeft } = require("sequelize/types/lib/operators");
 
 module.exports = {
-
   // users, playlogs
     mypage: {
-        get: async function (req, res) {
+        post: async function (req, res) {
+          // * newnickname으로 수정하는 post 요청이라면?
+          if(req.body.newnickname){
+            // * 여기서 req.body.nickname은 oldnickname을 말함
+            // * 클라이언트에서 oldnickname 이랑 newnickname을 따로 받아올 것
+            let result = await users.update({
+              nickname: req.body.newnickname
+            }, {
+              where: {
+                  nickname: req.body.nickname
+              }
+            })
+            if(result[0] === 0){
+              res.status(404).send("이미 존재하는 닉네임입니다");
+            } else {
+              res.status(200).send({ nickname: req.body.nickname });
+            }
+            
+            // componentDidMount() 로 mypage 불러오는 화면이라면?
+          } else {
             let checkUser = await users.findAll({
-                attributes: ["email", "nickname"],
-                where: {
-                    nickname: req.body.nickname
-                },
+              attributes: ["email", "nickname"],
+              where: {
+                  nickname: req.body.nickname
+              },
+              include: [{
+                model: playlogs,
+                attributes: ["score", "missedcode"],
                 include: [{
-                  model: playlogs,
-                  attributes: ["score", "missedcode"],
-                  include: [{
-                    model: stages,
-                    attributes: ["stagename"]
-                  }]
-                }
-              ]
+                  model: stages,
+                  attributes: ["stagename"]
+                }]
+              }
+            ]
             })
             if(checkUser.length !== 0){
               let result = []
@@ -39,27 +58,13 @@ module.exports = {
                 })
                 result.push(obj)
               });
-              res.send(result)
+              console.log('!!!!!')
+              res.status(200).send(result)
             } else {
               res.status(404).send({
                 "message": "정보가 존재하지 않습니다"
               });
             }
-        },
-        post: async function (req, res) {
-          // * 여기서 req.body.nickname은 oldnickname을 말함
-          // * 클라이언트에서 oldnickname 이랑 newnickname을 따로 받아올 것
-          let result = await users.update({
-            nickname: req.body.newnickname
-          }, {
-            where: {
-                nickname: req.body.nickname
-            }
-          })
-          if(result[0] === 0){
-            res.status(404).send("이미 존재하는 닉네임입니다");
-          } else {
-            res.status(200).send("닉네임이 변경되었습니다");
           }
         }
     },

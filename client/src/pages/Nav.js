@@ -8,10 +8,12 @@ class Nav extends Component {
     }
     render() {
         const { userId, isGuest, isLogin, logout } =  this.props
+        console.log('isGuest: ', isGuest);
         return (
             <div className="Nav-square">
                 <div className="Nav-link">
-                    <Route path="/mypage" component={MyPage}/>
+                {/* <Link to='/mypage' className="Link-mypage">마이페이지</Link> */}
+                <Route path="/mypage" render={()=><MyPage changeUserId={this.changeUserId} userId={userId}/>}/>
                     <div className="Nav-userId">
                       {
                         userId

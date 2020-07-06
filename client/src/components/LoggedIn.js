@@ -9,37 +9,26 @@ class LoggedIn extends Component {
       nickname: ''
     }
   }
-  componentDidMount(){
-    document.querySelector('#inputGuest').focus()
-  }
   
-
   render() {
+    console.log('this.props.userId: ', this.props.userId);
     return (
       <div className="window Login-window">
         <div className="title-bar">
-        <div className="title-bar-controls">
+          <div className="title-bar-controls">
             <div className="title-bar-text">Logged-in</div>
-            <button className="closeButton" aria-label="Close" onClick={()=>{this.props.history.push('/login')}}></button>
           </div>
         </div>
         <div className="window-body">
           <fieldset id="login">
-            <p className="title" style={{ textAlign: "center" }}></p>
-            <input 
-              id="inputGuest" type="text" 
-              // value={this.state.nickname}
-              // onChange={this.inputGuest.bind(this)} 
-              // onKeyDown={this.enter.bind(this)}
-              placeholder="임시 닉네임을 입력하세요"
-            />
-
-            {/* <button id="userLogin" 
-              // onClick={this.enter.bind(this)}
-            >로그인</button> */}
+            <p className="title" style={{ left:"35%", top: "25%", position: "absolute" }}>로그인 되었습니다</p>
+            
             <button id="guestBtn" 
-              // onClick={this.enter.bind(this)}
-            >게스트 로그인</button>
+              onClick={this.props.logout.bind(this)}
+            >로그아웃</button>
+            <button id="selectBtn" 
+              onClick={() => this.props.history.push('/selectStage')}
+            >플레이</button>
           </fieldset>
         </div>
       </div>
@@ -47,4 +36,4 @@ class LoggedIn extends Component {
   }
 }
 
-export default LoggedIn
+export default withRouter(LoggedIn)
