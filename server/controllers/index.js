@@ -125,7 +125,8 @@ module.exports = {
       },
     
     playstage: {
-        get: async function (req, res){
+        post: async function (req, res){
+          // console.log(req.body)
           let result = await stages.findAll({
             attributes: ['contents'],
             where: {
