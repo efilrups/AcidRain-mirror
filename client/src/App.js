@@ -76,16 +76,16 @@ class App extends Component {
     const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin, gameLevel } = this.state
     return (
       <div className='app'>
-        <Route path='/' render={() => <Nav 
-          userId={userId} 
-          isGuest={isGuest} 
+        <Route path='/' render={() => <Nav
+          userId={userId}
+          isGuest={isGuest}
           changeUserId={this.changeUserId}
           isLogin={isLogin}
           logout={this.logout}
         />} />
 
-        <Route path='/' render={() => <Login 
-          userId={userId} 
+        <Route path='/' render={() => <Login
+          userId={userId}
           isLogin={isLogin}
           logout={this.logout}
           changeUserId={this.changeUserId}
@@ -98,19 +98,15 @@ class App extends Component {
           handleMakingStage={this.handleMakingStage}
         />} />
 
-        <Route path='/' render={() => <PlayStage userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
-        handleGameEnd={this.handleGameEnd} gameLevel={gameLevel}
-
-
-        <Route path='/' render={() => <PlayStage 
-          userId={userId} 
-          selectedStageName={selectedStageName} 
+        <Route path='/' render={() => <PlayStage
+          userId={userId}
+          selectedStageName={selectedStageName}
           stageContents={stageContents}
           handleGameEnd={this.handleGameEnd}
           gameLevel={gameLevel}
 
         />} />
-        
+
       </div>
     )
   }
