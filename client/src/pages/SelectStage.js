@@ -18,7 +18,7 @@ class SelectStage extends Component {
         this.rangeChange = this.rangeChange.bind(this);
     }
     componentWillMount(){
-      
+
     }
 
     handleEditStageName = (stageName) => {
@@ -108,7 +108,8 @@ class SelectStage extends Component {
                                 //버튼 누르면 서버에 현재 선택한 stageName을 post요청으로 보내고, 해당 stageName에 대한 content를 받아온다.
                                 ///playstage로 이동
                                 axios.post("http://localhost:5000/main/playstage", {
-                                    stagename: selectedStageName
+                                    stagename: selectedStageName,
+                                    userid: userId
                                 })
                                 .then(res => {
                                     this.props.getContents(JSON.parse(res.data[0].contents), gameLevel)
