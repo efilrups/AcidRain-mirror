@@ -8,11 +8,11 @@ class PlayStage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameStart: false,
+      start: false,
     }
     //이벤트 처리 함수들
     this.enterkey = this.enterkey.bind(this);
-    this.gameStartToggle = this.gameStartToggle.bind(this);
+    this.startToggle = this.startToggle.bind(this);
   }
   componentDidMount() {
     if(this.inputStart) {
@@ -22,16 +22,19 @@ class PlayStage extends Component {
 
   enterkey(event) {
     if (event.key === 'Enter') {
-      console.log('hi');
-      this.gameStartToggle();
+      console.log('--enter--');
+      this.startToggle();
       console.log('---')
     }
   }
-  gameStartToggle() {
-    console.log('Game Start');
+
+  startToggle() {
+    console.log('----start------');
+    this.props.gameStartToggle();
     this.setState(current => ({
-      gameStart: !current.gameStart
+      start: !current.start
     }));
+
   }
 
   render() {
@@ -57,14 +60,15 @@ class PlayStage extends Component {
         <button
           className="startButton"
           ref={(btn) => {this.inputStart = btn;}}
-          onMouseUp={this.gameStartToggle}
+          onMouseUp={this.startToggle}
           onKeyUp={this.enterkey} >시작</button>
         <button onClick={this.props.history.goBack}>되돌아가기</button>
       </div>
     </div>
     )
 
-    const { isLogin, userId, stageContents, selectedStageName,  handleGameEnd, color, gameLevel } = this.props
+    const { isLogin, userId, stageContents, selectedStageName,
+       color, gameLevel, gameStart, gameStartToggle } = this.props
 
     return (
       <div className="playStage-square">
@@ -75,10 +79,11 @@ class PlayStage extends Component {
           //2. 스테이지 선택했고, 게임이 아직 시작 안한 상태? 게임 설명화면
           //3. 게임이 시작--> 게임화면
 
-          (!stageContents && !this.state.gameStart)  ? ''//this.props.history.goBack()
-          : (stageContents &&  !this.state.gameStart) ? gameRule
-         : <Play userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
-         handleGameEnd={handleGameEnd} gameStartToggle={this.gameStartToggle} color={color}  gameLevel={gameLevel}/>
+          (!stageContents && !this.state.start)  ? ''//this.props.history.goBack()
+          : (stageContents &&  !this.state.start) ? gameRule
+         : <Play
+           userId={userId} selectedStageName={selectedStageName} gameStart={gameStart}
+           stageContents={stageContents} gameStartToggle={gameStartToggle} color={color}  gameLevel={gameLevel}/>
         }
 
 
