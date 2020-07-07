@@ -12,7 +12,7 @@ class Ranking extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            rankingOfTop10: [
+            ranking: [
 
             ]
         }
@@ -20,17 +20,19 @@ class Ranking extends Component {
 
     //rank링크로 이동하면 db에 저장된 playlog를 받아온다.
     async componentDidMount() {
-        await axios.get('http://localhost:5000/main/rank')
+        const { userId } = this.props
+        await axios.get('http://localhost:5000/main/rank', {
+            nickname: userId
+        })
         // await axios.get('http://13.125.33.38:5000/main/rank')
             .then(res => {
-                this.setState({ rankingOfTop10: res.data })
+                this.setState({ ranking: res.data })
             })
     }
 
     render() {
         //react-bootstrap-table을 이용하여 table을 구현, data를 지정하고 키 값을 지정하면 저절로 표를 구현할 수 있음
         const { isLogin } = this.props;
-        console.log(isLogin);
         return (
 
             <div className="window Ranking-window">
@@ -47,7 +49,7 @@ class Ranking extends Component {
 
                     <fieldset className="Ranking-fieldset">
                     <div className="field-row" style={{ justifyContent: 'center' }}>
-                        <BootstrapTable data={this.state.rankingOfTop10}
+                        <BootstrapTable data={this.state.ranking}
                         bordered={false}
                         headerStyle={{'borderBottom':'black 0.05rem solid', 'marginBottom':'1rem', 'marginTop':'1rem', 'paddingBottom':'1rem'}}
                         containerStyle={{ 'borderBottom': 'black solid 0.05rem', 'paddingBottom':'1rem'}}
