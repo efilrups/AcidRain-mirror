@@ -3,6 +3,7 @@ import { Nav, Login, PlayStage } from './pages'
 import { Route, Redirect } from 'react-router-dom'
 import { Play, Mypage } from './components'
 import cookie from 'react-cookies'
+import { GoogleLogin } from 'react-google-login';
 const axios = require('axios');
 
 class App extends Component {
@@ -83,14 +84,16 @@ class App extends Component {
     this.setState({ themaPageIsOpen: !this.state.themaPageIsOpen })
   }
 
-
+  responseGoogle = (response) => {
+    console.log(response);
+  }
 
   render() {
     const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin, themaPageIsOpen, color, gameLevel } = this.state
     return (
 
       <div className='app' style={{ backgroundColor: this.state.color }}>
-
+        
         <Nav userId={userId}
           isGuest={isGuest}
           isLogin={isLogin}
@@ -99,6 +102,7 @@ class App extends Component {
           handleThemaPage={this.handleThemaPage}
           color={color}
           handleColorChange={this.handleColorChange}
+          logout={this.logout}
         />
         <Login
           userId={userId}

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
 import cookie from 'react-cookies'
 import { LoggedIn } from '../components'
+import { GoogleLogin } from 'react-google-login';
 const axios = require('axios');
 
 class UserLogin extends Component {
@@ -104,7 +105,16 @@ class UserLogin extends Component {
                   <button id="signupBtn" 
                     onClick={() => this.props.history.push('/signup')}
                   >회원가입</button>
-                  <button id="socialLogin">소셜 로그인</button>
+                  <GoogleLogin
+                    clientId="1037438704815-ih3s6v1brfb4p5oksifqvd881ss953kd.apps.googleusercontent.com"
+                    render={renderProps => (
+                      <button  id="socialLogin" onClick={renderProps.onClick} disabled={renderProps.disabled}>구글 로그인</button>
+                    )}
+                    buttonText="Login"
+                    onSuccess={this.responseGoogle}
+                    onFailure={this.responseGoogle}
+                    cookiePolicy={'single_host_origin'}
+                  />
                 </fieldset>
               </div>
             </div>

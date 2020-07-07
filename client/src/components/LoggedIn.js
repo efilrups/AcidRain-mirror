@@ -11,7 +11,6 @@ class LoggedIn extends Component {
   }
   
   render() {
-    console.log('this.props.userId: ', this.props.userId);
     return (
       <div className="window Login-window">
         <div className="title-bar">

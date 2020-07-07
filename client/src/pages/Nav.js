@@ -8,7 +8,7 @@ class Nav extends Component {
     }
     render() {
 
-      const { userId, isGuest, isLogin, logout, changeUserId,  themaPageIsOpen, handleThemaPage, color, handleColorChange } =  this.props
+      const { userId, isGuest, isLogin, changeUserId,  themaPageIsOpen, handleThemaPage, color, handleColorChange, logout } =  this.props
       console.log('isGuest: ', isGuest);
         return (
             <div className="Nav-square">
@@ -31,8 +31,8 @@ class Nav extends Component {
                     {
                       userId
                       ? isGuest
-                        ? null : 
-                        <Link to='/mypage' className="Link-mypage">마이페이지</Link>
+                        ? null 
+                        : <Link to='/mypage' className="Link-mypage">마이페이지</Link>
                       : null
                     }
                     <span className="Link-makeThema" onClick={handleThemaPage}>배경색</span>
