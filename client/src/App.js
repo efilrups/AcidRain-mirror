@@ -8,9 +8,10 @@ const axios = require('axios');
 class App extends Component {
   state = {
     userId: '',
-    selectedStageName: '',
+    //db에 저장된 제일 첫번째 스테이지를 보여줘서 첫리스트가 선택된 상태로 보여지도록 
+    selectedStageName: 'test',
     stageContents: '',
-    color: "#ccc",
+    color: "#848484",
     gameLevel: 0,
     //login상태가 되면 이 값이 true로 변하고 그 값을 이용해 로그인 여부 판단.
     isLogin: false,
@@ -124,6 +125,8 @@ class App extends Component {
             return <Redirect to='/selectstage' />
           }}
         />
+
+
 
         <PlayStage userId={userId}
           selectedStageName={selectedStageName}

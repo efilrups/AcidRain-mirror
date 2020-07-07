@@ -1,3 +1,10 @@
+table { 
+    width: 100%; 
+    border-collapse: collapse;
+    table-layout:fixed 
+
+  }
+
 .SelectStage-window{
     position: absolute;
     top:50%;
@@ -9,17 +16,24 @@
 }
 
 fieldset{
-    height:21rem
+    height:21rem;
 }
 
-.tree-view{
-  height: 11rem;
-  overflow: scroll;
+/* .tree-view{
+  overflow-x: hidden;
+  overflow-y: auto; 
+} */
+
+.selectStage-treeview{
+    height: 8.2rem;
+    overflow-x: hidden;
+    overflow-y: auto; 
 }
+
 
 .title{
     font-size:1rem;
-    color: blue;
+    color: navy;
 }
 
 .description{
@@ -39,5 +53,9 @@ button{
 }
 
 .selectGameLevel {
+    font-size: 1rem;
     margin: 1rem;
+}
+div.field-row.SelectStage-buttons{
+    height:3rem;
 }
