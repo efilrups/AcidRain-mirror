@@ -5,10 +5,6 @@ const axios = require('axios');
 
 function StageListEntry(props) {
     const { createdBy, stageName, clickStage, isSelected, selectedStageName, userId, refresh } = props
-    console.log('userId: ', userId);
-
-
-    // console.log(`stageName is ${stageName} ${isSelected}`)
     let bgColor = isSelected ? "blue" : "white"
     let fontColor = isSelected ? "white" : "black"
 

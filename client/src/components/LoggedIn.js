@@ -22,9 +22,12 @@ class LoggedIn extends Component {
           <fieldset id="login">
             <p className="title" style={{ left:"35%", top: "25%", position: "absolute" }}>로그인 되었습니다</p>
             
-            <button id="guestBtn" 
-              onClick={this.props.logout.bind(this)}
-            >로그아웃</button>
+            {
+              
+              <button id="guestBtn" onClick={this.props.logout.bind(this)}>로그아웃</button>
+              
+            }
+
             <button id="selectBtn" 
               onClick={() => this.props.history.push('/selectStage')}
             >플레이</button>

@@ -3,7 +3,6 @@ import { Nav, Login, PlayStage } from './pages'
 import { Route, Redirect } from 'react-router-dom'
 import { Play, Mypage } from './components'
 import cookie from 'react-cookies'
-import { GoogleLogin } from 'react-google-login';
 const axios = require('axios');
 
 class App extends Component {
@@ -19,7 +18,8 @@ class App extends Component {
     isGuest: false,
     //makeStage컴포넌트의 노출 여부를 해당 state로 관리 
     wantToMake: false,
-    themaPageIsOpen: false
+    themaPageIsOpen: false,
+    socialLogin: true
   }
 
   // 로그인 유지
@@ -27,11 +27,13 @@ class App extends Component {
     let result = await axios.post('http://localhost:5000/main/login', {
       'session': cookie.load('sessionKey')
     })
+    console.log('result: ', result);
     this.setState({ isLogin: true, userId: result.data })
   }
   // 로그아웃
-  logout = () => {
-    this.setState({ isLogin: false, userId: '' })
+  logout = async () => {
+    console.log('logout')
+    await this.setState({ userId: '', isLogin: false, isGuest: false, socialLogin: false })
     cookie.remove('sessionKey')
     console.log('this.state: ', this.state.userId);
   }
@@ -89,9 +91,8 @@ class App extends Component {
   }
 
   render() {
-    const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin, themaPageIsOpen, color, gameLevel } = this.state
+    const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin } = this.state
     return (
-
       <div className='app' style={{ backgroundColor: this.state.color }}>
         
         <Nav userId={userId}
@@ -103,6 +104,7 @@ class App extends Component {
           color={color}
           handleColorChange={this.handleColorChange}
           logout={this.logout}
+          socialLogin={socialLogin}
         />
         <Login
           userId={userId}
@@ -117,6 +119,7 @@ class App extends Component {
           selectedStageName={selectedStageName}
           wantToMake={wantToMake}
           handleMakingStage={this.handleMakingStage}
+          socialLogin={socialLogin}
         />
 
         <Route

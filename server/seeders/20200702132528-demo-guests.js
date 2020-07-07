@@ -3,7 +3,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert('guests', [{
-      nickname: 'guest)ohmyGOD',
+      nickname: 'guest_ohmyGOD',
       createdAt: new Date(),
       updatedAt: new Date()
     }], {});

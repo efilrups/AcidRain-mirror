@@ -82,5 +82,16 @@
 .Link-login:hover{
   color: white;
 }
+.social-login{
+    text-decoration: none;
+    color: yellow;
+    position: relative;
+    margin-top: -1.1rem;
+    margin-left: 65%;
+    font-size: 1rem;
+}
+.social-login:hover{
+  color: white;
+}
 
 

@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import cookie from 'react-cookies'
 import { LoggedIn } from '../components'
 import { GoogleLogin } from 'react-google-login';
+import { GoogleLogout } from 'react-google-login';
 const axios = require('axios');
 
 class UserLogin extends Component {
@@ -37,6 +38,7 @@ class UserLogin extends Component {
         return false
       }
     }
+   
     enter = async (event) => {
       console.log('event: ', event.nativeEvent.type);
 
@@ -71,6 +73,12 @@ class UserLogin extends Component {
         }
       }
     }
+   
+    socialLoggedin = (response) => {
+      console.log('login', response)
+      this.props.changeUserId(`google_${response.Rt.Bd}`)
+    }
+
     render() {
       const { isLogin, userId, logout } = this.props;
       if(isLogin){
@@ -111,9 +119,8 @@ class UserLogin extends Component {
                       <button  id="socialLogin" onClick={renderProps.onClick} disabled={renderProps.disabled}>구글 로그인</button>
                     )}
                     buttonText="Login"
-                    onSuccess={this.responseGoogle}
-                    onFailure={this.responseGoogle}
                     cookiePolicy={'single_host_origin'}
+                    onSuccess={this.socialLoggedin}
                   />
                 </fieldset>
               </div>
