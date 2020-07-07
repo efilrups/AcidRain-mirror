@@ -36,16 +36,19 @@ class Ranking extends Component {
         return (
 
             <div className="window Ranking-window">
-
-                <div className="window-body">
-
-                    <div className="title-bar-controls">
+              <div className="title-bar">
+                <div className="title-bar-controls">
+                <div className="title-bar-text">Rank</div>
                         <button className="closeButton" aria-label="Close" onClick={()=>{
                             this.props.history.goBack()
                         }}></button>
                     </div>
+              </div>
+                <div className="window-body">
 
-                    <p className="title" style={{ textAlign: "center" }}>점수판</p>
+                    
+
+                    {/* <p className="title" style={{ textAlign: "center" }}>점수판</p> */}
 
                     <fieldset className="Ranking-fieldset">
                     <div className="field-row" style={{ justifyContent: 'center' }}>

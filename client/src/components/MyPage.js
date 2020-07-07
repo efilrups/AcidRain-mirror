@@ -98,13 +98,15 @@ class MyPage extends Component {
             <div>
                 <div>
                     <div className="window MyPage-window">
+                      <div className="title-bar">
+                        <div className="title-bar-controls">
+                          <div className="title-bar-text">Mypage</div>
+                            <button className="closeButton" aria-label="Close" onClick={() => {
+                                this.props.history.goBack()
+                            }}></button>
+                        </div>
+                      </div>
                         <div className="window-body">
-                            <div className="title-bar-controls">
-                                <button className="closeButton" aria-label="Close" onClick={() => {
-                                    this.props.history.goBack()
-                                }}></button>
-                            </div>
-                            <p className="title" style={{ textAlign: "center" }}>마이페이지</p>
                             <fieldset>
                                 <div className="field-row" style={{ justifyContent: 'center' }}>
                 
@@ -115,7 +117,7 @@ class MyPage extends Component {
                                             onChange={this.handleInputValueChange}
                                             size="40"
                                         />
-                                        <button button onClick={this.handleNicknameChange}>수정</button>
+                                        <button button onClick={this.handleNicknameChange}>닉네임 변경</button>
                                     
                                 </div>
 

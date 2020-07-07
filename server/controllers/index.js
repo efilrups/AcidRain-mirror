@@ -101,6 +101,11 @@ module.exports = {
             "result": false,
             "message": "이미 존재하는 이메일입니다"
           })
+        } else {
+          res.send({
+            "result": false,
+            "message": "이미 닉네임과 이메일이 존재합니다"
+          })
         }
       }
     },
@@ -186,13 +191,24 @@ module.exports = {
               ]
             })
             
+            // ranks.forEach((ele, i) => {
+              
+            //   result.push({
+            //     'rank': i+1,
+            //     'score': ele.score,
+            //     'stagename': ele.stage.stagename,
+            //     'createdAt': `${date} ${time}`,
+            //     'nickname': ele.guest === null ? ele.user.nickname : ele.guest.nickname
+
               console.log(play[0].dataValues)
               play.forEach((ele, i) => {
+                let date = JSON.stringify(ele.dataValues.createdAt).split('').splice(3,8).join('').split('-').join('.');
+
                 result.push({
                   'rank': i+1,
                   'score': ele.dataValues.score,
                   'stagename': ele.dataValues.stagename,
-                  'createdAt': ele.dataValues.createdAt,
+                  'createdAt': date,
                   'nickname': ele.dataValues.nickname
                 })
               })
