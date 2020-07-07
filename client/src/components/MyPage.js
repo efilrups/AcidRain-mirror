@@ -15,8 +15,7 @@ class MyPage extends Component {
             myPlayLogs: [
 
             ],
-            placeholder: "수정할 닉네임을 입력하세요",
-            // value: ""
+            placeholder: "수정할 닉네임을 입력하세요"
 
         }
         this.handleNicknameChange = this.handleNicknameChange.bind(this);
@@ -35,12 +34,14 @@ class MyPage extends Component {
         changeUserId(this.state.nickname)
         // * 이제 확인해봐야할 것은 플레이스 홀더가 다시 초기화로 바뀌는지
         // * alert 메시지에 이미 존재하는 닉네임입니다 뜰 수 있게 변경
-        alert("닉네임이 수정되었습니다.")
+        //alert("닉네임이 수정되었습니다.")
 
-        // this.setState({
-        //     placeholder: "수정할 닉네임을 입력하세요",
-        //     value: ""
-        // }, () => alert("닉네임이 수정되었습니다."))
+        this.setState({
+            placeholder: "수정할 닉네임을 입력하세요"
+        }, () => alert("닉네임이 수정되었습니다."))
+
+        // input text 초기화
+        this.refs.changeNickname.value=""
 
     }
 
@@ -52,7 +53,7 @@ class MyPage extends Component {
 
     // handleInputDefalutValue(){
     //     this.setState({
-    //         nickname:this.props.userId
+    //         value: ""
     //     })
     // }
 
@@ -61,37 +62,16 @@ class MyPage extends Component {
         axios.post('http://localhost:5000/main/mypage', {
             nickname: userId
         })
-
-            // * state에 들어간 playlog를 화면에 표시하는 방법
-            .then(res => {
-                // myPlayLog (스테이지, 스코어) 를 객체로 받아와서 state에 푸쉬
-                let myPlayLogs = []
-                let myPlayLog = {}
-
-                for (let i = 0; i < res.data[0].playlogs.length; i++) {
-                    if (res.data[0].playlogs[i]) {
-                        myPlayLog["stagename"] = res.data[0].playlogs[i].stagename
-                        myPlayLog["score"] = res.data[0].playlogs[i].score
-                        myPlayLogs.push(myPlayLog)
-                    }
-                }
-
-                // console.log(myPlayLogs) 
-                this.setState({
-                    myPlayLogs: myPlayLogs
-                })
-                this.setState({
-                    myPlayLogs: res.data
-                })
-            })
-            .catch(err => {
-                alert('이미 존재하는 닉네임입니다.')
-            })
-        // console.log('mount 성공')
+            // state에 들어간 playlog를 화면에 표시하는 방법
+        .then(res => {
+        // myPlayLog (스테이지, 스코어) 를 객체로 받아와서 state에 푸쉬 
+          this.setState({
+                myPlayLogs: res.data
+          })
+        })
+            
     }
-    // TO DO LIST
     // * 순위를 가져올 수 있나?
-    // * CSS 위치 수정
 
     render() {
         return (
@@ -110,17 +90,17 @@ class MyPage extends Component {
                 
                                         <input
                                             type="text"
-                                            // placeholder={this.state.placeholder}
-                                            value={this.state.nickname}
+                                            placeholder={this.state.placeholder}
                                             onChange={this.handleInputValueChange}
                                             size="40"
+                                            ref="changeNickname"
                                         />
                                         <button button onClick={this.handleNicknameChange}>수정</button>
                                     
                                 </div>
 
                                 <div className="myplayLog">내 게임 기록
-                            <BootstrapTable data={this.state.myPlayLogs}
+                                    <BootstrapTable data={this.state.myPlayLogs}
                                         bordered={false}
                                         headerStyle={{ 'fontStyle': 'black', 'borderBottom': 'black 0.05rem solid', 'marginBottom': '1rem', 'marginTop': '1rem', 'paddingBottom': '1rem' }}
                                         containerStyle={{ 'borderBottom': 'black solid 0.05rem', 'paddingBottom': '1rem' }}
@@ -141,13 +121,6 @@ class MyPage extends Component {
                             </fieldset>
                         </div>
                     </div>
-
-
-
-
-
-
-
                 </div>
             </div>
         )
