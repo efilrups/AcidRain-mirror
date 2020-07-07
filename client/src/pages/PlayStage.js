@@ -24,12 +24,10 @@ class PlayStage extends Component {
     if (event.key === 'Enter') {
       console.log('--enter--');
       this.startToggle();
-      console.log('---')
     }
   }
 
   startToggle() {
-    console.log('----start------');
     this.props.gameStartToggle();
     this.setState(current => ({
       start: !current.start
