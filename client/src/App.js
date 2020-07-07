@@ -99,6 +99,10 @@ class App extends Component {
     console.log(response);
   }
 
+  gameStatus = () => {
+    this.setState({ gameStart: false });
+  }
+
   render() {
     const { userId, isGuest, selectedStageName, stageContents, gameStart,
       wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin } = this.state
@@ -132,6 +136,7 @@ class App extends Component {
           wantToMake={wantToMake}
           handleMakingStage={this.handleMakingStage}
           socialLogin={socialLogin}
+          gameStatus={this.gameStatus}
         />
 
         <Route

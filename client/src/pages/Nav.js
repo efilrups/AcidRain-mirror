@@ -18,7 +18,7 @@ class Nav extends Component {
       console.log('isGuest: ', isGuest);
       if(gameStart){
         return (
-          <button>나가기</button>
+          <button><Link to='/selectStage' className="">나가기</Link></button>
         )
       } else {
         return (
