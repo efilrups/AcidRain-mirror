@@ -14,8 +14,13 @@ class Nav extends Component {
 
     render() {
 
-      const { userId, isGuest, isLogin, changeUserId,  themaPageIsOpen, handleThemaPage, color, handleColorChange, logout, socialLogin } =  this.props
+      const { userId, isGuest, isLogin, changeUserId,  themaPageIsOpen, handleThemaPage, color, handleColorChange, logout, socialLogin, gameStart } =  this.props
       console.log('isGuest: ', isGuest);
+      if(gameStart){
+        return (
+          <button><Link to='/selectStage' className="">나가기</Link></button>
+        )
+      } else {
         return (
             <div className="Nav-square" >
                 <div className="Nav-link">
@@ -64,6 +69,7 @@ class Nav extends Component {
 
             </div>
         )
+      }
     }
 }
 // handleOpenModal

@@ -41,9 +41,10 @@ class SelectStage extends Component {
     }
 
     async componentDidMount  () {
+        this.props.gameStatus()
         document.getElementById('SelectStage-window').focus()
         //selectStage 경로로 이동하면 stage테이블에 저장된 데이터를 모두 가져오고 stageNames에 담김
-    await axios.get('http://localhost:5000/main/selectstage')
+        await axios.get('http://localhost:5000/main/selectstage')
             .then(res => {
                 this.setState({ savedStages: res.data })
             })
@@ -156,7 +157,9 @@ class SelectStage extends Component {
                             <button onClick={() => {
                                 //모달의 오픈,클로즈 여부를 관리하는 이벤트를 실행시킴
                                 handleMakingStage()
-                            }}>만들기</button>
+                            }}
+                            value="asfawefawe"
+                            >만들기</button>
                             {wantToMake ? <MakeStage handleMakingStage={handleMakingStage} userId={userId}
                                 editStageName={editStageName}
                                 editStageContents={editStageContents}

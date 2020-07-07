@@ -39,7 +39,7 @@
     font-size: 1.2rem;
     position: absolute;
     top:50%;
-    left:8%;
+    left:10%;
     transform:translate(0,-50%);
     cursor: pointer;
 }
@@ -96,5 +96,10 @@
 .social-login:hover{
   color: white;
 }
+
+#mypageField{
+  height: 20rem;
+}
+
 
 

@@ -92,6 +92,10 @@ class App extends Component {
 
 
 
+  gameStatus = () => {
+    this.setState({ gameStart: false });
+  }
+
   render() {
     const { userId, isGuest, selectedStageName, stageContents, gameStart,
       wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin } = this.state
@@ -114,7 +118,8 @@ class App extends Component {
 
       <div className='app' style={{ backgroundColor: this.state.color }}>
 
-        <Nav userId={userId}
+        <Nav 
+          userId={userId}
           isGuest={isGuest}
           isLogin={isLogin}
           changeUserId={this.changeUserId}
@@ -122,6 +127,9 @@ class App extends Component {
           handleThemaPage={this.handleThemaPage}
           color={color}
           handleColorChange={this.handleColorChange}
+          logout={this.logout}
+          socialLogin={socialLogin}
+          gameStart={gameStart}
         />
         <Login
           userId={userId}
@@ -136,6 +144,8 @@ class App extends Component {
           selectedStageName={selectedStageName}
           wantToMake={wantToMake}
           handleMakingStage={this.handleMakingStage}
+          socialLogin={socialLogin}
+          gameStatus={this.gameStatus}
         />
 
         <Route
