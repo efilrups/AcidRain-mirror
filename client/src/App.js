@@ -101,9 +101,8 @@ class App extends Component {
       !isLogin ? "로그인을 진행해주세요."
       : (isLogin && !stageContents && !wantToMake) ? "스테이지를 고르고 엔터를 누르거나 M을 눌러 스테이지를 만들어보세요."
       : (stageContents && !gameStart) ? "게임을 시작하려면 엔터를 누르고 스테이지를 다시 선택하려면 ESC를 누르세요."
-      : !gameStart ? "엔터를 누르세요." 
-      
       : wantToMake ? "뒤로 돌아가려면 ESC를 누르세요."
+      : !gameStart ? "엔터를 누르세요." 
       : gameStart ? "뒤로 돌아가려면 ESC버튼을 누르고 게임을 중지하려면 엔터를 누르세요."
      
       : ''

@@ -35,13 +35,6 @@ button.Ranking-button{
 
 .closeButton{
     position:absolute;
-    margin:0 0 0 32rem; 
+    margin:0 0 0 32rem;
     right:3%
 }
-
-/* td{
-    width:100%; 
-    overflow: hidden; 
-    text-overflow: ellipsis;
-    white-space:nowrap;
-} */
