@@ -110,7 +110,7 @@ class MyPage extends Component {
                             <fieldset>
                                 <div className="field-row" style={{ justifyContent: 'center' }}>
                 
-                                        <input
+                                        <input className="inputMypage"
                                             type="text"
                                             // placeholder={this.state.placeholder}
                                             value={this.state.nickname}

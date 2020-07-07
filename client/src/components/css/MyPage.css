@@ -8,12 +8,21 @@
     font-family: 'Nanum Myeongjo', serif;
     font-size:1rem;
     text-align: center;
+    border-color: black;
+    border-style:solid;
+    border-width:0.095rem;
 }
 
 fieldset{
     color:black
 }
 
+input.inputMypage{
+    width: 14rem;
+    height: 1.5rem;
+    font-size:0.8rem;
+    font-family: 'Nanum Myeongjo', serif;
+}
 
 
  /* .mypageTitle {
