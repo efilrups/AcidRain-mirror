@@ -81,6 +81,8 @@ module.exports = {
             email: req.body.email,
           }
         })
+        console.log('findName: ', findName);
+        console.log('===========')
         if(findName.length + findEmail.length === 0){
           await users.create({
             email: req.body.email,
@@ -92,14 +94,22 @@ module.exports = {
             "message": "성공적으로 가입되었습니다"
           })
         } else if(findEmail.length === 0){
+
+          console.log('===========')
           res.send({
             "result": false,
             "message": "이미 존재하는 닉네임입니다"
           })
         } else if(findName.length === 0){
+          console.log('===========')
           res.send({
             "result": false,
             "message": "이미 존재하는 이메일입니다"
+          })
+        } else {
+          res.send({
+            "result": false,
+            "message": "이미 닉네임과 이메일이 존재합니다"
           })
         }
       }
@@ -207,11 +217,17 @@ module.exports = {
             })
             let result = []
             ranks.forEach((ele, i) => {
+              
+              let date = JSON.stringify(ele.createdAt).split('').splice(3,8).join('').split('-').join('.');
+              let time = JSON.stringify(ele.createdAt).split('').splice(12,8).join('')
+
+              console.log(`${date} ${time}`)
+               
               result.push({
                 'rank': i+1,
                 'score': ele.score,
                 'stagename': ele.stage.stagename,
-                'createdAt': ele.createdAt,
+                'createdAt': `${date} ${time}`,
                 'nickname': ele.guest === null ? ele.user.nickname : ele.guest.nickname
               })
             });
