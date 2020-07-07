@@ -8,10 +8,12 @@ const axios = require('axios');
 class App extends Component {
   state = {
     userId: '',
-    //db에 저장된 제일 첫번째 스테이지를 보여줘서 첫리스트가 선택된 상태로 보여지도록 
+    //db에 저장된 제일 첫번째 스테이지를 보여줘서 첫리스트가 선택된 상태로 보여지도록
     selectedStageName: 'test',
     stageContents: '',
     color: "#848484",
+    // gameStart Flag
+    gameStart: false,
     gameLevel: 0,
     //login상태가 되면 이 값이 true로 변하고 그 값을 이용해 로그인 여부 판단.
     isLogin: false,
@@ -21,6 +23,14 @@ class App extends Component {
     wantToMake: false,
     themaPageIsOpen: false,
     socialLogin: false
+  }
+
+  // gameStart Toggle
+  gameStartToggle = () => {
+    console.log('Game Start');
+    this.setState(current => ({
+      gameStart: !current.gameStart
+    }));
   }
 
   // 로그인 유지
@@ -73,11 +83,6 @@ class App extends Component {
     })
   }
 
-  //게임 끝나면 stageContents, selectedStageName은 test로, gamestart상태를 false로 변경
-  handleGameEnd = () => {
-    this.setState({ selectedStageName: 'test', stageContents: '' })
-  }
-
   handleMakingStage = () => {
     this.setState({ wantToMake: !this.state.wantToMake })
   }
@@ -95,10 +100,11 @@ class App extends Component {
   }
 
   render() {
-    const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin } = this.state
+    const { userId, isGuest, selectedStageName, stageContents, gameStart,
+      wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin } = this.state
     return (
       <div className='app' style={{ backgroundColor: this.state.color }}>
-        
+
         <Nav userId={userId}
           isGuest={isGuest}
           isLogin={isLogin}
@@ -142,9 +148,10 @@ class App extends Component {
             <PlayStage userId={userId}
               selectedStageName={selectedStageName}
               stageContents={stageContents}
-              handleGameEnd={this.handleGameEnd}
               color={color}
               gameLevel={gameLevel}
+              gameStartToggle={this.gameStartToggle}
+              gameStart={gameStart}
             />
           }
 

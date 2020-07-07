@@ -6,7 +6,7 @@ class Play extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      end : false,
+      // end : false,
       stop: false,
       // 나오는 코드의 개수
       RAIN_MAX : 15,
@@ -75,6 +75,11 @@ class Play extends Component {
     this.start();
   }
 
+  componentWillUnmount () {
+    console.log('The End');
+    clearInterval(this.move);
+  }
+
   start() {
     const { RAIN_MAX, gameLevel } = this.state;
     this.move = setInterval(function () {
@@ -97,8 +102,9 @@ class Play extends Component {
         console.log('stop!');
         this.setState(state => ({
           score : state.score + this.score,
-          end : !state.end
+          // end : !state.end
         }))
+        this.props.gameStartToggle();
         clearInterval(this.move);
         }
     }.bind(this), 500 + (11 - gameLevel) * 100);
@@ -185,7 +191,7 @@ class Play extends Component {
   }
 
   render() {
-    const {userId, selectedStageName, stageContents,handleGameEnd, gameStartToggle, gameLevel } = this.props
+    const {userId, selectedStageName, stageContents, gameStartToggle, gameLevel } = this.props
     const { score } = this.state
 
     const gameEnd = (
@@ -204,7 +210,7 @@ class Play extends Component {
 
         <div>
           {
-            this.state.end
+            !this.props.gameStart
             ? gameEnd
             :
             <div>
@@ -237,10 +243,10 @@ class Play extends Component {
         </div>
 
         {
-          this.state.end
+          !this.props.gameStart
           ? <GameOver userId={userId} selectedStageName={selectedStageName}
             stageContents={stageContents} score={score} missedCode={this.missedCode}
-            handleGameEnd={handleGameEnd} gameStartToggle={gameStartToggle} />
+            gameStartToggle={gameStartToggle} />
           : ''
         }
 
