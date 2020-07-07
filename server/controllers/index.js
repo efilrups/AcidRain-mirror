@@ -182,47 +182,42 @@ module.exports = {
     // 닉네임, 스테이지, 점수, 일자 -> 가공해서 보내라
     rank: {
         get: async function(req, res) {
-            let ranks = await playlogs.findAll({
-              attributes: ['id', 'createdAt', 'score'],
+          
+            var result = [];
+            let play = await playlogs.findAll({
+              attributes: ['nickname', 'stagename', 'score', 'createdAt'],
               order: [
                 ['score', 'DESC'],
-              ],
-              include: [{
-                model: stages,
-                attributes: ["stagename"],
-                // 주어진 stagename와 일치하는 rank logs
-                where: {
-                  stagename: req.body.stagename
-                  ? {[Op.eq]: req.body.stagename}
-                  : {[Op.not]: null}
-                }
-              },{
-                model: users,
-                attributes: ["nickname"],
-                // 주어진 nickname과 일치하는 rank logs
-                where: {
-                  nickname: req.body.nickname
-                  ? {[Op.eq]: req.body.nickname}
-                  : {[Op.not]: null}
-                }
-              },{
-                model: guests,
-                attributes: ["nickname"]
-              }]
+              ]
             })
-            let result = []
-            ranks.forEach((ele, i) => {
-              let date = JSON.stringify(ele.createdAt).split('').splice(3,8).join('').split('-').join('.');
-              let time = JSON.stringify(ele.createdAt).split('').splice(12,8).join('')
-              result.push({
-                'rank': i+1,
-                'score': ele.score,
-                'stagename': ele.stage.stagename,
-                'createdAt': `${date} ${time}`,
-                'nickname': ele.guest === null ? ele.user.nickname : ele.guest.nickname
+            
+            // ranks.forEach((ele, i) => {
+              
+            //   result.push({
+            //     'rank': i+1,
+            //     'score': ele.score,
+            //     'stagename': ele.stage.stagename,
+            //     'createdAt': `${date} ${time}`,
+            //     'nickname': ele.guest === null ? ele.user.nickname : ele.guest.nickname
+
+              console.log(play[0].dataValues)
+              play.forEach((ele, i) => {
+                let date = JSON.stringify(ele.dataValues.createdAt).split('').splice(3,8).join('').split('-').join('.');
+
+                result.push({
+                  'rank': i+1,
+                  'score': ele.dataValues.score,
+                  'stagename': ele.dataValues.stagename,
+                  'createdAt': date,
+                  'nickname': ele.dataValues.nickname
+                })
               })
-            });
-            res.status(200).send(result)
+            
+            if (result.length){
+              res.status(200).send(result)
+            } else {
+              res.status(404).send("게임기록이 없습니다")
+            }
         }
     },
     login: {
