@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      playlogs.belongsTo(models.users, { foreignKey: 'userid' })
-      playlogs.belongsTo(models.stages, { foreignKey: 'stageid' })
+      playlogs.belongsTo(models.users, { foreignKey: 'nickname' })
+      playlogs.belongsTo(models.stages, { foreignKey: 'stagename' })
       playlogs.belongsTo(models.guests, { foreignKey: 'guestid' })
     }
   };
@@ -25,11 +25,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    userid: {
+    nickname: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    stageid: {
+    stagename: {
       type: DataTypes.INTEGER,
       allowNull: false
     },

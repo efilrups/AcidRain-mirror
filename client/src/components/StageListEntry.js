@@ -9,19 +9,20 @@ function StageListEntry(props) {
 
 
     // console.log(`stageName is ${stageName} ${isSelected}`)
-    let bgColor = isSelected ? "blue" : "white"
+    let bgColor = isSelected ? "navy" : "white"
     let fontColor = isSelected ? "white" : "black"
 
     return (
-
-        <div className="selectingArea" onClick={() => clickStage(stageName)} style={{ backgroundColor: bgColor, color: fontColor }}>
-            <tr>
-                <th scope="row" className="StageListEntry-stagename">{stageName}</th>
-                <td className="StageListEntry-createdBy">{createdBy}</td>
-            </tr>
-            <div className="far fa-plus-square fa-lg" onClick={() => {
+      
+        <tr className="selectingArea"
+         onClick={() => clickStage(stageName)} style={{ backgroundColor: bgColor, color: fontColor }}
+         >
+            
+                <td className="td-text">{stageName}</td>
+                <td className="td-text">{createdBy}</td>
+                
+            <td className="far fa-plus-square fa-lg" onClick={() => {
                 //플러스 버튼 누르면 selectedStageName에 해당하는 db의 컨텐츠를 가져오기 
-                console.log(userId)
                 props.handleEditStageName(stageName)
                 axios.post("http://localhost:5000/main/playstage", {
                   userid: userId,
@@ -38,8 +39,8 @@ function StageListEntry(props) {
                       alert('권한이 없습니다')
                     })
 
-            }}></div>
-            <div className="far fa-minus-square fa-lg" onClick={() => {
+            }}></td>
+            <td className="far fa-minus-square fa-lg" onClick={() => {
                 //마이너스 버튼 누르면 selectedStageName에 해당하는 db의 컨텐츠를 삭제 요청
                   axios.post('http://localhost:5000/main/playstage', {
                     delete: true,
@@ -55,8 +56,9 @@ function StageListEntry(props) {
                     alert('권한이 없습니다')
                   })
                   
-            }}></div>
-        </div>
+            }}></td>
+        </tr>
+
     )
 }
 

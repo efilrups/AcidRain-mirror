@@ -14,12 +14,12 @@ class GameOver extends Component {
     async componentDidMount() {
         //유저의 방금 게임 정보를 서버에 보내주기
         const { userId, selectedStageName,  score, missedCode } = this.props
-     await axios.post('http://localhost:5000/main/gameover', {
-         userId : userId,
-         selectedStageName: selectedStageName,
-         score : score,
-         missedCode: missedCode
-     })
+    //  await axios.post('http://localhost:5000/main/gameover', {
+    //      userid : userId,
+    //      stagename: selectedStageName,
+    //      score : score,
+    //      missedcode: JSON.stringify(missedCode)
+    //  })
     }
 
     render() {
@@ -41,10 +41,10 @@ class GameOver extends Component {
                                 //게임이 끝나면 현재 스테이지값, 스테이지컨텐츠값, 게임 중이라는 상태 모두 초기화 해줌
                                 //missedCode를 server로 보내줌
                                 axios.post('http://localhost:5000/main/gameover',{
-                                    userId: userId,
-                                    stageId:selectedStageName,
+                                    missedcode:JSON.stringify(missedCode),
                                     score:score,
-                                    missedCode:missedCode
+                                    nickname: userId,
+                                    stagename:selectedStageName, 
                                 })
                                 this.props.handleGameEnd()
                                 this.props.gameStartToggle()
