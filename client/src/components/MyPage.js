@@ -107,7 +107,8 @@ class MyPage extends Component {
                         </div>
                       </div>
                         <div className="window-body">
-                            <fieldset>
+                            <p className="title" style={{ textAlign: "center" }}>마이페이지</p>
+                            <fieldset id="mypageField">
                                 <div className="field-row" style={{ justifyContent: 'center' }}>
                 
                                         <input
@@ -120,9 +121,11 @@ class MyPage extends Component {
                                         <button button onClick={this.handleNicknameChange}>닉네임 변경</button>
                                     
                                 </div>
-
-                                <div className="myplayLog">내 게임 기록
-                            <BootstrapTable data={this.state.myPlayLogs}
+                                 
+                                <p className="title" style={{ textAlign: "center" }}>내 게임 기록</p>
+                                 
+                                <div className="myplayLog">
+                                    <BootstrapTable data={this.state.myPlayLogs}
                                         bordered={false}
                                         headerStyle={{ 'fontStyle': 'black', 'borderBottom': 'black 0.05rem solid', 'marginBottom': '1rem', 'marginTop': '1rem', 'paddingBottom': '1rem' }}
                                         containerStyle={{ 'borderBottom': 'black solid 0.05rem', 'paddingBottom': '1rem' }}

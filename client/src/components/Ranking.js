@@ -51,7 +51,9 @@ class Ranking extends Component {
 
                     <fieldset className="Ranking-fieldset">
                     <div className="field-row" style={{ justifyContent: 'center' }}>
-                        <BootstrapTable data={this.state.ranking}
+                        <BootstrapTable 
+                        id="rankTable"
+                        data={this.state.ranking}
                         bordered={false}
                         headerStyle={{'borderBottom':'black 0.05rem solid', 'marginBottom':'1rem', 'marginTop':'1rem', 'paddingBottom':'1rem'}}
                         containerStyle={{ 'borderBottom': 'black solid 0.05rem', 'paddingBottom':'1rem'}}
