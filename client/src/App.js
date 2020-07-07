@@ -19,7 +19,8 @@ class App extends Component {
     isGuest: false,
     //makeStage컴포넌트의 노출 여부를 해당 state로 관리 
     wantToMake: false,
-    themaPageIsOpen: false
+    themaPageIsOpen: false,
+    socialLogin: false
   }
 
   // 로그인 유지
