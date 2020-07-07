@@ -6,7 +6,7 @@ module.exports = {
   // users, playlogs
     mypage: {
         post: async function (req, res) {
-          
+
           // * newnickname으로 수정하는 post 요청이라면?
           if(req.body.newnickname){
             // * 여기서 req.body.nickname은 oldnickname을 말함
@@ -23,7 +23,7 @@ module.exports = {
             } else {
               res.status(200).send({ nickname: req.body.nickname });
             }
-            
+
             // componentDidMount() 로 mypage 불러오는 화면이라면?
           } else {
             let checkUser = await users.findAll({
@@ -114,7 +114,7 @@ module.exports = {
                 }]
             })
             if (!outputStages) {
-                return res.status(404).send({    
+                return res.status(404).send({
                     "message": "스테이지가 존재하지 않습니다"
                 });
             } else {
@@ -129,10 +129,10 @@ module.exports = {
             }
         }
       },
-    
+
     playstage: {
         post: async function (req, res){
-          
+
           if(req.body.userid){
             let find = await users.findOne({
               where: {
@@ -161,7 +161,6 @@ module.exports = {
               let result = await stages.findAll({
                 attributes: ['contents'],
                 where: {
-                  userid: find.id,
                   stagename: req.body.stagename
                 }
               })
@@ -169,7 +168,7 @@ module.exports = {
                 res.status(200).send(result)
               }
             }
-          } 
+          }
           res.status(404).send({
             "message": "정보가 존재하지 않습니다"
           });
@@ -188,8 +187,8 @@ module.exports = {
                 attributes: ["stagename"],
                 // 주어진 stagename와 일치하는 rank logs
                 where: {
-                  stagename: req.body.stagename 
-                  ? {[Op.eq]: req.body.stagename} 
+                  stagename: req.body.stagename
+                  ? {[Op.eq]: req.body.stagename}
                   : {[Op.not]: null}
                 }
               },{
@@ -197,8 +196,8 @@ module.exports = {
                 attributes: ["nickname"],
                 // 주어진 nickname과 일치하는 rank logs
                 where: {
-                  nickname: req.body.nickname 
-                  ? {[Op.eq]: req.body.nickname} 
+                  nickname: req.body.nickname
+                  ? {[Op.eq]: req.body.nickname}
                   : {[Op.not]: null}
                 }
               },{
@@ -233,9 +232,9 @@ module.exports = {
                     email: req.body.email,
                     password: req.body.password
                 }
-                
+
             })
-            
+
             if(result){
               console.log('result: ', result.nickname);
               // 세션 또는 토큰을 보내야 한다
@@ -245,14 +244,14 @@ module.exports = {
               console.log(req.sessionStore.sessions)
               console.log('req: ', req.sessionID);
 
-              res.status(200).send({    
+              res.status(200).send({
                 "session": req.sessionID,
                 "nickname": result.nickname,
                 "message": "로그인되었습니다"
               })
               res.end()
             } else {
-              res.status(404).send({    
+              res.status(404).send({
                   "message": "로그인에 실패하였습니다"
               })
               res.end()
@@ -291,12 +290,12 @@ module.exports = {
         }
         await playlogs.create({
           score: req.body.score,
-          stageid: req.body.stageid,
-          userid: req.body.userid,
+          missedcode: req.body.missedcode,
+          nickname: req.body.nickname,
+          stagename: req.body.stagename,
           guestid: req.body.guestid,
-          missedcode: req.body.missedCode,
         })
-        res.send({
+        res.status(200).send({
           "message": "게임정보를 성공적으로 저장하였습니다"
         })
       }
@@ -317,7 +316,7 @@ module.exports = {
             stagename: req.body.stagename
           }
         })
-        
+
         console.log('conflict: ', conflict);
         if(conflict.length === 0){
           await stages.create({

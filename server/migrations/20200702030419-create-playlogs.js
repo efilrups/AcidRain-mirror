@@ -14,10 +14,10 @@ module.exports = {
       missedcode: {
         type: Sequelize.STRING
       },
-      userid: {
+      nickname: {
         type: Sequelize.STRING
       },
-      stageid: {
+      stagename: {
         type: Sequelize.STRING
       },
       guestid: {
