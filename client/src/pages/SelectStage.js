@@ -56,9 +56,10 @@ class SelectStage extends Component {
         const { editStageContents, editStageName, gameLevel } = this.state
         return (
             <div className="window SelectStage-window">
+                  <div className="title-bar">
+                    <div className="title-bar-text">Select stage</div>
+                  </div>
                 <div className="window-body">
-                    <p className="title" style={{ textAlign: "center" }}>스테이지 선택</p>
-
 
                     <fieldset>
                         <p className="description">스테이지를 선택하세요 !</p>
