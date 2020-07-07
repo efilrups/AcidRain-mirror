@@ -1,16 +1,20 @@
 #inputEmail{
   position: absolute;
-  width: 38%;
-  height: 10%;
+  width: 40%;
+  height: 12%;
   left: 18%;
-  top: 30%;
+  top: 28%;
+  font-size:1rem;
+  font-family: 'Nanum Myeongjo', serif;
 }
 #inputPassword{
   position: absolute;
-  width: 38%;
-  height: 10%;
+  width: 40%;
+  height: 12%;
   left: 18%;
   top: 45%;
+  font-size:1rem;
+  font-family: 'Nanum Myeongjo', serif;
 }
 #inputNickname{
   position: absolute;
@@ -83,11 +87,14 @@
   position: absolute;
   top:50%;
   left:50%;
-  height:16rem;
-  width:24rem;
-  margin:-8rem 0 0 -12rem;
+  height:20rem;
+  width:30rem;
+  margin:-10rem 0 0 -15rem;
   font-family: 'Nanum Myeongjo', serif;
+  border-color: black;
+  border-style:solid;
+  border-width:0.095rem;
 }
 #login{
-  height:12.5rem
+  height:16.5rem
 }
