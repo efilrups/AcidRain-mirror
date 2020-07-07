@@ -13,14 +13,12 @@ class SelectStage extends Component {
             savedStages: [],
             editStageName: '',
             editStageContents: '',
-            gameLevel: 1
+            gameLevel: 1,
+            cursor:1
         }
         this.rangeChange = this.rangeChange.bind(this);
     }
-    componentWillMount() {
-
-    }
-
+ 
     handleEditStageName = (stageName) => {
         this.setState({ editStageName: stageName })
     }
@@ -42,20 +40,54 @@ class SelectStage extends Component {
         });
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+        window.location.hash = '#SelectStage-window';
         //selectStage 경로로 이동하면 stage테이블에 저장된 데이터를 모두 가져오고 stageNames에 담김
-        await axios.get('http://localhost:5000/main/selectstage')
+     axios.get('http://localhost:5000/main/selectstage')
             .then(res => {
                 this.setState({ savedStages: res.data })
             })
-
+           
     }
+
+    onKeyPressed = (e) => {
+        if(e.key==='ArrowDown' && this.state.cursor < this.state.savedStages.length  ){
+            this.props.clickStage(this.state.savedStages[this.state.cursor].stagename)
+            this.setState ( prevState => ( {
+               cursor : prevState.cursor + 1
+           }))   
+        //   console.log(this.state.savedStages[this.state.cursor].stagename)
+        //   console.log(`${e.key} ${this.state.cursor}`)
+        }
+        if(e.key==='ArrowUp' && this.state.cursor > 1){
+            this.props.clickStage(this.state.savedStages[this.state.cursor-2].stagename)
+            this.setState ( prevState => ({
+              cursor : prevState.cursor - 1
+            }))
+            // console.log(`${e.key} ${this.state.cursor}`)
+        }  
+        if(e.key==='m'){
+            this.props.handleMakingStage() 
+        }if(e.key==='Enter'){
+            axios.post("http://localhost:5000/main/playstage", {
+                stagename: this.props.selectedStageName,
+                userid: this.props.userId
+            })
+                .then(res => {
+                    this.props.getContents(JSON.parse(res.data[0].contents), this.state.gameLevel)
+                })
+            this.props.history.push('/playstage')
+        }if(e.key==='Escape'){
+            this.props.history.goBack()
+        }
+    }
+
 
     render() {
         const { clickStage, selectedStageName, wantToMake, handleMakingStage, userId } = this.props
-        const { editStageContents, editStageName, gameLevel } = this.state
+        const { editStageContents, editStageName, gameLevel, cursor } = this.state
         return (
-            <div className="window SelectStage-window">
+            <div className="window" id="SelectStage-window" onKeyDown={this.onKeyPressed} tabindex="0">
                 <div className="window-body">
                     <p className="title" style={{ textAlign: "center" }}>스테이지 선택</p>
 
@@ -66,21 +98,24 @@ class SelectStage extends Component {
                             <table>
                                 <thead>
                                     <tr className="selectingHead">
-                                        <th className>스테이지</th>
-                                        <th className>만든이</th>
-                                        <th className>수정/삭제</th>
+                                        <th >스테이지</th>
+                                        <th >만든이</th>
+                                        <th >수정/삭제</th>
                         
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.savedStages.map((savedStage, i) => (
+                                    {this.state.savedStages.map((savedStage,i) => (
+                                         
                                         <StageListEntry
-                                            //isSelected:선택한 stage이름과 현재 stage가 같다면
-                                            isSelected={selectedStageName === savedStage.stagename}
+                                           
+                                            key={i}
+                                    //isSelected:선택한 stage이름과 현재 stage가 같다면
+                                            isSelected={(selectedStageName === savedStage.stagename)}
                                             stageName={savedStage.stagename}
                                             createdBy={savedStage.createdBy}
                                             clickStage={clickStage}
-                                            key={i}
+                                            
                                             editStageName={editStageName}
                                             editStageContents={editStageContents}
                                             selectedStageName={selectedStageName}
@@ -89,6 +124,7 @@ class SelectStage extends Component {
                                             handleMakingStage={handleMakingStage}
                                             userId={userId}
                                             refresh={this.refresh}
+                                       
                                         />
 
                                     ))}

@@ -31,7 +31,6 @@ class GameOver extends Component {
 
 
                     <fieldset className={"GameOver-fieldset"}>
-                        <p className="GameOver-description">게임이 종료되었습니다.</p>
                         <p className="GameOver-description">{selectedStageName}스테이지에서 {score}점을 받으셨습니다.</p>
                         
 

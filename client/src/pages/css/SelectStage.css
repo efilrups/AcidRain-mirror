@@ -5,7 +5,7 @@ table {
 
   }
 
-.SelectStage-window{
+#SelectStage-window{
     position: absolute;
     top:50%;
     left:50%;
@@ -13,7 +13,13 @@ table {
     width:34rem;
     margin:-13rem 0 0 -17rem;
     font-family: 'Nanum Myeongjo', serif;
+    border-color: black;
+    border-style:solid;
+    border-width:0.095rem;
+
 }
+
+#SelectStage-window:focus {outline:none;}
 
 fieldset{
     height:21rem;
@@ -34,6 +40,7 @@ fieldset{
 .title{
     font-size:1rem;
     color: navy;
+    font-weight:bold;
 }
 
 .description{

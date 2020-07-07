@@ -8,6 +8,10 @@
     font-family: 'Nanum Myeongjo', serif;
     color:black;
     z-index:1;
+
+    border-color: black;
+    border-style:solid;
+    border-width:0.095rem;
 }
 
 .title{

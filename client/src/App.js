@@ -88,6 +88,16 @@ class App extends Component {
 
   render() {
     const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin, themaPageIsOpen, color, gameLevel } = this.state
+    
+    
+    let footerState =
+    !isLogin ? "로그인을 진행해주세요."
+    : isLogin && !stageContents && !wantToMake ? "스테이지를 고르고 엔터를 누르거나 M을 눌러 스테이지를 만들어보세요."
+    : wantToMake ? "스테이지를 저장하려면 엔터를 누르세요."
+    : stageContents ? "게임을 시작하려면 엔터를 누르고 스테이지를 다시 선택하려면 ESC를 누르세요."
+        : "뒤로 돌아가려면 ESC버튼을 누르고 게임을 중지하려면 엔터를 누르세요. "
+
+    
     return (
 
       <div className='app' style={{ backgroundColor: this.state.color }}>
@@ -135,6 +145,18 @@ class App extends Component {
           color={color}
           gameLevel={gameLevel}
         />
+
+        <footer>
+
+          <div className="footer">
+            <p className="footer-text">{footerState}</p>
+          </div>
+
+        </footer>
+
+
+
+
       </div>
     )
   }
