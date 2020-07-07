@@ -17,7 +17,7 @@ class App extends Component {
     isLogin: false,
     //게스트가 로그인 했을 때, 회원이 로그인 했을 때로 나눠서 Nav의 마이페이지버튼 생성, 비생성 조절
     isGuest: false,
-    //makeStage컴포넌트의 노출 여부를 해당 state로 관리 
+    //makeStage컴포넌트의 노출 여부를 해당 state로 관리
     wantToMake: false,
     themaPageIsOpen: false,
     socialLogin: true
@@ -66,8 +66,11 @@ class App extends Component {
     this.setStage({ isSubmitedStage: true })
   }
 
-  getContents = (clickedStage) => {
-    this.setState({ stageContents: clickedStage })
+  getContents = (clickedStage, selectedLevel) => {
+    this.setState({
+      stageContents: clickedStage,
+      gameLevel: selectedLevel
+    })
   }
 
   //게임 끝나면 stageContents, selectedStageName은 test로, gamestart상태를 false로 변경
@@ -133,14 +136,18 @@ class App extends Component {
           }}
         />
 
+        <Route
+          path='/playstage'
+          render={()=>
+            <PlayStage userId={userId}
+              selectedStageName={selectedStageName}
+              stageContents={stageContents}
+              handleGameEnd={this.handleGameEnd}
+              color={color}
+              gameLevel={gameLevel}
+            />
+          }
 
-
-        <PlayStage userId={userId}
-          selectedStageName={selectedStageName}
-          stageContents={stageContents}
-          handleGameEnd={this.handleGameEnd}
-          color={color}
-          gameLevel={gameLevel}
         />
       </div>
     )
