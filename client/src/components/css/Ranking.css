@@ -8,6 +8,10 @@
     font-family: 'Nanum Myeongjo', serif;
     color:black;
     z-index:1;
+
+    border-color: black;
+    border-style:solid;
+    border-width:0.095rem;
 }
 
 .title{
@@ -15,16 +19,18 @@
     color: navy;
 }
 
-button{
-    margin-top: 1rem;
+button.Ranking-button{
+    margin-top: 1.7rem;
     margin-bottom: 1rem;
     cursor:pointer;
 }
 
 .Ranking-fieldset{
-  
-    height:20rem;
-    overflow: auto;
+    height:15rem;
+    overflow-x: auto;
+    overflow-y: auto; 
+    border-bottom:0;
+    table-layout:fixed; 
 }
 
 .closeButton{

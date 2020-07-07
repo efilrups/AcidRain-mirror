@@ -19,7 +19,7 @@ class App extends Component {
     isLogin: false,
     //게스트가 로그인 했을 때, 회원이 로그인 했을 때로 나눠서 Nav의 마이페이지버튼 생성, 비생성 조절
     isGuest: false,
-    //makeStage컴포넌트의 노출 여부를 해당 state로 관리
+    //makeStage컴포넌트의 노출 여부를 해당 state로 관리 
     wantToMake: false,
     themaPageIsOpen: false,
     socialLogin: false
@@ -38,13 +38,11 @@ class App extends Component {
     let result = await axios.post('http://localhost:5000/main/login', {
       'session': cookie.load('sessionKey')
     })
-    console.log('result: ', result);
     this.setState({ isLogin: true, userId: result.data })
   }
   // 로그아웃
-  logout = async () => {
-    console.log('logout')
-    await this.setState({ userId: '', isLogin: false, isGuest: false, socialLogin: false })
+  logout = () => {
+    this.setState({ isLogin: false, userId: '' })
     cookie.remove('sessionKey')
     console.log('this.state: ', this.state.userId);
   }
@@ -76,11 +74,8 @@ class App extends Component {
     this.setStage({ isSubmitedStage: true })
   }
 
-  getContents = (clickedStage, selectedLevel) => {
-    this.setState({
-      stageContents: clickedStage,
-      gameLevel: selectedLevel
-    })
+  getContents = (clickedStage) => {
+    this.setState({ stageContents: clickedStage })
   }
 
   handleMakingStage = () => {
@@ -95,9 +90,7 @@ class App extends Component {
     this.setState({ themaPageIsOpen: !this.state.themaPageIsOpen })
   }
 
-  responseGoogle = (response) => {
-    console.log(response);
-  }
+
 
   gameStatus = () => {
     this.setState({ gameStart: false });
@@ -106,7 +99,23 @@ class App extends Component {
   render() {
     const { userId, isGuest, selectedStageName, stageContents, gameStart,
       wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin } = this.state
+    
+    
+      let footerState =
+      !isLogin ? "로그인을 진행해주세요."
+      : (isLogin && !stageContents && !wantToMake) ? "스테이지를 고르고 엔터를 누르거나 M을 눌러 스테이지를 만들어보세요."
+      : (stageContents && !gameStart) ? "게임을 시작하려면 엔터를 누르고 스테이지를 다시 선택하려면 ESC를 누르세요."
+      : wantToMake ? "뒤로 돌아가려면 ESC를 누르세요."
+      : !gameStart ? "엔터를 누르세요." 
+      : gameStart ? "뒤로 돌아가려면 ESC버튼을 누르고 게임을 중지하려면 엔터를 누르세요."
+     
+      : ''
+
+
+   
+    
     return (
+
       <div className='app' style={{ backgroundColor: this.state.color }}>
 
         <Nav 
@@ -160,9 +169,28 @@ class App extends Component {
               gameStartToggle={this.gameStartToggle}
               gameStart={gameStart}
             />
-          }
+          }></Route>
 
+
+        <PlayStage userId={userId}
+          selectedStageName={selectedStageName}
+          stageContents={stageContents}
+          handleGameEnd={this.handleGameEnd}
+          color={color}
+          gameLevel={gameLevel}
         />
+
+        <footer>
+
+          <div className="footer">
+            <p className="footer-text">{footerState}</p>
+          </div>
+
+        </footer>
+
+
+
+
       </div>
     )
   }

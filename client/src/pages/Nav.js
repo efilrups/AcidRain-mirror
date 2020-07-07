@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { MyPage, Ranking, MakeThema } from '../components'
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, withRouter } from 'react-router-dom';
 import { GoogleLogout } from 'react-google-login';
 import './css/Nav.css'
 class Nav extends Component {
@@ -22,11 +22,13 @@ class Nav extends Component {
         )
       } else {
         return (
-            <div className="Nav-square">
+            <div className="Nav-square" >
                 <div className="Nav-link">
-                {/* <Link to='/mypage' className="Link-mypage">마이페이지</Link> */}
                 <Route path="/mypage" render={()=><MyPage changeUserId={changeUserId} userId={userId}/>}/>
-                    <div className="Nav-userId">
+                    <div className="Nav-userId" 
+                    // onClick={()=>{ 
+                    //   this.props.history.push('/')}}
+                      >
                       {
                         userId
                         ? `${userId}님이 입장하셨습니다.`
@@ -64,10 +66,11 @@ class Nav extends Component {
                    : '' }
                     <Route path="/ranking" render={()=><Ranking isLogin={isLogin} />}/>
                 </div>
+
             </div>
         )
       }
     }
 }
 // handleOpenModal
-export default Nav
+export default withRouter(Nav)

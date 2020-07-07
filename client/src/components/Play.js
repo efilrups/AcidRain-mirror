@@ -190,7 +190,15 @@ class Play extends Component {
       });
   }
 
+  onKeyPressed = (e) => {
+    console.log(e)
+  }
+
   render() {
+    window.onkeydown = function(e) {
+      console.log('play', e)
+    }
+    
     const {userId, selectedStageName, stageContents, gameStartToggle, gameLevel } = this.props
     const { score } = this.state
 
