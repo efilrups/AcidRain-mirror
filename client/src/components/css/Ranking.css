@@ -19,14 +19,18 @@
     color: navy;
 }
 
-button{
-    margin-top: 1rem;
+button.Ranking-button{
+    margin-top: 1.7rem;
     margin-bottom: 1rem;
     cursor:pointer;
 }
 
 .Ranking-fieldset{
-    height:20.7rem;
+    height:15rem;
+    overflow-x: auto;
+    overflow-y: auto; 
+    border-bottom:0;
+    table-layout:fixed; 
 }
 
 .closeButton{
@@ -35,3 +39,9 @@ button{
     right:3%
 }
 
+/* td{
+    width:100%; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space:nowrap;
+} */

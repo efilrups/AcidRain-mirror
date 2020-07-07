@@ -18,7 +18,7 @@ class GameOver extends Component {
         missedcode:JSON.stringify(missedCode),
         score:score,
         nickname: userId,
-        stagename:selectedStageName, 
+        stagename:selectedStageName,
      })
     }
 
@@ -32,13 +32,11 @@ class GameOver extends Component {
 
                     <fieldset className={"GameOver-fieldset"}>
                         <p className="GameOver-description">{selectedStageName}스테이지에서 {score}점을 받으셨습니다.</p>
-                        
+
 
 
                         <div className="field-row" style={{ justifyContent: 'center' }}>
                             <button onClick={()=>{
-                                this.props.handleGameEnd()
-                                this.props.gameStartToggle()
                                 this.props.history.push('/ranking') // 여기서 랭킹으로 이동
                             }}>확인</button>
                         </div>

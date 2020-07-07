@@ -18,3 +18,9 @@ button.MakeStage-button{
 textarea{
     white-space:pre-line
 }
+
+.Making-fieldset{
+    height:20.6rem;
+    border-bottom:0;
+    table-layout:fixed; 
+}

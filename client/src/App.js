@@ -8,10 +8,12 @@ const axios = require('axios');
 class App extends Component {
   state = {
     userId: '',
-    //db에 저장된 제일 첫번째 스테이지를 보여줘서 첫리스트가 선택된 상태로 보여지도록 
+    //db에 저장된 제일 첫번째 스테이지를 보여줘서 첫리스트가 선택된 상태로 보여지도록
     selectedStageName: 'test',
     stageContents: '',
     color: "#848484",
+    // gameStart Flag
+    gameStart: false,
     gameLevel: 0,
     //login상태가 되면 이 값이 true로 변하고 그 값을 이용해 로그인 여부 판단.
     isLogin: false,
@@ -21,6 +23,14 @@ class App extends Component {
     wantToMake: false,
     themaPageIsOpen: false,
     socialLogin: false
+  }
+
+  // gameStart Toggle
+  gameStartToggle = () => {
+    console.log('Game Start');
+    this.setState(current => ({
+      gameStart: !current.gameStart
+    }));
   }
 
   // 로그인 유지
@@ -68,11 +78,6 @@ class App extends Component {
     this.setState({ stageContents: clickedStage })
   }
 
-  //게임 끝나면 stageContents, selectedStageName은 test로, gamestart상태를 false로 변경
-  handleGameEnd = () => {
-    this.setState({ selectedStageName: 'test', stageContents: '' })
-  }
-
   handleMakingStage = () => {
     this.setState({ wantToMake: !this.state.wantToMake })
   }
@@ -88,16 +93,23 @@ class App extends Component {
 
 
   render() {
-    const { userId, isGuest, selectedStageName, stageContents, wantToMake, isLogin, themaPageIsOpen, color, gameLevel } = this.state
+    const { userId, isGuest, selectedStageName, stageContents, gameStart,
+      wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin } = this.state
     
     
-    let footerState =
-    !isLogin ? "로그인을 진행해주세요."
-    : isLogin && !stageContents && !wantToMake ? "스테이지를 고르고 엔터를 누르거나 M을 눌러 스테이지를 만들어보세요."
-    : wantToMake ? "스테이지를 저장하려면 엔터를 누르세요."
-    : stageContents ? "게임을 시작하려면 엔터를 누르고 스테이지를 다시 선택하려면 ESC를 누르세요."
-        : "뒤로 돌아가려면 ESC버튼을 누르고 게임을 중지하려면 엔터를 누르세요. "
+      let footerState =
+      !isLogin ? "로그인을 진행해주세요."
+      : (isLogin && !stageContents && !wantToMake) ? "스테이지를 고르고 엔터를 누르거나 M을 눌러 스테이지를 만들어보세요."
+      : (stageContents && !gameStart) ? "게임을 시작하려면 엔터를 누르고 스테이지를 다시 선택하려면 ESC를 누르세요."
+      : !gameStart ? "엔터를 누르세요." 
+      
+      : wantToMake ? "뒤로 돌아가려면 ESC를 누르세요."
+      : gameStart ? "뒤로 돌아가려면 ESC버튼을 누르고 게임을 중지하려면 엔터를 누르세요."
+     
+      : ''
 
+
+   
     
     return (
 
@@ -137,6 +149,18 @@ class App extends Component {
           }}
         />
 
+        <Route
+          path='/playstage'
+          render={()=>
+            <PlayStage userId={userId}
+              selectedStageName={selectedStageName}
+              stageContents={stageContents}
+              color={color}
+              gameLevel={gameLevel}
+              gameStartToggle={this.gameStartToggle}
+              gameStart={gameStart}
+            />
+          }></Route>
 
 
         <PlayStage userId={userId}

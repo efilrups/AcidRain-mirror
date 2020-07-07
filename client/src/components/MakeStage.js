@@ -44,7 +44,7 @@ class MakeStage extends Component {
 
                             <p className="title" style={{ textAlign: "center" }}>스테이지 만들기</p>
 
-                            <fieldset className="Ranking-fieldset">
+                            <fieldset className="Making-fieldset">
                                 <p className="description">나만의 스테이지를 만들어보세요!</p>
 
                                 <div className="field-row" style={{ justifyContent: 'center' }}>
