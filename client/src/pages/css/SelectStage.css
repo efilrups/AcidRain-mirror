@@ -22,7 +22,8 @@ table {
 #SelectStage-window:focus {outline:none;}
 
 fieldset{
-    height:21rem;
+    margin-top: 10px;
+    height:22.5rem;
 }
 
 /* .tree-view{
@@ -46,6 +47,7 @@ fieldset{
 .description{
     font-size:1rem;
     text-align:center;
+    margin-bottom: 1.5rem;
 }
 
 button{
@@ -61,7 +63,7 @@ button{
 
 .selectGameLevel {
     font-size: 1rem;
-    margin: 1rem;
+    margin: 1.5rem;
 }
 div.field-row.SelectStage-buttons{
     height:3rem;

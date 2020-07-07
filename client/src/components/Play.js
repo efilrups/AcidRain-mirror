@@ -7,6 +7,7 @@ class Play extends Component {
     super(props);
     this.state = {
       end : false,
+      stop: false,
       // 나오는 코드의 개수
       RAIN_MAX : 15,
       score : 0,
@@ -27,10 +28,12 @@ class Play extends Component {
     };
     this.missedCode = [];
     this.comment = '';
-
+    this.move = null;
     this.start = this.start.bind(this);
     this.draw = this.draw.bind(this);
     this.deleteCode = this.deleteCode.bind(this);
+    this.gameStopRestartToggle = this.gameStopRestartToggle.bind(this);
+    this.rangeChange = this.rangeChange.bind(this);
   }
 
   // canvas에 그려질 내용들 설정
@@ -68,12 +71,13 @@ class Play extends Component {
 
       this.randomArr.push(codeObj);
     }
+    this.draw();
     this.start();
   }
 
   start() {
     const { RAIN_MAX, gameLevel } = this.state;
-    let move = setInterval(function () {
+    this.move = setInterval(function () {
       // 한 번도 안내려보냈으면 무조건 한 번 내려보내고 아니면 45퍼의 확률로 내려보내지 않음
       if (this.rain_count === 0) {
         this.rain_count++;
@@ -82,6 +86,10 @@ class Play extends Component {
       }
 
       this.draw();
+      //코드들의 다음 위치 정하기
+      for (let i = 0; i < this.rain_count; i++) {
+        this.randomArr[i].y += this.font.fontSize;
+      }
 
       // 마지막에 내려보낸 비의  다음에 그려질 y 위치가 캔버스의 높이보다 커지면 반복 끝
       let end = this.randomArr.every( obj => obj.code ==='');
@@ -91,7 +99,7 @@ class Play extends Component {
           score : state.score + this.score,
           end : !state.end
         }))
-        clearInterval(move);
+        clearInterval(this.move);
         }
     }.bind(this), 500 + (11 - gameLevel) * 100);
   }
@@ -106,11 +114,14 @@ class Play extends Component {
     this.ctx.font = `30px ${fontName}`;
     this.ctx.fillStyle = 'black';
     this.ctx.fillText(`점수 : ${this.score}`, this.canvas.width * 0.05, 50);
+    this.ctx.fillText(`난이도 : ${this.state.gameLevel}`, this.canvas.width * 0.2, 50);
     this.ctx.fillStyle = 'rgb(31, 124, 247)';
     this.ctx.fillText(this.comment, this.canvas.width * 0.8, 50);
 
+
     // 내려가기 시작한 코드들을 하나씩 그리기
     this.ctx.font = `${fontSize}px ${fontName}`;
+    this.ctx.fillStyle = 'black';
     for (let i = 0; i < this.rain_count; i++) {
       // 코드가 캔버스의 제일 아래에 내려가면 코드를 지운다.
       if (this.randomArr[i].y > this.canvas.height - (fontSize/ 10)) {
@@ -122,10 +133,8 @@ class Play extends Component {
         this.randomArr[i].code = '';
       }
 
-      // 코드 그리고 다음에 그릴 위치 내리기
-      this.ctx.fillStyle = 'black';
+      // 코드 그리기
       this.ctx.fillText(this.randomArr[i].code, this.randomArr[i].x , this.randomArr[i].y)
-      this.randomArr[i].y += fontSize;
     }
 
     // ph바 그라데이션 설정
@@ -156,7 +165,23 @@ class Play extends Component {
       }
       event.target.value = '';
     }
+  }
 
+  gameStopRestartToggle() {
+    if (!this.state.stop) {
+      clearInterval(this.move);
+    } else {
+      this.start();
+    }
+    this.setState(state=>({
+      stop: !state.stop
+    }));
+  }
+
+  rangeChange (obj) {
+      this.setState({
+          gameLevel: document.getElementById('gameLevel').value
+      });
   }
 
   render() {
@@ -181,13 +206,33 @@ class Play extends Component {
           {
             this.state.end
             ? gameEnd
-            : <input
-              className='inputAnswer'
-              type='text'
-              placeholder='산성비를 제거하세요'
-              style={{ textAlign: "center" }}
-              onKeyUp={this.deleteCode}
-            />
+            :
+            <div>
+              <input
+                className='inputAnswer'
+                type='text'
+                placeholder='산성비를 제거하세요'
+                style={{ textAlign: "center" }}
+                onKeyUp={this.deleteCode}
+                disabled={ this.state.stop ? true : false }
+              />
+              <div/>
+
+              <button
+                className="stop"
+                onClick={this.gameStopRestartToggle}>
+                  { this.state.stop ? '재시작' : '멈춤' }
+              </button>
+              {
+                this.state.stop
+                ? <div className="selectGameLevel" style={{ textAlign: 'center' }}>
+                    <div>난이도 재설정을 해보세요 (1 - 10)</div>
+                    <input type="range" id='gameLevel' defaultValue={this.state.gameLevel}  min={1} max={10} step={1} onChange={this.rangeChange}/>
+                    <div> 현재 난이도 : {this.state.gameLevel} </div>
+                </div>
+                : ''
+              }
+            </div>
           }
         </div>
 
