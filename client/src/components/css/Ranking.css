@@ -23,11 +23,11 @@ button{
 
 .Ranking-fieldset{
     height:20rem;
+    overflow: auto;
 }
 
 .closeButton{
     position:absolute;
-    margin:0 0 0 32rem; 
+    margin:0 0 0 32rem;
     right:3%
 }
-
