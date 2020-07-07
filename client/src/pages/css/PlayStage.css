@@ -33,6 +33,11 @@
   font-size: 1rem;
 }
 
+.stop {
+  height: 100% !important;
+  font-size: 1rem;
+}
+
 button{
     margin-top: 1rem;
     margin-bottom: 1rem;

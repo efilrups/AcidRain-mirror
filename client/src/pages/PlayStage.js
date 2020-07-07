@@ -15,7 +15,9 @@ class PlayStage extends Component {
     this.gameStartToggle = this.gameStartToggle.bind(this);
   }
   componentDidMount() {
-    // this.inputStart.focus();
+    if(this.inputStart) {
+      this.inputStart.focus();
+    }
   }
 
   enterkey(event) {
@@ -45,7 +47,7 @@ class PlayStage extends Component {
           게임을 할수록 낯설었던 코드에 익숙해지는 여러분을 발견하실 수 있습니다.<br/>
           <br/>
           시작 버튼을 누르시거나, Enter를 누르면 게임이 시작됩니다.<br/>
-          되돌아가기 버튼으로 스테이지를 다시 골라보세요[아직]<br/>
+          되돌아가기 버튼으로 스테이지를 다시 골라보세요<br/>
           그렇다면 이제부터 게임을 신나게 즐겨보세요.
         </p>
         <p className="playStage-description">-ph.GGANG팀 일동-</p>
@@ -53,10 +55,11 @@ class PlayStage extends Component {
 
       <div className="field-row" style={{ justifyContent: 'center' }}>
         <button
-          ref={ref => this.inputStart = ref}
+          className="startButton"
+          ref={(btn) => {this.inputStart = btn;}}
           onMouseUp={this.gameStartToggle}
           onKeyUp={this.enterkey} >시작</button>
-        <button>되돌아가기</button>
+        <button onClick={this.props.history.goBack}>되돌아가기</button>
       </div>
     </div>
     )
@@ -67,12 +70,12 @@ class PlayStage extends Component {
       <div className="playStage-square">
 
         {
-          
+
           //1. 로그인 했고 스테이지 선택 안한 상태, 게임 시작 안한 상태면 빈 화면 (메인화면)
           //2. 스테이지 선택했고, 게임이 아직 시작 안한 상태? 게임 설명화면
           //3. 게임이 시작--> 게임화면
-          
-          (!stageContents && !this.state.gameStart)  ? ''
+
+          (!stageContents && !this.state.gameStart)  ? ''//this.props.history.goBack()
           : (stageContents &&  !this.state.gameStart) ? gameRule
          : <Play userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
          handleGameEnd={handleGameEnd} gameStartToggle={this.gameStartToggle} color={color}  gameLevel={gameLevel}/>
