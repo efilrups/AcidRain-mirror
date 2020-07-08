@@ -59,8 +59,13 @@ class App extends Component {
     }
   }
   // 유저의 로그인
-  changeUserId = (user) => {
-    this.setState({ userId: user, isLogin: true })
+  changeUserId = (user, social) => {
+    if(social){
+      this.setState({ userId: user, socialLogin: true, isLogin: true })
+    } else {
+      this.setState({ userId: user, isLogin: true })
+    }
+
   }
   // 게스트의 로그인
   changeGuest = (guest) => {

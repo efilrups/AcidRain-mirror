@@ -110,39 +110,14 @@ module.exports = {
         post: async function (req, res){
 
           if(req.body.userid){
-            let find = await users.findOne({
+            let result = await stages.findAll({
+              attributes: ['contents'],
               where: {
-                nickname: req.body.userid
+                stagename: req.body.stagename
               }
             })
-            console.log('find.id: ', find.id);
-            console.log('find.id: ', req.body.stagename);
-
-            // 삭제하는가
-            if(req.body.delete){
-              let result = await stages.destroy({
-                where:{
-                  userid: find.id,
-                  stagename: req.body.stagename
-                }
-              })
-              console.log('result: ', result);
-
-              if(result === 0){
-                res.status(404).send('다시 시도해주세요')
-              } else {
-                res.status(200).send('삭제되었습니다')
-              }
-            } else {
-              let result = await stages.findAll({
-                attributes: ['contents'],
-                where: {
-                  stagename: req.body.stagename
-                }
-              })
-              if(result.length !== 0){
-                res.status(200).send(result)
-              }
+            if(result.length !== 0){
+              res.status(200).send(result)
             }
           }
           res.status(404).send({
@@ -306,5 +281,96 @@ module.exports = {
           })
         }
       }
+    },
+
+    confirm: {
+      post: async function (req, res) {
+        if(req.body.userid){
+          let find = await users.findOne({
+            where: {
+              nickname: req.body.userid
+            }
+          })
+
+          console.log('userid: ', find.id);
+          console.log('stageName: ', req.body.stagename);
+
+          // 삭제하는가
+          if(req.body.delete){
+            let result = await stages.destroy({
+              where:{
+                userid: find.id,
+                stagename: req.body.stagename
+              }
+            })
+            console.log('result: ', result);
+
+            if(result === 0){
+              res.status(404).send('다시 시도해주세요')
+            } else {
+              res.status(200).send('삭제되었습니다')
+            }
+          } else {
+            let result = await stages.findAll({
+              attributes: ['contents'],
+              where: {
+                userid: find.id,
+                stagename: req.body.stagename
+              }
+            })
+            if(result.length !== 0){
+              res.status(200).send(result)
+            }
+          }
+        }
+        res.status(404).send({
+          "message": "정보가 존재하지 않습니다"
+        });
+      }
     }
+
+  //   playstage: {
+  //     post: async function (req, res){
+
+  //       if(req.body.userid){
+  //         let find = await users.findOne({
+  //           where: {
+  //             nickname: req.body.userid
+  //           }
+  //         })
+  //         console.log('find.id: ', find.id);
+  //         console.log('find.id: ', req.body.stagename);
+
+  //         // 삭제하는가
+  //         if(req.body.delete){
+  //           let result = await stages.destroy({
+  //             where:{
+  //               userid: find.id,
+  //               stagename: req.body.stagename
+  //             }
+  //           })
+  //           console.log('result: ', result);
+
+  //           if(result === 0){
+  //             res.status(404).send('다시 시도해주세요')
+  //           } else {
+  //             res.status(200).send('삭제되었습니다')
+  //           }
+  //         } else {
+  //           let result = await stages.findAll({
+  //             attributes: ['contents'],
+  //             where: {
+  //               stagename: req.body.stagename
+  //             }
+  //           })
+  //           if(result.length !== 0){
+  //             res.status(200).send(result)
+  //           }
+  //         }
+  //       }
+  //       res.status(404).send({
+  //         "message": "정보가 존재하지 않습니다"
+  //       });
+  //     },
+  // },
 }
