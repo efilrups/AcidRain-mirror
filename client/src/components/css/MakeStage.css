@@ -1,0 +1,26 @@
+input.inputStageName{
+    width: 14rem;
+    height: 1.5rem;
+    font-size:0.8rem;
+    font-family: 'Nanum Myeongjo', serif;
+}
+
+textarea.inputStageContents{
+    height:12rem;
+    font-size:1rem;
+    font-family: 'Nanum Myeongjo', serif;
+}
+
+button.MakeStage-button{
+    margin-top:0.6rem;
+}
+
+textarea{
+    white-space:pre-line
+}
+
+.Making-fieldset{
+    height:20.6rem;
+    border-bottom:0;
+    table-layout:fixed; 
+}

@@ -1,0 +1,54 @@
+
+
+.StageListEntry-stagename{
+    display:inline-block;
+    padding-left:2.5rem;
+    padding-right:2.5rem;
+}
+
+.StageListEntry-createdBy{
+    display:inline-block;
+    padding-left:2.5rem;
+    padding-right:2.5rem;
+}
+
+
+
+th{
+    text-align: center;
+    /* font-family: 'Nanum Myeongjo', serif; */
+    font-size:0.8rem;
+}
+
+tr.selectingArea{
+    width:100%;
+    font-size: 1.1rem;
+    position: relative;
+    cursor:pointer;
+    font-family: 'Nanum Myeongjo', serif;
+    text-align: center;
+    background-color: navy;
+}
+
+.td-text{
+    width:50%; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space:nowrap;
+}
+
+td.fa-plus-square{
+    transform: scale(0.7)
+} 
+td.fa-plus-square:hover{
+    transform:scale(1)
+  }
+
+
+td.fa-minus-square{
+    transform: scale(0.7)
+   }
+
+td.fa-minus-square:hover{
+    transform:scale(1)
+  }
