@@ -93,7 +93,7 @@ class PlayStage extends Component {
         id="playpage"
         className="playStage-square"
         onKeyDown={this.onKey}
-        tabindex="0"
+        tabIndex="0"
       >
 
 

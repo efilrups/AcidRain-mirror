@@ -102,7 +102,7 @@ class SelectStage extends Component {
         const { clickStage, selectedStageName, wantToMake, handleMakingStage, userId } = this.props
         const { editStageContents, editStageName, gameLevel, cursor } = this.state
         return (
-            <div className="window" id="SelectStage-window" onKeyDown={this.onKeyPressed} tabindex="0">
+            <div className="window" id="SelectStage-window" onKeyDown={this.onKeyPressed} tabIndex="0">
                   <div className="title-bar">
                     <div className="title-bar-text">Select stage</div>
                   </div>
