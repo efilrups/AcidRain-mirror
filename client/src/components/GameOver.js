@@ -15,10 +15,10 @@ class GameOver extends Component {
         //유저의 방금 게임 정보를 서버에 보내주기
         const { userId, selectedStageName,  score, missedCode } = this.props
      await axios.post('http://localhost:5000/main/gameover', {
-         userId : userId,
-         selectedStageName: selectedStageName,
-         score : score,
-         missedCode: missedCode
+        missedcode:JSON.stringify(missedCode),
+        score:score,
+        nickname: userId,
+        stagename:selectedStageName,
      })
     }
 
@@ -31,24 +31,13 @@ class GameOver extends Component {
 
 
                     <fieldset className={"GameOver-fieldset"}>
-                        <p className="GameOver-description">게임이 종료되었습니다.</p>
-                        <p className="GameOver-description">{selectedStageName}스테이지에서 {score}점을 받으셨습니다.</p>
-                        
+                        <p className="GameOver-description">[{selectedStageName}]스테이지에서 {score}점을 받으셨습니다.</p>
+
 
 
                         <div className="field-row" style={{ justifyContent: 'center' }}>
-                            <button onClick={()=>{
-                                //게임이 끝나면 현재 스테이지값, 스테이지컨텐츠값, 게임 중이라는 상태 모두 초기화 해줌
-                                //missedCode를 server로 보내줌
-                                axios.post('http://localhost:5000/main/gameover',{
-                                    userId: userId,
-                                    stageId:selectedStageName,
-                                    score:score,
-                                    missedCode:missedCode
-                                })
-                                this.props.handleGameEnd()
-                                this.props.gameStartToggle()
-                                this.props.history.push('/ranking')
+                            <button className="gameoverBtn"onClick={()=>{
+                                this.props.history.push('/ranking') // 여기서 랭킹으로 이동
                             }}>확인</button>
                         </div>
                     </fieldset>

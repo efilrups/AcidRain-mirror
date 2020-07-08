@@ -53,6 +53,9 @@ class Signup extends Component {
       } else if (this.state.nickname.indexOf("Guest_") === 0 || this.state.nickname.indexOf("guest_") === 0){
         alert('닉네임을 올바르게 입력하세요("Guest_"를 포함할 수 없습니다.)')
         document.querySelector("#inputNickname").focus();
+      } else if (this.state.nickname.indexOf("google_") === 0 || this.state.nickname.indexOf("Google_") === 0){
+        alert('닉네임을 올바르게 입력하세요("Guest_"를 포함할 수 없습니다.)')
+        document.querySelector("#inputNickname").focus();
       }
       // 입력창에 모두 올바르게 입력완료
       else {

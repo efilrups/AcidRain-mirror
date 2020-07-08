@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
 import cookie from 'react-cookies'
 import { LoggedIn } from '../components'
+import { GoogleLogin } from 'react-google-login';
+import { GoogleLogout } from 'react-google-login';
 const axios = require('axios');
 
 class UserLogin extends Component {
@@ -12,6 +14,8 @@ class UserLogin extends Component {
       password: '',
     }
   }
+
+  
 
   componentDidMount(){
     if(!this.props.isLogin){
@@ -36,6 +40,7 @@ class UserLogin extends Component {
         return false
       }
     }
+   
     enter = async (event) => {
       console.log('event: ', event.nativeEvent.type);
 
@@ -58,7 +63,7 @@ class UserLogin extends Component {
             })
             console.log('result: ', result.data.session);
             
-            this.props.changeUserId(result.data.nickname)
+            this.props.changeUserId(result.data.nickname, false)
             cookie.save('sessionKey', result.data.session)
             this.setState({email: '', password: ''})
 
@@ -70,6 +75,12 @@ class UserLogin extends Component {
         }
       }
     }
+   
+    socialLoggedin = (response) => {
+      console.log('login', response)
+      this.props.changeUserId(`Google_${response.Rt.Bd}`, true)
+    }
+
     render() {
       const { isLogin, userId, logout } = this.props;
       if(isLogin){
@@ -82,7 +93,7 @@ class UserLogin extends Component {
               </div>
               <div className="window-body">
                 <fieldset id="login">
-                  <p className="title" style={{ textAlign: "center" }}></p>
+                  {/* <p className="login-description" style={{ textAlign: "center", margin: "1rem"}}>로그인을 하시면 더 많은 서비스를 이용하실 수 있습니다.</p> */}
                   <input 
                     id="inputEmail" type="text" 
                     value={this.state.email}
@@ -104,7 +115,24 @@ class UserLogin extends Component {
                   <button id="signupBtn" 
                     onClick={() => this.props.history.push('/signup')}
                   >회원가입</button>
-                  <button id="socialLogin">소셜 로그인</button>
+                 
+                  
+                  <hr id="loginBar"/>
+                  {/* <i class="fab fa-google-plus-g fa-3x"></i> */}
+                  <GoogleLogin
+                    clientId="1037438704815-ih3s6v1brfb4p5oksifqvd881ss953kd.apps.googleusercontent.com"
+                    render={renderProps => (
+                      <button id="socialLogin" onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                      <span style={{color:"white"}}>
+                      <i  className="fab fa-google-plus-g fa-2x"></i>
+                      </span>
+                      구글 로그인</button>
+                    )}
+                    buttonText="Login"
+                    cookiePolicy={'single_host_origin'}
+                    onSuccess={this.socialLoggedin}
+                  />
+                  {/* <i class="fab fa-google-plus-square fa-3x"></i> */}
                 </fieldset>
               </div>
             </div>

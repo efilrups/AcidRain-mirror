@@ -11,24 +11,26 @@ class LoggedIn extends Component {
   }
   
   render() {
-    console.log('this.props.userId: ', this.props.userId);
     return (
       <div className="window Login-window">
         <div className="title-bar">
           <div className="title-bar-controls">
-            <div className="title-bar-text">Logged-in</div>
+            <div className="title-bar-text">Logout-check</div>
           </div>
         </div>
         <div className="window-body">
           <fieldset id="login">
-            <p className="title" style={{ left:"35%", top: "25%", position: "absolute" }}>로그인 되었습니다</p>
+            <p className="title" style={{ left:"34%", top: "25%", position: "absolute" }}>로그아웃 하시겠습니까?</p>
             
-            <button id="guestBtn" 
-              onClick={this.props.logout.bind(this)}
-            >로그아웃</button>
+            {
+              
+              <button id="checkBtn" onClick={this.props.logout.bind(this)}>확인</button>
+              
+            }
+
             <button id="selectBtn" 
               onClick={() => this.props.history.push('/selectStage')}
-            >플레이</button>
+            >취소</button>
           </fieldset>
         </div>
       </div>

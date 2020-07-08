@@ -51,7 +51,7 @@ class GuestLogin extends Component {
         </div>
         <div className="window-body">
           <fieldset id="login">
-            <p className="title" style={{ textAlign: "center", margin: "30px"}}>로그인상태가 유지되지 않습니다</p>
+            <p className="title" style={{ textAlign: "center", margin: "3rem"}}>로그인상태가 유지되지 않습니다</p>
             <input 
               id="inputGuest" type="text" 
               value={this.state.nickname}

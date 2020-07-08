@@ -1,11 +1,12 @@
 const { users, guests, playlogs, stages } = require("../models");
-const { Op } = require("sequelize");
+// const { Op } = require("sequelize");
 //const { noExtendLeft } = require("sequelize/types/lib/operators");
 
 module.exports = {
   // users, playlogs
     mypage: {
         post: async function (req, res) {
+
           // * newnickname으로 수정하는 post 요청이라면?
           if(req.body.newnickname){
             // * 여기서 req.body.nickname은 oldnickname을 말함
@@ -22,48 +23,32 @@ module.exports = {
             } else {
               res.status(200).send({ nickname: req.body.nickname });
             }
-            
+
             // componentDidMount() 로 mypage 불러오는 화면이라면?
           } else {
-            let checkUser = await users.findAll({
-              attributes: ["email", "nickname"],
+            let myplaylogs = await playlogs.findAll({
+              attributes: ['missedcode', 'stagename', 'score', 'createdAt'],
               where: {
-                  nickname: req.body.nickname
-              },
-              include: [{
-                model: playlogs,
-                attributes: ["score", "missedcode"],
-                include: [{
-                  model: stages,
-                  attributes: ["stagename"]
-                }]
+                nickname: req.body.nickname
               }
-            ]
             })
-            if(checkUser.length !== 0){
-              let result = []
-              checkUser.forEach(ele => {
-                let obj = {
-                  'email': ele.email,
-                  'nickname': ele.nickname,
-                  'playlogs': []
-                }
-                ele.playlogs.forEach(log => {
-                  let logEle = {
-                    'stagename' : log.stage.stagename,
-                    'score' : log.score,
-                    'missedcode' : log.missedcode
-                  }
-                  obj.playlogs.push(logEle)
-                })
-                result.push(obj)
-              });
-              console.log('!!!!!')
+            let result = []
+            console.log(`???????${myplaylogs[4].dataValues.missedcode}???????`)
+            myplaylogs.forEach(myplaylog => {
+              let date = JSON.stringify(myplaylog.dataValues.createdAt).split('').splice(3,8).join('').split('-').join('.');
+              
+              result.push({
+                'score': myplaylog.dataValues.score,
+                'stagename': myplaylog.dataValues.stagename,
+                'createdAt': date,
+                'missedcode': `${Math.floor(((myplaylog.dataValues.missedcode.match(/"/g) || []).length)/2)} 개`
+              })
+            })
+
+            if(result.length){
               res.status(200).send(result)
             } else {
-              res.status(404).send({
-                "message": "정보가 존재하지 않습니다"
-              });
+              res.status(404).send("정보가 존재하지 않습니다")
             }
           }
         }
@@ -100,6 +85,11 @@ module.exports = {
             "result": false,
             "message": "이미 존재하는 이메일입니다"
           })
+        } else {
+          res.send({
+            "result": false,
+            "message": "이미 닉네임과 이메일이 존재합니다"
+          })
         }
       }
     },
@@ -113,7 +103,7 @@ module.exports = {
                 }]
             })
             if (!outputStages) {
-                return res.status(404).send({    
+                return res.status(404).send({
                     "message": "스테이지가 존재하지 않습니다"
                 });
             } else {
@@ -128,66 +118,65 @@ module.exports = {
             }
         }
       },
-    
+
     playstage: {
         post: async function (req, res){
-          let result = await stages.findAll({
-            attributes: ['contents'],
-            where: {
-              stagename: req.body.stagename
+
+          if(req.body.userid){
+            let result = await stages.findAll({
+              attributes: ['contents'],
+              where: {
+                stagename: req.body.stagename
+              }
+            })
+            if(result.length !== 0){
+              res.status(200).send(result)
             }
-          })
-          if(result.length !== 0){
-            res.status(200).send(result)
-          } else {
-            res.status(404).send({
-              "message": "정보가 존재하지 않습니다"
-            });
           }
+          res.status(404).send({
+            "message": "정보가 존재하지 않습니다"
+          });
         },
     },
     // 닉네임, 스테이지, 점수, 일자 -> 가공해서 보내라
     rank: {
         get: async function(req, res) {
-            let ranks = await playlogs.findAll({
-              attributes: ['id', 'createdAt', 'score'],
+          
+            var result = [];
+            let play = await playlogs.findAll({
+              attributes: ['nickname', 'stagename', 'score', 'createdAt'],
               order: [
                 ['score', 'DESC'],
-              ],
-              include: [{
-                model: stages,
-                attributes: ["stagename"],
-                // 주어진 stagename와 일치하는 rank logs
-                where: {
-                  stagename: req.body.stagename 
-                  ? {[Op.eq]: req.body.stagename} 
-                  : {[Op.not]: null}
-                }
-              },{
-                model: users,
-                attributes: ["nickname"],
-                // 주어진 nickname과 일치하는 rank logs
-                where: {
-                  nickname: req.body.nickname 
-                  ? {[Op.eq]: req.body.nickname} 
-                  : {[Op.not]: null}
-                }
-              },{
-                model: guests,
-                attributes: ["nickname"]
-              }]
+              ]
             })
-            let result = []
-            ranks.forEach((ele, i) => {
-              result.push({
-                'rank': i+1,
-                'score': ele.score,
-                'stagename': ele.stage.stagename,
-                'createdAt': ele.createdAt,
-                'nickname': ele.guest === null ? ele.user.nickname : ele.guest.nickname
+            
+            // ranks.forEach((ele, i) => {
+              
+            //   result.push({
+            //     'rank': i+1,
+            //     'score': ele.score,
+            //     'stagename': ele.stage.stagename,
+            //     'createdAt': `${date} ${time}`,
+            //     'nickname': ele.guest === null ? ele.user.nickname : ele.guest.nickname
+
+              console.log(play[0].dataValues)
+              play.forEach((ele, i) => {
+                let date = JSON.stringify(ele.dataValues.createdAt).split('').splice(3,8).join('').split('-').join('.');
+
+                result.push({
+                  'rank': i+1,
+                  'score': ele.dataValues.score,
+                  'stagename': ele.dataValues.stagename,
+                  'createdAt': date,
+                  'nickname': ele.dataValues.nickname
+                })
               })
-            });
-            res.status(200).send(result)
+            
+            if (result.length){
+              res.status(200).send(result)
+            } else {
+              res.status(404).send("게임기록이 없습니다")
+            }
         }
     },
     login: {
@@ -204,9 +193,9 @@ module.exports = {
                     email: req.body.email,
                     password: req.body.password
                 }
-                
+
             })
-            
+
             if(result){
               console.log('result: ', result.nickname);
               // 세션 또는 토큰을 보내야 한다
@@ -216,15 +205,17 @@ module.exports = {
               console.log(req.sessionStore.sessions)
               console.log('req: ', req.sessionID);
 
-              res.status(200).send({    
+              res.status(200).send({
                 "session": req.sessionID,
                 "nickname": result.nickname,
                 "message": "로그인되었습니다"
               })
+              res.end()
             } else {
-              res.status(404).send({    
+              res.status(404).send({
                   "message": "로그인에 실패하였습니다"
               })
+              res.end()
             }
           }
         }
@@ -252,7 +243,6 @@ module.exports = {
         }
       }
     },
-
     // 만약에 게임하지 않고 데이터를 보낸다면?
     gameover: {
       post: async function (req, res){
@@ -261,14 +251,139 @@ module.exports = {
         }
         await playlogs.create({
           score: req.body.score,
-          stageid: req.body.stageid,
-          userid: req.body.userid,
+          missedcode: req.body.missedcode,
+          nickname: req.body.nickname,
+          stagename: req.body.stagename,
           guestid: req.body.guestid,
-          missedcode: req.body.missedCode,
         })
-        res.send({
+        res.status(200).send({
           "message": "게임정보를 성공적으로 저장하였습니다"
         })
       }
+    },
+
+    makestage: {
+      post: async function (req, res) {
+        console.log(req.body)
+        let find = await users.findOne({
+          attributes: ['id'],
+          where: {
+            nickname: req.body.userId
+          }
+        })
+
+        let conflict = await stages.findAll({
+          where: {
+            stagename: req.body.stagename
+          }
+        })
+
+        console.log('conflict: ', conflict);
+        if(conflict.length === 0){
+          await stages.create({
+            userid: find.id,
+            stagename: req.body.stagename,
+            contents: JSON.stringify(req.body.contents)
+          })
+          res.status(200).send({
+            'message': '성공적으로 생성되었습니다.'
+          })
+        } else {
+          res.status(200).send({
+            'message': '이미 존재하는 스테이지 이름입니다'
+          })
+        }
+      }
+    },
+
+    confirm: {
+      post: async function (req, res) {
+        if(req.body.userid){
+          let find = await users.findOne({
+            where: {
+              nickname: req.body.userid
+            }
+          })
+
+          console.log('userid: ', find.id);
+          console.log('stageName: ', req.body.stagename);
+
+          // 삭제하는가
+          if(req.body.delete){
+            let result = await stages.destroy({
+              where:{
+                userid: find.id,
+                stagename: req.body.stagename
+              }
+            })
+            console.log('result: ', result);
+
+            if(result === 0){
+              res.status(404).send('다시 시도해주세요')
+            } else {
+              res.status(200).send('삭제되었습니다')
+            }
+          } else {
+            let result = await stages.findAll({
+              attributes: ['contents'],
+              where: {
+                userid: find.id,
+                stagename: req.body.stagename
+              }
+            })
+            if(result.length !== 0){
+              res.status(200).send(result)
+            }
+          }
+        }
+        res.status(404).send({
+          "message": "정보가 존재하지 않습니다"
+        });
+      }
     }
+
+  //   playstage: {
+  //     post: async function (req, res){
+
+  //       if(req.body.userid){
+  //         let find = await users.findOne({
+  //           where: {
+  //             nickname: req.body.userid
+  //           }
+  //         })
+  //         console.log('find.id: ', find.id);
+  //         console.log('find.id: ', req.body.stagename);
+
+  //         // 삭제하는가
+  //         if(req.body.delete){
+  //           let result = await stages.destroy({
+  //             where:{
+  //               userid: find.id,
+  //               stagename: req.body.stagename
+  //             }
+  //           })
+  //           console.log('result: ', result);
+
+  //           if(result === 0){
+  //             res.status(404).send('다시 시도해주세요')
+  //           } else {
+  //             res.status(200).send('삭제되었습니다')
+  //           }
+  //         } else {
+  //           let result = await stages.findAll({
+  //             attributes: ['contents'],
+  //             where: {
+  //               stagename: req.body.stagename
+  //             }
+  //           })
+  //           if(result.length !== 0){
+  //             res.status(200).send(result)
+  //           }
+  //         }
+  //       }
+  //       res.status(404).send({
+  //         "message": "정보가 존재하지 않습니다"
+  //       });
+  //     },
+  // },
 }

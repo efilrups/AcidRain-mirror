@@ -1,33 +1,74 @@
-.SelectStage-window{
-    position: absolute;
+table { 
+    width: 100%; 
+    border-collapse: collapse;
+    table-layout:fixed 
+
+  }
+
+#SelectStage-window{
+    position: fixed;
     top:50%;
     left:50%;
     height:26rem;
     width:34rem;
     margin:-13rem 0 0 -17rem;
     font-family: 'Nanum Myeongjo', serif;
+    border-color: black;
+    border-style:solid;
+    border-width:0.095rem;
+
 }
 
+#SelectStage-window:focus {outline:none;}
+
 fieldset{
-    height:21rem
+    margin-top: 10px;
+    height:22.5rem;
+}
+
+/* .tree-view{
+  overflow-x: hidden;
+  overflow-y: auto; 
+} */
+
+.selectStage-treeview{
+    height: 8.2rem;
+    overflow-x: hidden;
+    overflow-y: auto; 
 }
 
 
 .title{
     font-size:1rem;
-    color: blue;
+    color: navy;
+    font-weight:bold;
 }
 
 .description{
     font-size:1rem;
     text-align:center;
+    margin-bottom: 1.5rem;
+}
+button{
+    font-family: 'Nanum Myeongjo', serif;
+    cursor:pointer;
 }
 
-button{
+
+#gameLevel {
+    width: 50%;
+}
+
+.selectGameLevel {
+    font-size: 1rem;
+    margin: 1.5rem;
+}
+div.field-row.SelectStage-row{
+    height:3rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
-    cursor:pointer;
-    font-family: 'Nanum Myeongjo', serif;
 }
-
-
+.SelectStage-btn{
+    height:1.7rem;
+    font-size:0.9rem;
+}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom';
 import { Play } from '../components'
 import './css/PlayStage.css'
 import "98.css"
@@ -7,32 +8,54 @@ class PlayStage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameStart: false,
+      start: false,
     }
     //이벤트 처리 함수들
     this.enterkey = this.enterkey.bind(this);
-    this.gameStartToggle = this.gameStartToggle.bind(this);
+    this.startToggle = this.startToggle.bind(this);
   }
   componentDidMount() {
-    // this.inputStart.focus();
+    
+    document.getElementById('playpage').focus()
+    // document.querySelector('#playpage').focus()
+    // if(this.inputStart) {
+    //   this.inputStart.focus();
+    // }
   }
 
   enterkey(event) {
     if (event.key === 'Enter') {
-      console.log('hi');
-      this.gameStartToggle();
-      console.log('---')
+      console.log('--enter--');
+      this.startToggle();
     }
   }
-  gameStartToggle() {
-    console.log('Game Start');
+
+  startToggle() {
+    this.props.gameStartToggle();
     this.setState(current => ({
-      gameStart: !current.gameStart
+      start: !current.start
     }));
   }
 
-  render() {
+  onKey = (e) => {
+    console.log('playstage', e.key)
+    if(!this.props.gameStart){
+      if(e.which === 13 && e.ctrlKey) {
+        this.startToggle();
+      }
+    }
+    else {
+      console.log('escape', this.props.modalOpened)
+      // this.gameStopRestartToggle()
+      // this.props.opendMobal()
+      document.querySelector('.inputAnswer').focus()
+    } 
+  }
 
+
+
+
+  render() {
     const gameRule = (
     <div className='gameRule'>
       <div className="playStage-description-box">
@@ -44,7 +67,7 @@ class PlayStage extends Component {
           게임을 할수록 낯설었던 코드에 익숙해지는 여러분을 발견하실 수 있습니다.<br/>
           <br/>
           시작 버튼을 누르시거나, Enter를 누르면 게임이 시작됩니다.<br/>
-          되돌아가기 버튼으로 스테이지를 다시 골라보세요[아직]<br/>
+          되돌아가기 버튼으로 스테이지를 다시 골라보세요<br/>
           그렇다면 이제부터 게임을 신나게 즐겨보세요.
         </p>
         <p className="playStage-description">-ph.GGANG팀 일동-</p>
@@ -52,36 +75,46 @@ class PlayStage extends Component {
 
       <div className="field-row" style={{ justifyContent: 'center' }}>
         <button
-          ref={ref => this.inputStart = ref}
-          onMouseUp={this.gameStartToggle}
+          className="startButton"
+          ref={(btn) => {this.inputStart = btn;}}
+          onMouseUp={this.startToggle}
           onKeyUp={this.enterkey} >시작</button>
-        <button>되돌아가기</button>
+        <button onClick={this.props.history.goBack}>되돌아가기</button>
       </div>
+      
     </div>
     )
 
-    const { userId, stageContents, selectedStageName,  handleGameEnd } = this.props
+    const { isLogin, userId, stageContents, selectedStageName,
+       color, gameLevel, gameStart, gameStartToggle, opendMobal, modalOpened, gameStatus } = this.props
 
     return (
-      <div className="playStage-square">
+      <div 
+        id="playpage"
+        className="playStage-square"  
+        onKeyDown={this.onKey}
+        tabindex="0"
+      >
+
+        
 
         {
-          //1. 스테이지 선택 안한 상태, 게임 시작 안한 상태면 빈 화면 (메인화면)
+
+          //1. 로그인 했고 스테이지 선택 안한 상태, 게임 시작 안한 상태면 빈 화면 (메인화면)
           //2. 스테이지 선택했고, 게임이 아직 시작 안한 상태? 게임 설명화면
           //3. 게임이 시작--> 게임화면
-          (!stageContents && !this.state.gameStart)  ? ''
-          : (stageContents &&  !this.state.gameStart) ? gameRule
-         : <Play userId={userId} selectedStageName={selectedStageName} stageContents={stageContents}
-         handleGameEnd={handleGameEnd} gameStartToggle={this.gameStartToggle} />
 
-
+          (!stageContents && !this.state.start)  ? ''//this.props.history.goBack()
+          : (stageContents &&  !this.state.start) ? gameRule
+         : <Play
+           userId={userId} selectedStageName={selectedStageName} gameStart={gameStart} 
+           stageContents={stageContents} gameStartToggle={gameStartToggle} color={color}  gameLevel={gameLevel}
+           opendMobal={opendMobal} modalOpened={modalOpened} onKey={this.onKey} gameStatus={gameStatus}
+          />
         }
-
-
-
       </div>
     )
   }
 }
 
-export default PlayStage
+export default withRouter(PlayStage)
