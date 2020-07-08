@@ -98,30 +98,30 @@ class MyPage extends Component {
                                             size="40"
                                             ref="changeNickname"
                                         />
-                                        <button button onClick={this.handleNicknameChange}>닉네임 변경</button>
+                                        <button className="changeNameBtn" onClick={this.handleNicknameChange}>변경</button>
                                     
                                 </div>
                                  
-                                <p className="title" style={{ textAlign: "center" }}>내 게임 기록</p>
+                                <p className="mypageTitle" style={{ textAlign: "center" }}>[내 게임 기록]</p>
                                  
                                 <div className="myplayLog">
                                     <BootstrapTable data={this.state.myPlayLogs}
                                         bordered={false}
                                         headerStyle={{ 'fontStyle': 'black', 'borderBottom': 'black 0.05rem solid', 'marginBottom': '1rem', 'marginTop': '1rem', 'paddingBottom': '1rem' }}
-                                        containerStyle={{ 'borderBottom': 'black solid 0.05rem', 'paddingBottom': '1rem' }}
+                                        containerStyle={{  'paddingBottom': '1rem' }}
                                     >
-                                        <TableHeaderColumn isKey={true} dataField='stagename' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight: '3rem' }}>스테이지</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='score' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight: '3rem' }}>점수</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='missedcode' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight: '3rem' }}>놓친 코드</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='createdAt' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight: '3rem' }}>날짜</TableHeaderColumn>
+                                        <TableHeaderColumn isKey={true} dataField='stagename' dataAlign='center' tdStyle={{ 'fontSize': '1rem' , 'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'  }} thStyle={{ 'fontSize': '1rem',  'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap' }}>스테이지</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='score' dataAlign='center' tdStyle={{ 'fontSize': '1rem', 'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'  }} thStyle={{ 'fontSize': '1rem',  'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'  }}>점수</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='missedcode' dataAlign='center' tdStyle={{ 'fontSize': '1rem', 'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'  }} thStyle={{ 'fontSize': '1rem', 'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'  }}>놓친 코드</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='createdAt' dataAlign='center' tdStyle={{ 'fontSize': '1rem', 'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'  }} thStyle={{ 'fontSize': '1rem', 'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'  }}>날짜</TableHeaderColumn>
                                     </BootstrapTable>
                                 </div>
 
-                                <div className="field-row" style={{ justifyContent: 'center' }}>
+                                <div className="field-row Mypage-field-row-btn" style={{ justifyContent: 'center' }}>
                                     <button
-                                        className="playbutton"
+                                        className="mypageBtn"
                                         onClick={() => this.props.history.push("/selectStage")}
-                                    >게임하러 가기</button>
+                                    >확인</button>
                                 </div>
                             </fieldset>
                         </div>
