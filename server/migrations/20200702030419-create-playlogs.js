@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       missedcode: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       nickname: {
         type: Sequelize.STRING
