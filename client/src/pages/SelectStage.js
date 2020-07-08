@@ -165,7 +165,7 @@ class SelectStage extends Component {
                                 this.props.history.push('/playstage')
 
                             }}>플레이</button>
-                            <button onClick={() => {
+                            <button className="SelectStage-btn" onClick={() => {
                               if(userId.indexOf('Guest_') + userId.indexOf('Google_') === -2){
                                 //모달의 오픈,클로즈 여부를 관리하는 이벤트를 실행시킴
                                 handleMakingStage()

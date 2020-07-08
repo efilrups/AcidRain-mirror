@@ -65,10 +65,11 @@ class MakeStage extends Component {
                                         //db에 저장하는 post요청, 창닫기 
                                         // console.log('inputStageName: ', inputStageName);
                                         if(userId){
+    
                                           axios.post("http://localhost:5000/main/makestage", {
                                               userId: userId,
                                               stagename: inputStageName,
-                                              contents: inputStageContents.split('\n')
+                                              contents:  inputStageContents.split('\n').map(content=>content.trim())
                                           }).then(res => {
                                               alert(res.data.message)
                                           })
