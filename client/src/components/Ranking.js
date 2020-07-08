@@ -50,31 +50,38 @@ class Ranking extends Component {
                     <p className="title" style={{ textAlign: "center" }}>점수판</p>
 
                     <fieldset className="Ranking-fieldset">
-                        <div className="field-row" style={{ justifyContent: 'center' }}>
+                        <div className="Ranking-field-row" style={{ justifyContent: 'center' }}>
                             <BootstrapTable data={this.state.ranking}
                                 bordered={false}
                                 headerStyle={{ 'borderBottom': 'black 0.05rem solid', 'marginBottom': '1rem', 'marginTop': '1rem', 'paddingBottom': '1rem' }}
-                                containerStyle={{ 'borderBottom': 'black solid 0.05rem', 'paddingBottom': '1rem' }}
+                                containerStyle={{ 'paddingBottom': '1rem' }}
                             // tableStyle={ { 'border': 'blue solid 1px'  } }
                             >
-                                <TableHeaderColumn dataField='rank' dataAlign='center' isKey={true} tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem', paddingLeft: '1rem', paddingRight: '2.2rem' }}>순위</TableHeaderColumn>
-                                <TableHeaderColumn dataField='nickname' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem', paddingLeft:'1rem', paddingRight: '3rem' }}>이름</TableHeaderColumn>
-                                <TableHeaderColumn dataField='stagename' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight: '1rem' }}>스테이지</TableHeaderColumn>
-                                <TableHeaderColumn dataField='score' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem',paddingLeft:'1rem', paddingRight: '2rem' }} >점수</TableHeaderColumn>
-                                <TableHeaderColumn dataField='createdAt' dataAlign='center' tdStyle={{ 'fontSize': '1rem' }} thStyle={{ 'fontSize': '1rem' }} >일자</TableHeaderColumn>
+                                <TableHeaderColumn dataField='rank' dataAlign='center' isKey={true} tdStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }}>순위</TableHeaderColumn>
+                                <TableHeaderColumn dataField='nickname' dataAlign='center' tdStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }}>이름</TableHeaderColumn>
+                                <TableHeaderColumn dataField='stagename' dataAlign='center' tdStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }}>스테이지</TableHeaderColumn>
+                                <TableHeaderColumn dataField='score' dataAlign='center' tdStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} >점수</TableHeaderColumn>
+                                <TableHeaderColumn dataField='createdAt' dataAlign='center' tdStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} >일자</TableHeaderColumn>
                             </BootstrapTable>
                         </div>
+
+
+                        <div className="field-row Ranking-field-row-btn" style={{ justifyContent: 'center' }}>
+                            {
+
+                                isLogin ?
+                                    <button className="Ranking-button" onClick={() => {
+                                        //스테이지 선택 버튼을 누르면 스테이지 선택 페이지로 이동
+                                        this.props.history.push('/selectStage')
+                                    }}>스테이지 선택</button>
+                                    : ''
+                            }
+
+                        </div>
+
+
                     </fieldset>
-                    {
-                        isLogin
-                            ? <div className="field-row" style={{ justifyContent: 'center' }}>
-                                <button className="Ranking-button" onClick={() => {
-                                    //스테이지 선택 버튼을 누르면 스테이지 선택 페이지로 이동
-                                    this.props.history.push('/selectStage')
-                                }}>스테이지 선택</button>
-                            </div>
-                            : ''
-                    }
+
 
 
 
