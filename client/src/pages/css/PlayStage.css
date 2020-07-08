@@ -11,6 +11,8 @@
   height: 100%;
 }
 
+.playStage-square:focus {outline:none}
+
 .gameBoard {
   text-align: center;
   height: 80%;
@@ -30,8 +32,11 @@
 .inputAnswer {
   width: 40%;
   height: 100% !important;
-  font-size: 1rem;
+  font-size: 2rem;
+  font-family: 'Nanum Myeongjo', serif;
 }
+
+.inputAnswer:focus {outline:none;}
 
 .stop {
   height: 100% !important;
@@ -42,4 +47,18 @@ button{
     margin-top: 1rem;
     margin-bottom: 1rem;
     cursor:pointer;
+}
+
+#playpage{
+  visibility: visible;
+}
+
+.modal{
+  height: 100%;
+  width: 100%;
+  background-color: rgba(83, 83, 83, 0.2);
+  visibility: visible;
+}
+.hidden{
+  visibility: hidden;
 }

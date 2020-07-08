@@ -36,7 +36,7 @@ class GameOver extends Component {
 
 
                         <div className="field-row" style={{ justifyContent: 'center' }}>
-                            <button onClick={()=>{
+                            <button className="gameoverBtn"onClick={()=>{
                                 this.props.history.push('/ranking') // 여기서 랭킹으로 이동
                             }}>확인</button>
                         </div>

@@ -33,15 +33,15 @@ module.exports = {
               }
             })
             let result = []
-            
+            console.log(`???????${myplaylogs[4].dataValues.missedcode}???????`)
             myplaylogs.forEach(myplaylog => {
               let date = JSON.stringify(myplaylog.dataValues.createdAt).split('').splice(3,8).join('').split('-').join('.');
-
+              
               result.push({
                 'score': myplaylog.dataValues.score,
                 'stagename': myplaylog.dataValues.stagename,
                 'createdAt': date,
-                'missedcode': `${myplaylog.dataValues.missedcode.length - 2} 개`
+                'missedcode': `${JSON.parse(myplaylog.dataValues.missedcode).length} 개`
               })
             })
 

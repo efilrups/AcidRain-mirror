@@ -19,27 +19,38 @@ fieldset{
 
 input.inputMypage{
     width: 14rem;
-    height: 1.5rem;
-    font-size:0.8rem;
+    height: 1.7rem;
+    font-size:1rem;
     font-family: 'Nanum Myeongjo', serif;
 }
 
-
- /* .mypageTitle {
-    position: relative;
-    font-size: 20 rem;
-    font-family: 'Nanum Myeongjo', serif;
-    color: blue;
-    text-align: center;
-    top: 4000 rem;
-    left: 4000 rem;
+.changeNameBtn{
+    height:1.7rem;
+    font-size:0.9rem;
 }
+.mypageBtn{
+    margin-top:1rem;
+    height:1.7rem;
+    font-size:0.9rem;
+}
+
+.mypageTitle{
+    margin-bottom:0;
+}
+
 
 .myplayLog {
-    text-align: center;
+    height:10rem;
+    overflow-y:scroll;
 }
 
-.nickname {
-    position: relative;
-    top: 80 rem;
-}  */
+
+.Mypage-field-row-btn{
+    border-top:black 0.05rem solid;
+    margin-top:0.7rem;
+}
+/* 
+width:50%; 
+overflow: hidden; 
+text-overflow: ellipsis;
+white-space:nowrap; */

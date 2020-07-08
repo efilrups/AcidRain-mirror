@@ -16,11 +16,11 @@ class Nav extends Component {
 
       const { userId, isGuest, isLogin, changeUserId,  themaPageIsOpen, handleThemaPage, color, handleColorChange, logout, socialLogin, gameStart } =  this.props
       console.log('isGuest: ', isGuest);
-      if(gameStart){
-        return (
-          <button><Link to='/selectStage' className="">나가기</Link></button>
-        )
-      } else {
+      // if(gameStart){
+      //   return (
+      //     <button><Link to='/selectStage' className="">나가기</Link></button>
+      //   )
+      // } else {
         return (
             <div className="Nav-square" >
                 <div className="Nav-link">
@@ -35,30 +35,45 @@ class Nav extends Component {
                         : `로그인 후에 이용해주세요.`
                       }
                     </div>
-                    <Link to='/ranking' className="Link-ranking">랭킹</Link>
                     {
-                      userId
-                      ? socialLogin
-                        ? <GoogleLogout
-                            clientId="1037438704815-ih3s6v1brfb4p5oksifqvd881ss953kd.apps.googleusercontent.com"
-                            render={renderProps => (
-                              <div className="social-login" id="socialLogin" onClick={renderProps.onClick} 
-                              disabled={renderProps.disabled}>로그아웃</div>
-                            )}
-                            buttonText="Logout"
-                            onLogoutSuccess={this.navLogout}
-                          ></GoogleLogout>
-                        : <Link to='/login' className="Link-login" onClick={logout}>로그아웃</Link>
-                      : <Link to='/login' className="Link-login">로그인</Link>
+                      gameStart
+                      ? null
+                      : <Link to='/ranking' className="Link-ranking">랭킹</Link>
                     }
                     {
-                      userId
-                      ? isGuest
-                        ? null 
-                        : <Link to='/mypage' className="Link-mypage">마이페이지</Link>
-                      : null
+                      gameStart
+                      ? null
+                      : <span className="Link-makeThema" onClick={handleThemaPage}>배경색</span>
                     }
-                    <span className="Link-makeThema" onClick={handleThemaPage}>배경색</span>
+                    
+                    {
+                      gameStart
+                      ? <Link to='/selectStage' className="Link-ranking">나가기</Link>
+                      : userId
+                        ? socialLogin
+                          ? <GoogleLogout
+                              clientId="1037438704815-ih3s6v1brfb4p5oksifqvd881ss953kd.apps.googleusercontent.com"
+                              render={renderProps => (
+                                <div className="social-login" id="socialLogin" onClick={renderProps.onClick} 
+                                disabled={renderProps.disabled}>로그아웃</div>
+                              )}
+                              buttonText="Logout"
+                              onLogoutSuccess={this.navLogout}
+                            ></GoogleLogout>
+                          : <Link to='/login' className="Link-login" onClick={logout}>로그아웃</Link>
+                        : <Link to='/login' className="Link-login">로그인</Link>
+                        
+                    }
+                    {
+                      gameStart
+                      ? null
+                      : userId
+                        ? isGuest
+                          ? null 
+                          : <Link to='/mypage' className="Link-mypage">마이페이지</Link>
+                        : null
+                    }
+                    
                    { themaPageIsOpen ?  
                    <div className="makeThema-box">
                    <MakeThema themaPageIsOpen={themaPageIsOpen} handleThemaPage={handleThemaPage} color={color} handleColorChange={handleColorChange} /> 
@@ -70,7 +85,6 @@ class Nav extends Component {
             </div>
         )
       }
-    }
 }
 // handleOpenModal
 export default withRouter(Nav)

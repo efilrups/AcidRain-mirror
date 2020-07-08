@@ -15,9 +15,12 @@ class PlayStage extends Component {
     this.startToggle = this.startToggle.bind(this);
   }
   componentDidMount() {
-    if(this.inputStart) {
-      this.inputStart.focus();
-    }
+    
+    document.getElementById('playpage').focus()
+    // document.querySelector('#playpage').focus()
+    // if(this.inputStart) {
+    //   this.inputStart.focus();
+    // }
   }
 
   enterkey(event) {
@@ -32,11 +35,27 @@ class PlayStage extends Component {
     this.setState(current => ({
       start: !current.start
     }));
-
   }
 
-  render() {
+  onKey = (e) => {
+    console.log('playstage', e.key)
+    if(e.which === 13 && e.ctrlKey) {
+      alert('시작')
+      this.startToggle();
+    }
+    if(e.which === 27){
+      console.log('escape', this.props.modalOpened)
+      // this.gameStopRestartToggle()
+      this.props.opendMobal()
+    } 
+  }
 
+
+
+
+  render() {
+    // document.querySelector('#playpage').onKeyDown(this.onKey);
+    console.log('document.querySelector ', document.querySelector('#playpage'));
     const gameRule = (
     <div className='gameRule'>
       <div className="playStage-description-box">
@@ -62,14 +81,22 @@ class PlayStage extends Component {
           onKeyUp={this.enterkey} >시작</button>
         <button onClick={this.props.history.goBack}>되돌아가기</button>
       </div>
+      
     </div>
     )
 
     const { isLogin, userId, stageContents, selectedStageName,
-       color, gameLevel, gameStart, gameStartToggle } = this.props
+       color, gameLevel, gameStart, gameStartToggle, modalOpened } = this.props
 
     return (
-      <div className="playStage-square">
+      <div 
+        id="playpage"
+        className="playStage-square"  
+        onKeyDown={this.onKey}
+        tabindex="0"
+      >
+
+        
 
         {
 
@@ -83,8 +110,6 @@ class PlayStage extends Component {
            userId={userId} selectedStageName={selectedStageName} gameStart={gameStart}
            stageContents={stageContents} gameStartToggle={gameStartToggle} color={color}  gameLevel={gameLevel}/>
         }
-
-
       </div>
     )
   }
