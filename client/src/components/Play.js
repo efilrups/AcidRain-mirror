@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, withRouter, Redirect } from 'react-router-dom'
 import  GameOver  from './GameOver'
 
 class Play extends Component {
@@ -38,6 +38,7 @@ class Play extends Component {
 
   // canvas에 그려질 내용들 설정
   componentDidMount() {
+    document.querySelector('.inputAnswer').focus();
     this.canvas = document.getElementById('canvas');
 
     //canvas의 크기 설정
@@ -182,6 +183,7 @@ class Play extends Component {
     this.setState(state=>({
       stop: !state.stop
     }));
+    document.querySelector('.inputAnswer').focus();
   }
 
   rangeChange (obj) {
@@ -190,7 +192,21 @@ class Play extends Component {
       });
   }
 
+  onKeyPressed = (e) => {
+    console.log(e.key)
+    if(e.key === 'Escape'){
+      console.log('escape')
+      this.props.history.push('/selectStage');
+    } else if (e.key === 'Enter'){
+      this.gameStopRestartToggle()
+    }
+  }
+
   render() {
+    // window.onkeydown = function(e) {
+    //   console.log('play', e)
+    // }
+    
     const {userId, selectedStageName, stageContents, gameStartToggle, gameLevel } = this.props
     const { score } = this.state
 
@@ -205,7 +221,8 @@ class Play extends Component {
     );
 
     return (
-      <div className='window-body gameBoard'>
+      <div className='window-body gameBoard' onKeyDown={this.onKeyPressed}>
+      
         <canvas id='canvas'/>
 
         <div>
@@ -251,9 +268,10 @@ class Play extends Component {
         }
 
 
+      
       </div>
     )
   }
 }
 
-export default Play
+export default withRouter(Play)

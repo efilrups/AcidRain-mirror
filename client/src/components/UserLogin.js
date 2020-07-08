@@ -63,7 +63,7 @@ class UserLogin extends Component {
             })
             console.log('result: ', result.data.session);
             
-            this.props.changeUserId(result.data.nickname)
+            this.props.changeUserId(result.data.nickname, false)
             cookie.save('sessionKey', result.data.session)
             this.setState({email: '', password: ''})
 
@@ -78,7 +78,7 @@ class UserLogin extends Component {
    
     socialLoggedin = (response) => {
       console.log('login', response)
-      this.props.changeUserId(`google_${response.Rt.Bd}`)
+      this.props.changeUserId(`Google_${response.Rt.Bd}`, true)
     }
 
     render() {
