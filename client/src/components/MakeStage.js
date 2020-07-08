@@ -61,12 +61,12 @@ class MakeStage extends Component {
 
 
                                 <div className="field-row" style={{ justifyContent: 'center' }}>
-                                    <button className="MakeStage-button" onClick={() => {
-                                        //db에 저장하는 post요청, 창닫기 
+                                    <button className="MakeStage-button" onClick={ async () => {
+                                        //db에 저장하는 post요청, 창닫기
                                         // console.log('inputStageName: ', inputStageName);
                                         if(userId){
-    
-                                          axios.post("http://localhost:5000/main/makestage", {
+
+                                          await axios.post("http://localhost:5000/main/makestage", {
                                               userId: userId,
                                               stagename: inputStageName,
                                               contents:  inputStageContents.split('\n').map(content=>content.trim())

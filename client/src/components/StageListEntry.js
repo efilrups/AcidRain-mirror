@@ -7,19 +7,19 @@ class  StageListEntry extends Component {
   constructor(props){
     super(props)
   }
- 
-  
 
-  
- 
-    
+
+
+
+
+
 
 render() {
-  
-    const { createdBy, stageName, clickStage, isSelected, selectedStageName, userId, refresh } = this.props
-    // console.log(`stageName is ${stageName} ${isSelected}`)  
-   
-   
+
+    const { createdBy, stageName, clickStage, isSelected, selectedStageName, userId, refresh, resetEditingHope } = this.props
+    // console.log(`stageName is ${stageName} ${isSelected}`)
+
+
     let bgColor = isSelected ? "navy" : "white"
     let fontColor = isSelected ? "white" : "black"
 
@@ -29,14 +29,14 @@ render() {
 
         <tr className="selectingArea"
          onClick={() => clickStage(stageName)} style={{ backgroundColor: bgColor, color: fontColor }}
-        
+
          >
-            
+
                 <td className="td-text">{stageName}</td>
                 <td className="td-text">{createdBy}</td>
-                
+
             <td className="far fa-plus-square fa-lg" onClick={() => {
-                //플러스 버튼 누르면 selectedStageName에 해당하는 db의 컨텐츠를 가져오기 
+                //플러스 버튼 누르면 selectedStageName에 해당하는 db의 컨텐츠를 가져오기
                 this.props.handleEditStageName(stageName)
                 axios.post("http://localhost:5000/main/confirm", {
                   userid: userId,
@@ -55,10 +55,10 @@ render() {
                     })
 
             }}></td>
-            <td className="far fa-minus-square fa-lg" onClick={() => {
+            <td className="far fa-minus-square fa-lg" onClick={ async () => {
                 //마이너스 버튼 누르면 selectedStageName에 해당하는 db의 컨텐츠를 삭제 요청
                ( window.confirm("정말 삭제하시겠습니까?")===true ) ?
-                  axios.post('http://localhost:5000/main/confirm', {
+                  await axios.post('http://localhost:5000/main/confirm', {
                     delete: true,
                     userid: userId,
                     stagename: stageName
@@ -72,8 +72,7 @@ render() {
                     alert('권한이 없습니다')
                   })
                 : console.log('삭제할맘없대')
-                  
-                  
+                resetEditingHope();
             }}></td>
         </tr>
 
@@ -82,5 +81,3 @@ render() {
 }
 
 export default withRouter(StageListEntry)
-
-
