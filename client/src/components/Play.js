@@ -25,8 +25,8 @@ class Play extends Component {
     this.life = 10;
     this.currentLife = this.life;
     this.font = {
-      fontSize : 25,
-      fontName : 'arial'
+      fontSize : 30,
+      fontName : 'Nanum Myeongjo'
     };
     this.missedCode = [];
     this.comment = '';
@@ -123,7 +123,7 @@ class Play extends Component {
     this.ctx.font = `30px ${fontName}`;
     this.ctx.fillStyle = 'black';
     this.ctx.fillText(`점수 : ${this.score}`, this.canvas.width * 0.05, 48);
-    this.ctx.fillText(`난이도 : ${this.state.gameLevel}`, this.canvas.width * 0.2, 48);
+    this.ctx.fillText(`난이도 : ${this.state.gameLevel}`, this.canvas.width * 0.19, 48);
     this.ctx.fillStyle = this.commentColor;
     this.ctx.fillText(this.comment, this.canvas.width * 0.75, 48);
 
@@ -156,7 +156,7 @@ class Play extends Component {
 
     // ph바 그리기
     this.ctx.font = `28px ${fontName}`;
-    this.ctx.fillText(`ph.${this.currentLife + 1}`, this.canvas.width * 0.66, 45);
+    this.ctx.fillText(`ph.${this.currentLife + 1}`, this.canvas.width * 0.68, 47);
     this.ctx.fillRect(this.canvas.width * 0.345, 14, this.canvas.width * 0.31, 46);
     this.ctx.fillStyle = gra;
     this.ctx.fillRect(this.canvas.width * 0.35, 20, (this.canvas.width * 0.3) * (this.currentLife / this.life), 34);
@@ -246,7 +246,6 @@ class Play extends Component {
                 disabled={ this.state.stop ? true : false }
               />
               <div/>
-
               <button
                 className="stop"
                 onClick={this.gameStopRestartToggle}>
@@ -264,7 +263,6 @@ class Play extends Component {
             </div>
           }
         </div>
-
         {
           !this.props.gameStart
           ? <GameOver userId={userId} selectedStageName={selectedStageName}

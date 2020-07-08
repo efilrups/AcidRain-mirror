@@ -22,6 +22,15 @@ class MyPage extends Component {
         this.handleInputValueChange = this.handleInputValueChange.bind(this);
     }
 
+    onKeyPressed=(e)=>{
+        if(e.key==='Enter'){
+            this.props.history.push('/selectstage')
+        }
+        if(e.key==='Escape'){
+            this.props.history.goBack()
+        }
+    }
+
     handleNicknameChange() {
         const { userId, changeUserId } = this.props
         axios.post('http://localhost:5000/main/mypage', {
@@ -58,6 +67,7 @@ class MyPage extends Component {
     // }
 
     componentDidMount() {
+        document.getElementById('MypageFocus').focus()
         const { userId } = this.props
         axios.post('http://localhost:5000/main/mypage', {
             nickname: userId
@@ -77,7 +87,7 @@ class MyPage extends Component {
         return (
             <div>
                 <div>
-                    <div className="window MyPage-window">
+                    <div className="window MyPage-window" id="MypageFocus" onKeyDown={this.onKeyPressed} tabindex="0">
                       <div className="title-bar">
                         <div className="title-bar-controls">
                           <div className="title-bar-text">Mypage</div>

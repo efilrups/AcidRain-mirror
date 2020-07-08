@@ -218,6 +218,8 @@ class App extends Component {
 
           <div className="footer">
             <p className="footer-text">{footerState}</p>
+            <hr id="footer-bar"/>
+            <p className="footer-title">산성비</p>
           </div>
 
         </footer>
