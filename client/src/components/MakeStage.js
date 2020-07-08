@@ -66,7 +66,7 @@ class MakeStage extends Component {
                                         // console.log('inputStageName: ', inputStageName);
                                         if(userId){
 
-                                          await axios.post("http://localhost:5000/main/makestage", {
+                                          await axios.post("http://13.125.33.38:5000/main/makestage", {
                                               userId: userId,
                                               stagename: inputStageName,
                                               contents:  inputStageContents.split('\n').map(content=>content.trim())

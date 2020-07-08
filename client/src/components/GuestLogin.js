@@ -23,7 +23,7 @@ class GuestLogin extends Component {
       } 
       // 입력창에 모두 올바르게 입력완료
       else {
-        let result = await axios.post('http://localhost:5000/main/guest', {
+        let result = await axios.post('http://:5000/main/guest', {
           nickname: this.state.nickname
         })
         console.log('result: ', result);

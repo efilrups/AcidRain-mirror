@@ -57,7 +57,7 @@ class UserLogin extends Component {
           document.querySelector("#inputPassword").focus();
         } else {
           try{
-            let result = await axios.post('http://localhost:5000/main/login', {
+            let result = await axios.post('http://13.125.33.38:5000/main/login', {
               email : this.state.email,
               password: this.state.password,
             })

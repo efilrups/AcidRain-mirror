@@ -44,7 +44,7 @@ class SelectStage extends Component {
         this.props.gameStatusToFalse()
         document.getElementById('SelectStage-window').focus()
 
-        axios.get('http://localhost:5000/main/selectstage')
+        axios.get('http://13.125.33.38:5000/main/selectstage')
         .then(res => {
             this.setState({ savedStages: res.data })
         })
@@ -53,7 +53,7 @@ class SelectStage extends Component {
 
     componentDidUpdate(prevProps, prevState) {
       //selectStage 경로로 이동하면 stage테이블에 저장된 데이터를 모두 가져오고 stageNames에 담김
-      axios.get('http://localhost:5000/main/selectstage')
+      axios.get('http://13.125.33.38:5000/main/selectstage')
       .then(res => {
         if (prevState.savedStages.length !== res.data.length) {
           this.setState({ savedStages: res.data })
@@ -81,7 +81,7 @@ class SelectStage extends Component {
         if(e.key==='m'  && !this.props.wantToMake ){
             this.props.handleMakingStage()
         }if(e.key==='Enter' && !this.props.wantToMake ){
-            axios.post("http://localhost:5000/main/playstage", {
+            axios.post("http://13.125.33.38:5000/main/playstage", {
                 stagename: this.props.selectedStageName,
                 userid: this.props.userId
             })
@@ -158,7 +158,7 @@ class SelectStage extends Component {
                             <button className="SelectStage-btn" onClick={() => {
                                 //버튼 누르면 서버에 현재 선택한 stageName을 post요청으로 보내고, 해당 stageName에 대한 content를 받아온다.
                                 ///playstage로 이동
-                                axios.post("http://localhost:5000/main/playstage", {
+                                axios.post("http://13.125.33.38:5000/main/playstage", {
                                     stagename: selectedStageName,
                                     userid: userId
                                 })
