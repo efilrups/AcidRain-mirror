@@ -183,6 +183,7 @@ class Play extends Component {
     this.setState(state=>({
       stop: !state.stop
     }));
+    document.querySelector('.inputAnswer').focus();
   }
 
   rangeChange (obj) {

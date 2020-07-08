@@ -38,7 +38,7 @@ render() {
             <td className="far fa-plus-square fa-lg" onClick={() => {
                 //플러스 버튼 누르면 selectedStageName에 해당하는 db의 컨텐츠를 가져오기 
                 this.props.handleEditStageName(stageName)
-                axios.post("http://localhost:5000/main/playstage", {
+                axios.post("http://localhost:5000/main/confirm", {
                   userid: userId,
                   stagename: stageName
                 })
@@ -56,7 +56,7 @@ render() {
             }}></td>
             <td className="far fa-minus-square fa-lg" onClick={() => {
                 //마이너스 버튼 누르면 selectedStageName에 해당하는 db의 컨텐츠를 삭제 요청
-                  axios.post('http://localhost:5000/main/playstage', {
+                  axios.post('http://localhost:5000/main/confirm', {
                     delete: true,
                     userid: userId,
                     stagename: stageName

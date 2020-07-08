@@ -19,4 +19,6 @@ router.post("/gameover", controller.gameover.post)
 
 router.post("/makestage", controller.makestage.post)
 
+router.post("/confirm", controller.confirm.post)
+
 module.exports = router;
