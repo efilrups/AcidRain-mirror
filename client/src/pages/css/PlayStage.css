@@ -32,7 +32,8 @@
 .inputAnswer {
   width: 40%;
   height: 100% !important;
-  font-size: 1rem;
+  font-size: 2rem;
+  font-family: 'Nanum Myeongjo', serif;
 }
 
 .inputAnswer:focus {outline:none;}
