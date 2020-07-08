@@ -137,12 +137,12 @@ class Play extends Component {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     // 점수와 코멘트 피드백
-    this.ctx.font = `30px ${fontName}`;
+    this.ctx.font = `20px ${fontName}`;
     this.ctx.fillStyle = 'black';
     this.ctx.fillText(`점수 : ${this.score}`, this.canvas.width * 0.05, 48);
-    this.ctx.fillText(`난이도 : ${this.state.gameLevel}`, this.canvas.width * 0.2, 48);
+    this.ctx.fillText(`난이도 : ${this.state.gameLevel}`, this.canvas.width * 0.17, 48);
     this.ctx.fillStyle = this.commentColor;
-    this.ctx.fillText(this.comment, this.canvas.width * 0.75, 48);
+    this.ctx.fillText(this.comment, this.canvas.width * 0.68, 48);
 
 
     // 내려가기 시작한 코드들을 하나씩 그리기
@@ -179,8 +179,8 @@ class Play extends Component {
     gra.addColorStop(1, 'rgb(14, 67, 201)');
 
     // ph바 그리기
-    this.ctx.font = `28px ${fontName}`;
-    this.ctx.fillText(`ph.${this.currentLife + 1}`, this.canvas.width * 0.66, 45);
+    this.ctx.font = `24px ${fontName}`;
+    this.ctx.fillText(`ph.${this.currentLife + 1}`, this.canvas.width * 0.282, 45);
     this.ctx.fillRect(this.canvas.width * 0.345, 14, this.canvas.width * 0.31, 46);
     this.ctx.fillStyle = gra;
     this.ctx.fillRect(this.canvas.width * 0.35, 20, (this.canvas.width * 0.3) * (this.currentLife / this.life), 34);
@@ -190,9 +190,9 @@ class Play extends Component {
     const { correctComment, incorrectComment } = this.state
     if (event.key === 'Enter') {
       let targetIndex = this.randomArr.findIndex( obj => event.target.value === obj.code );
+      this.commentColor = 'rgb(14, 207, 23)';
 
-
-      //맞추면 파랑, 틀리면 빨강 코멘트,  길이, 난이도에 따라서 점수
+      //------------------corrent comment-------------------
       if (targetIndex !== -1 && this.randomArr[targetIndex].code !== '') {
         this.commentColor ='rgb(31, 124, 247)';
         this.comment = correctComment[Math.floor(Math.random() * correctComment.length)];
@@ -200,10 +200,35 @@ class Play extends Component {
         this.score += this.randomArr[targetIndex].score;
 
         this.randomArr[targetIndex].code = '';
-      } else {
-        this.commentColor = 'rgb(143, 36, 2)';
-        this.comment = incorrectComment[Math.floor(Math.random() * incorrectComment.length)];
-      }
+      } //--------------------------------- Easter Egg comment --------
+      else if (event.target.value === 'acidrain') {
+        this.comment = '이스터 에그 발견! 추가 점수 100';
+        this.score += 100;
+      } else if (
+        event.target.value === 'PCHANUL' ||
+        event.target.value === 'iamnayeon' ||
+        event.target.value === 'efilrups' ||
+        event.target.value === 'oyeon-kwon'
+      ) {
+        this.comment = '만든 사람! 추가 점수 120';
+        this.score += 120;
+      } else if (
+        event.target.value === 'show me the money'
+      ) {
+        this.comment = '돈 대신 점수를 드릴게요';
+        this.score -= 1000;
+      } else if (
+        event.target.value === 'codestates'
+      ) {
+        this.comment = '이해되시면 1을 눌러주세요'
+        this.score += 1;
+      }//------------------incorrent comment-------------------
+      else {
+       this.commentColor = 'rgb(143, 36, 2)';
+       this.comment = incorrectComment[Math.floor(Math.random() * incorrectComment.length)];
+     }
+
+
       this.draw();
       event.target.value = '';
     }
