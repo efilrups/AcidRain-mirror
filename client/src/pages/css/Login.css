@@ -90,10 +90,11 @@
 }
 
 #loginBar{
-position: absolute;
-left:17.8%;
-width:19.7rem;
-bottom:29%
+  position: absolute;
+  left:17.8%;
+  width:19.7rem;
+  bottom:29%;
+  margin-bottom: 0.6rem;
 }
 
 #socialLogin{

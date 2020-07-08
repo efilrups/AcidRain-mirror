@@ -63,22 +63,21 @@ class MakeStage extends Component {
                                 <div className="field-row" style={{ justifyContent: 'center' }}>
                                     <button className="MakeStage-button" onClick={() => {
                                         //db에 저장하는 post요청, 창닫기 
-
-                                        (inputStageName.length === 0 && inputStageContents.length === 0) ? alert("아무것도 입력되지 않았습니다.")
-                                            : (inputStageName.length === 0) ? alert("스테이지의 이름을 입력해주세요.")
-                                                : (inputStageContents.length === 0) ? alert("스테이지 컨텐츠를 작성해주세요.")
-                                                    : axios.post("http://localhost:5000/main/makestage", {
-                                                        userId: userId,
-                                                        stagename: inputStageName,
-                                                        contents: inputStageContents.split('\n')
-                                                    }).then(res => {
-                                                        alert(res.data.message)
-                                                       
-                                                       //input값을 초기화해주기
-                                                        resetEditingHope()
-                                                        handleMakingStage()
-                                                    })
-                                        
+                                        // console.log('inputStageName: ', inputStageName);
+                                        if(userId){
+                                          axios.post("http://localhost:5000/main/makestage", {
+                                              userId: userId,
+                                              stagename: inputStageName,
+                                              contents: inputStageContents.split('\n')
+                                          }).then(res => {
+                                              alert(res.data.message)
+                                          })
+                                          //input값을 초기화해주기
+                                          resetEditingHope()
+                                          handleMakingStage()
+                                        } else {
+                                          alert('')
+                                        }
                                     }}>저장</button>
                                 </div>
 

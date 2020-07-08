@@ -89,6 +89,10 @@ class SelectStage extends Component {
         }
     }
 
+    refresh(){
+      this.props.history.push('/selectStage')
+    }
+
 
     render() {
         const { clickStage, selectedStageName, wantToMake, handleMakingStage, userId } = this.props
@@ -131,7 +135,7 @@ class SelectStage extends Component {
                                             handleEditStageName={this.handleEditStageName}
                                             handleMakingStage={handleMakingStage}
                                             userId={userId}
-                                            refresh={this.refresh}
+                                            
                                        
                                         />
 
@@ -155,16 +159,20 @@ class SelectStage extends Component {
                                     userid: userId
                                 })
                                     .then(res => {
+                                        console.log('res: ', res);
                                         this.props.getContents(JSON.parse(res.data[0].contents), gameLevel)
                                     })
                                 this.props.history.push('/playstage')
 
                             }}>플레이</button>
-                            <button className="SelectStage-btn" onClick={() => {
+                            <button onClick={() => {
+                              if(userId.indexOf('Guest_') + userId.indexOf('Google_') === -2){
                                 //모달의 오픈,클로즈 여부를 관리하는 이벤트를 실행시킴
                                 handleMakingStage()
+                              } else {
+                                alert('오직 회원만 스테이지를 만들 수 있습니다! (회원가입해주세요)')
+                              }
                             }}
-                            value="asfawefawe"
                             >만들기</button>
                             {wantToMake ? <MakeStage handleMakingStage={handleMakingStage} userId={userId}
                                 editStageName={editStageName}

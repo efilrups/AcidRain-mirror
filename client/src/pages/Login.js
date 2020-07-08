@@ -20,7 +20,7 @@ class Login extends Component {
 
                 <Route path='/selectstage' render={() => <SelectStage selectedStageName={selectedStageName} clickStage={clickStage}
                    handleStageButton ={handleStageButton} getContents={getContents} stageContents={stageContents} 
-                   wantToMake={wantToMake} handleMakingStage={handleMakingStage} userId={userId} gameStatus={gameStatus}
+                   wantToMake={wantToMake} handleMakingStage={handleMakingStage} userId={userId} gameStatus={gameStatus} 
                    />} />
 
             </div>

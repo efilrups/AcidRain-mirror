@@ -210,10 +210,6 @@ class Play extends Component {
   }
 
   render() {
-    // window.onkeydown = function(e) {
-    //   console.log('play', e)
-    // }
-    
     const {userId, selectedStageName, stageContents, gameStartToggle, gameLevel } = this.props
     const { score } = this.state
 
@@ -228,7 +224,7 @@ class Play extends Component {
     );
 
     return (
-      <div className='window-body gameBoard' onKeyDown={this.onKeyPressed}>
+      <div className='window-body gameBoard'>
       
         <canvas id='canvas'/>
 
@@ -273,9 +269,6 @@ class Play extends Component {
             gameStartToggle={gameStartToggle} />
           : ''
         }
-
-
-      
       </div>
     )
   }
