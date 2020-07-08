@@ -13,6 +13,8 @@
     border-width:0.095rem;
 }
 
+#MypageFocus:focus{outline:none;}
+
 fieldset{
     color:black
 }

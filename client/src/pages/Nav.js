@@ -28,7 +28,7 @@ class Nav extends Component {
                       {
                         userId
                         ? `${userId}님이 입장하셨습니다.`
-                        : `로그인 후에 이용해주세요.`
+                        : `환상의 산성비 게임`
                       }
                     </div>
                     {

@@ -25,8 +25,8 @@ class Play extends Component {
     this.life = 10;
     this.currentLife = this.life;
     this.font = {
-      fontSize : 25,
-      fontName : 'arial'
+      fontSize : 30,
+      fontName : 'Nanum Myeongjo'
     };
     this.missedCode = [];
     this.comment = '';
@@ -55,7 +55,7 @@ class Play extends Component {
     this.ctx.font = `${this.font.fontSize}px ${this.font.fontName}`;
 
     const { stageContents } = this.props
-    const {  RAIN_MAX } = this.state;
+    const { RAIN_MAX } = this.state;
 
     let acc = 0
     stageContents.forEach((code)=>{
@@ -137,7 +137,7 @@ class Play extends Component {
     this.ctx.font = `20px ${fontName}`;
     this.ctx.fillStyle = 'black';
     this.ctx.fillText(`점수 : ${this.score}`, this.canvas.width * 0.05, 48);
-    this.ctx.fillText(`난이도 : ${this.state.gameLevel}`, this.canvas.width * 0.17, 48);
+    this.ctx.fillText(`난이도 : ${this.state.gameLevel}`, this.canvas.width * 0.15, 48);
     this.ctx.fillStyle = this.commentColor;
     this.ctx.fillText(this.comment, this.canvas.width * 0.68, 48);
 
@@ -188,11 +188,11 @@ class Play extends Component {
     this.setState({text: ''})
     if (event.key === 'Enter') {
       let targetIndex = this.randomArr.findIndex( obj => event.target.value === obj.code );
-      this.commentColor = 'rgb(14, 207, 23)';
+      this.commentColor = '#000080';
 
       //------------------corrent comment-------------------
       if (targetIndex !== -1 && this.randomArr[targetIndex].code !== '') {
-        this.commentColor ='rgb(31, 124, 247)';
+        this.commentColor ='rgb(0,255,255)';
         this.comment = correctComment[Math.floor(Math.random() * correctComment.length)];
 
         this.score += this.randomArr[targetIndex].score;
@@ -306,17 +306,17 @@ class Play extends Component {
         {
           modalOpened
           ? <div className='modal'>
-              <div className="window Login-window">
+              <div className="window Play-window">
                 <div className="title-bar">
                   <div className="title-bar-controls">
-                    <div className="title-bar-text">menu</div>
+                    <div className="title-bar-text">Game Over</div>
                   </div>
                 </div>
                 <div className="window-body">
                   <fieldset id="login">
                     <div className="title" style={{ left:"35%", top: "20%", position: "absolute", fontSize: '20px'}}>그만하시겠습니까?</div>
                     <div className="selectLevel" style={{ textAlign: 'center' }}>
-                      <div>난이도를 재설정 해보세요 (1 - 10)</div>
+                      <div >난이도를 재설정 해보세요 (1 - 10)</div>
                       <input type="range" id='gameLevel' defaultValue={this.state.gameLevel}  min={1} max={10} step={1} onChange={this.levelChange}/>
                       <div> 현재 난이도 : {this.state.gameLevel} </div>
                     </div>
@@ -372,7 +372,6 @@ class Play extends Component {
             </div>
           }
         </div>
-
         {
           !this.props.gameStart
           ? clearInterval(this.move)

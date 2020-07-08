@@ -12,6 +12,10 @@ class MakeStage extends Component {
         }
         this.textInput = React.createRef();
     }
+
+    componentDidMount(){
+        document.getElementById('rankingFocus').focus()
+    }
     handleChange = (e) => {
         this.setState({ [e.target.className]: e.target.value })
     }
@@ -21,7 +25,7 @@ class MakeStage extends Component {
         if (e.key === 'Escape') {
             this.props.resetEditingHope()
             this.props.handleMakingStage()
-
+            document.getElementById('SelectStage-window').focus()
         }
     }
 
@@ -31,7 +35,7 @@ class MakeStage extends Component {
         return (
             <div>
                 <div>
-                    <div className="window Ranking-window" onKeyDown={this.onKeyPressed}>
+                    <div className="window Ranking-window" id="rankingFocus" onKeyDown={this.onKeyPressed}  tabindex="0">
 
                         <div className="window-body">
 

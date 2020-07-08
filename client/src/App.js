@@ -9,7 +9,7 @@ class App extends Component {
   state = {
     userId: '',
     //db에 저장된 제일 첫번째 스테이지를 보여줘서 첫리스트가 선택된 상태로 보여지도록
-    selectedStageName: 'test',
+    selectedStageName: 'JS연습편',
     stageContents: '',
     color: "#848484",
     // gameStart Flag
@@ -121,16 +121,13 @@ class App extends Component {
 
       let footerState =
       !isLogin ? "로그인을 진행해주세요."
-      : (isLogin && !stageContents && !wantToMake) ? "스테이지를 고르고 엔터를 누르거나 M을 눌러 스테이지를 만들어보세요."
+      : (isLogin && !stageContents && !wantToMake) ? "스테이지를 고르고 엔터를 누르거나 'M'을 눌러 스테이지를 만들어보세요."
       : (stageContents && !gameStart) ? "게임을 시작하려면 엔터를 누르고 스테이지를 다시 선택하려면 ESC를 누르세요."
       : wantToMake ? "뒤로 돌아가려면 ESC를 누르세요."
       : !gameStart ? "엔터를 누르세요."
-      : gameStart ? "뒤로 돌아가려면 ESC버튼을 누르고 게임을 중지하려면 엔터를 누르세요."
+      : gameStart ? "게임을 중지하려면 ESC를 누르세요."
 
       : ''
-
-
-
 
     return (
 
@@ -197,9 +194,11 @@ class App extends Component {
             />
           }></Route>
         <footer>
-
+<div className="footerImg"></div>
           <div className="footer">
             <p className="footer-text">{footerState}</p>
+            <hr id="footer-bar"/>
+            <p className="footer-title">산성비</p>
           </div>
 
         </footer>
