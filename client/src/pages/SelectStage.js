@@ -18,7 +18,7 @@ class SelectStage extends Component {
         }
         this.rangeChange = this.rangeChange.bind(this);
     }
- 
+
     handleEditStageName = (stageName) => {
         this.setState({ editStageName: stageName })
     }
@@ -41,7 +41,7 @@ class SelectStage extends Component {
     }
 
     async componentDidMount  () {
-        this.props.gameStatus()
+        this.props.gameStatusToFalse()
         document.getElementById('SelectStage-window').focus()
     }
 
@@ -51,8 +51,8 @@ class SelectStage extends Component {
             axios.get('http://localhost:5000/main/selectstage')
             .then(res => {
                 this.setState({ savedStages: res.data })
-            })  
-        
+            })
+
         }
       }
 
@@ -62,7 +62,7 @@ class SelectStage extends Component {
             this.props.clickStage(this.state.savedStages[this.state.cursor].stagename)
             this.setState ( prevState => ( {
                cursor : prevState.cursor + 1
-           }))   
+           }))
         //   console.log(this.state.savedStages[this.state.cursor].stagename)
         //   console.log(`${e.key} ${this.state.cursor}`)
         }
@@ -72,9 +72,9 @@ class SelectStage extends Component {
               cursor : prevState.cursor - 1
             }))
             // console.log(`${e.key} ${this.state.cursor}`)
-        }  
+        }
         if(e.key==='m'  && !this.props.wantToMake ){
-            this.props.handleMakingStage() 
+            this.props.handleMakingStage()
         }if(e.key==='Enter' && !this.props.wantToMake ){
             axios.post("http://localhost:5000/main/playstage", {
                 stagename: this.props.selectedStageName,
@@ -113,21 +113,21 @@ class SelectStage extends Component {
                                         <th >스테이지</th>
                                         <th >만든이</th>
                                         <th >수정/삭제</th>
-                        
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {this.state.savedStages.map((savedStage,i) => (
-                                         
+
                                         <StageListEntry
-                                           
+
                                             key={i}
                                     //isSelected:선택한 stage이름과 현재 stage가 같다면
                                             isSelected={(selectedStageName === savedStage.stagename)}
                                             stageName={savedStage.stagename}
                                             createdBy={savedStage.createdBy}
                                             clickStage={clickStage}
-                                            
+
                                             editStageName={editStageName}
                                             editStageContents={editStageContents}
                                             selectedStageName={selectedStageName}
@@ -135,8 +135,7 @@ class SelectStage extends Component {
                                             handleEditStageName={this.handleEditStageName}
                                             handleMakingStage={handleMakingStage}
                                             userId={userId}
-                                            
-                                       
+                                            refresh={this.refresh}
                                         />
 
                                     ))}
