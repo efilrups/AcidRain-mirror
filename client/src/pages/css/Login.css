@@ -1,23 +1,29 @@
 #inputEmail{
   position: absolute;
-  width: 38%;
+  width: 40%;
   height: 10%;
   left: 18%;
-  top: 30%;
+  top: 28%;
+  font-size:1rem;
+  font-family: 'Nanum Myeongjo', serif;
 }
 #inputPassword{
   position: absolute;
-  width: 38%;
+  width: 40%;
   height: 10%;
   left: 18%;
-  top: 45%;
+  top: 40%;
+  font-size:1rem;
+  font-family: 'Nanum Myeongjo', serif;
 }
 #inputNickname{
   position: absolute;
-  width: 38%;
+  width: 40%;
   height: 10%;
   left: 18%;
-  top: 60%;
+  top: 53%;
+  font-size:1rem;
+  font-family: 'Nanum Myeongjo', serif;
 }
 #inputGuest{
   position: absolute;
@@ -25,56 +31,95 @@
   height: 10%;
   left: 18%;
   top: 45%;
+  font-size:1rem;
+  font-family: 'Nanum Myeongjo', serif;
 }
+.login-description{
+  color:navy;
+  font-size:0.9rem;
+}
+
 #userLogin{
   position: absolute;
-  height: 70px;
+  height: 4.6rem;
   width: 23%;
   left: 60%;
-  top: 23%;
+  top: 22.8%;
+  font-size:1rem; 
 }
 #signupBtn{
   position: absolute;
-  height: 30px;
-  width: 38%;
+  height: 2rem;
+  width: 40%;
   left: 18%;
-  top: 55%;
+  top: 50%;
+  font-size:0.8rem;
 }
 #guestBtn{
   position: absolute;
   height: 30px;
   width: 65%;
   left: 18%;
-  top: 55%;
+  top: 53%;
+  font-size:0.9rem;
+}
+
+#checkBtn{
+  position: absolute;
+  height: 30px;
+  width: 65%;
+  left: 18%;
+  top: 42%;
+  font-size:0.9rem;
 }
 #selectBtn{
   position: absolute;
   height: 30px;
   width: 65%;
   left: 18%;
-  top: 40%;
+  top: 55%;
+  font-size:0.9rem;
 }
 #guestLogin{
   position: absolute;
   width: 23%;
-  height: 30px;
+  height: 2rem;
   left: 60%;
-  top: 55%;
+  top: 50%;
+  font-size:0.7rem;
 }
+
+#loginBar{
+position: absolute;
+left:17.8%;
+width:19.7rem;
+bottom:29%
+}
+
 #socialLogin{
+  background-color: black;
   position: absolute;
   width: 65%;
-  height: 20px;
-  left: 18%;
-  top: 70%;
+  height: 2.5rem;
+  bottom: 2.5rem;
+  right:17%;
+  color:white;
+  font-size:0.9rem;
+}
+
+i.fa-google-plus-g{
+  position: absolute;
+  left:5%;
+  bottom:6%; 
 }
 
 #userSignup{
   position: absolute;
-  height: 7rem;
+  height: 7.2rem;
   width: 25%;
   left: 60%;
   top: 23%;
+  font-size:1rem;
 }
 
 
@@ -83,11 +128,14 @@
   position: absolute;
   top:50%;
   left:50%;
-  height:16rem;
-  width:24rem;
-  margin:-8rem 0 0 -12rem;
+  height:20rem;
+  width:30rem;
+  margin:-10rem 0 0 -15rem;
   font-family: 'Nanum Myeongjo', serif;
+  border-color: black;
+  border-style:solid;
+  border-width:0.095rem;
 }
 #login{
-  height:12.5rem
+  height:16.5rem
 }

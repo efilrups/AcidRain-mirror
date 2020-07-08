@@ -52,7 +52,7 @@ class SelectStage extends Component {
     }
 
     onKeyPressed = (e) => {
-        if(e.key==='ArrowDown' && this.state.cursor < this.state.savedStages.length  ){
+        if(e.key==='ArrowDown' && this.state.cursor < this.state.savedStages.length && !this.props.wantToMake ){
             this.props.clickStage(this.state.savedStages[this.state.cursor].stagename)
             this.setState ( prevState => ( {
                cursor : prevState.cursor + 1
@@ -60,16 +60,16 @@ class SelectStage extends Component {
         //   console.log(this.state.savedStages[this.state.cursor].stagename)
         //   console.log(`${e.key} ${this.state.cursor}`)
         }
-        if(e.key==='ArrowUp' && this.state.cursor > 1){
+        if(e.key==='ArrowUp' && this.state.cursor > 1 && !this.props.wantToMake ){
             this.props.clickStage(this.state.savedStages[this.state.cursor-2].stagename)
             this.setState ( prevState => ({
               cursor : prevState.cursor - 1
             }))
             // console.log(`${e.key} ${this.state.cursor}`)
         }  
-        if(e.key==='m'){
+        if(e.key==='m'  && !this.props.wantToMake ){
             this.props.handleMakingStage() 
-        }if(e.key==='Enter'){
+        }if(e.key==='Enter' && !this.props.wantToMake ){
             axios.post("http://localhost:5000/main/playstage", {
                 stagename: this.props.selectedStageName,
                 userid: this.props.userId
@@ -78,7 +78,7 @@ class SelectStage extends Component {
                     this.props.getContents(JSON.parse(res.data[0].contents), this.state.gameLevel)
                 })
             this.props.history.push('/playstage')
-        }if(e.key==='Escape'){
+        }if(e.key==='Escape' && !this.props.wantToMake ){
             this.props.history.goBack()
         }
     }

@@ -135,6 +135,7 @@ class App extends Component {
           logout={this.logout}
           socialLogin={socialLogin}
           gameStart={gameStart}
+          wantToMake={wantToMake}
         />
         <Login
           userId={userId}

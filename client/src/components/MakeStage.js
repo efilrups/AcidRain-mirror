@@ -75,6 +75,7 @@ class MakeStage extends Component {
                                         //input값을 초기화해주기
                                         resetEditingHope()
                                         handleMakingStage()
+                                       
                                         // } 
                                     }}>저장</button>
                                 </div>
