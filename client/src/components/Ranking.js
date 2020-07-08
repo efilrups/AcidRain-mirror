@@ -57,25 +57,31 @@ class Ranking extends Component {
                                 containerStyle={{ 'paddingBottom': '1rem' }}
                             // tableStyle={ { 'border': 'blue solid 1px'  } }
                             >
-                                <TableHeaderColumn dataField='rank' dataAlign='center' isKey={true} tdStyle={{ 'fontSize': '1rem','width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'  }} thStyle={{ 'fontSize': '1rem',  'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'}} thStyle={{ 'fontSize': '1rem','width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'  }} thStyle={{ 'fontSize': '1rem',  'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'}}>순위</TableHeaderColumn>
-                                <TableHeaderColumn dataField='nickname' dataAlign='center' tdStyle={{ 'fontSize': '1rem','width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'  }} thStyle={{ 'fontSize': '1rem',  'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap' }} thStyle={{ 'fontSize': '1rem','width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'  }} thStyle={{ 'fontSize': '1rem',  'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap' }}>이름</TableHeaderColumn>
-                                <TableHeaderColumn dataField='stagename' dataAlign='center' tdStyle={{ 'fontSize': '1rem','width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'  }} thStyle={{ 'fontSize': '1rem',  'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'  }} thStyle={{ 'fontSize': '1rem',  'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'}}>스테이지</TableHeaderColumn>
-                                <TableHeaderColumn dataField='score' dataAlign='center' tdStyle={{ 'fontSize': '1rem','width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'  }} thStyle={{ 'fontSize': '1rem',  'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'}} thStyle={{ 'fontSize': '1rem','width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'  }} thStyle={{ 'fontSize': '1rem',  'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap' }} >점수</TableHeaderColumn>
-                                <TableHeaderColumn dataField='createdAt' dataAlign='center' tdStyle={{ 'fontSize': '1rem','width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'  }} thStyle={{ 'fontSize': '1rem',  'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap' }} thStyle={{ 'fontSize': '1rem' ,'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'  }} thStyle={{ 'fontSize': '1rem',  'width':'50%', 'overflow':'hidden','text-overflow':'ellipsis', 'white-space':'nowrap'}} >일자</TableHeaderColumn>
+                                <TableHeaderColumn dataField='rank' dataAlign='center' isKey={true} tdStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }}>순위</TableHeaderColumn>
+                                <TableHeaderColumn dataField='nickname' dataAlign='center' tdStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }}>이름</TableHeaderColumn>
+                                <TableHeaderColumn dataField='stagename' dataAlign='center' tdStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }}>스테이지</TableHeaderColumn>
+                                <TableHeaderColumn dataField='score' dataAlign='center' tdStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} >점수</TableHeaderColumn>
+                                <TableHeaderColumn dataField='createdAt' dataAlign='center' tdStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} thStyle={{ 'fontSize': '1rem', 'width': '50%', 'overflow': 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }} >일자</TableHeaderColumn>
                             </BootstrapTable>
                         </div>
-                        {
-                        isLogin
-                            ? <div className="field-row Ranking-field-row-btn" style={{ justifyContent: 'center' }}>
-                                <button className="Ranking-button" onClick={() => {
-                                    //스테이지 선택 버튼을 누르면 스테이지 선택 페이지로 이동
-                                    this.props.history.push('/selectStage')
-                                }}>스테이지 선택</button>
-                            </div>
-                            : ''
-                    }
+
+
+                        <div className="field-row Ranking-field-row-btn" style={{ justifyContent: 'center' }}>
+                            {
+
+                                isLogin ?
+                                    <button className="Ranking-button" onClick={() => {
+                                        //스테이지 선택 버튼을 누르면 스테이지 선택 페이지로 이동
+                                        this.props.history.push('/selectStage')
+                                    }}>스테이지 선택</button>
+                                    : ''
+                            }
+
+                        </div>
+
+
                     </fieldset>
-                   
+
 
 
 
