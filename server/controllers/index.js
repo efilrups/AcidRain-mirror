@@ -26,14 +26,27 @@ module.exports = {
 
             // componentDidMount() 로 mypage 불러오는 화면이라면?
           } else {
-            let getMyplaylogs = await playlogs.findAll({
-              attributes: ["score", "stagename"],
+            let myplaylogs = await playlogs.findAll({
+              attributes: ['missedcode', 'stagename', 'score', 'createdAt'],
               where: {
                 nickname: req.body.nickname
               }
             })
-            if(getMyplaylogs.length){
-              res.status(200).send(getMyplaylogs)
+            let result = []
+            
+            myplaylogs.forEach(myplaylog => {
+              let date = JSON.stringify(myplaylog.dataValues.createdAt).split('').splice(3,8).join('').split('-').join('.');
+
+              result.push({
+                'score': myplaylog.dataValues.score,
+                'stagename': myplaylog.dataValues.stagename,
+                'createdAt': date,
+                'missedcode': `${myplaylog.dataValues.missedcode.length - 2} 개`
+              })
+            })
+
+            if(result.length){
+              res.status(200).send(result)
             } else {
               res.status(404).send("정보가 존재하지 않습니다")
             }
