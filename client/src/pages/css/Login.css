@@ -101,7 +101,7 @@ bottom:29%
   position: absolute;
   width: 65%;
   height: 2.5rem;
-  bottom: 2.5rem;
+  bottom: 3rem;
   right:17%;
   color:white;
   font-size:0.9rem;
@@ -109,8 +109,8 @@ bottom:29%
 
 i.fa-google-plus-g{
   position: absolute;
-  left:5%;
-  bottom:6%; 
+  left:10%;
+  bottom:12%; 
 }
 
 #userSignup{
