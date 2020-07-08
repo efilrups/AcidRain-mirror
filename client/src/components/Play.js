@@ -228,7 +228,7 @@ class Play extends Component {
     );
 
     return (
-      <div className='window-body gameBoard' onKeyDown={this.onKeyPressed}>
+      <div className='window-body gameBoard'>
       
         <canvas id='canvas'/>
 

@@ -15,9 +15,10 @@ class PlayStage extends Component {
     this.startToggle = this.startToggle.bind(this);
   }
   componentDidMount() {
-    if(this.inputStart) {
-      this.inputStart.focus();
-    }
+    document.querySelector('#playpage').focus()
+    // if(this.inputStart) {
+    //   this.inputStart.focus();
+    // }
   }
 
   enterkey(event) {
@@ -32,8 +33,18 @@ class PlayStage extends Component {
     this.setState(current => ({
       start: !current.start
     }));
-
   }
+
+  onKey = (e) => {
+    console.log(e.key)
+    // if(e.key === 'Escape'){
+    //   console.log('escape')
+    //   this.props.history.push('/selectStage');
+    // } else if (e.key === 'Enter'){
+    //   this.gameStopRestartToggle()
+    // }
+  }
+
 
   render() {
 
@@ -69,7 +80,11 @@ class PlayStage extends Component {
        color, gameLevel, gameStart, gameStartToggle } = this.props
 
     return (
-      <div className="playStage-square">
+      <div 
+        id="playpage"
+        className="playStage-square"  
+        onKeyDown={this.onKey}
+      >
 
         {
 

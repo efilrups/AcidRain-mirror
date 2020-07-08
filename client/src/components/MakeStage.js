@@ -64,21 +64,20 @@ class MakeStage extends Component {
                                     <button className="MakeStage-button" onClick={() => {
                                         //db에 저장하는 post요청, 창닫기 
                                         // console.log('inputStageName: ', inputStageName);
-                                        // if(userId){
-
-                                          console.log('inputStageContents.split(): ', inputStageContents.split('\n'));
-                                        axios.post("http://localhost:5000/main/makestage", {
-                                            userId: userId,
-                                            stagename: inputStageName,
-                                            contents: JSON(inputStageContents.split('\n'))
-                                        }).then(res => {
-                                            alert(res.data.message)
-                                        })
-                                        //input값을 초기화해주기
-                                        resetEditingHope()
-                                        handleMakingStage()
-                                       
-                                        // } 
+                                        if(userId){
+                                          axios.post("http://localhost:5000/main/makestage", {
+                                              userId: userId,
+                                              stagename: inputStageName,
+                                              contents: inputStageContents.split('\n')
+                                          }).then(res => {
+                                              alert(res.data.message)
+                                          })
+                                          //input값을 초기화해주기
+                                          resetEditingHope()
+                                          handleMakingStage()
+                                        } else {
+                                          alert('')
+                                        }
                                     }}>저장</button>
                                 </div>
 

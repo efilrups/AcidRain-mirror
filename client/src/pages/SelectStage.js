@@ -159,11 +159,15 @@ class SelectStage extends Component {
                                 this.props.history.push('/playstage')
 
                             }}>플레이</button>
+
                             <button onClick={() => {
+                              if(userId.indexOf('Guest_') + userId.indexOf('Google_') === -2){
                                 //모달의 오픈,클로즈 여부를 관리하는 이벤트를 실행시킴
                                 handleMakingStage()
+                              } else {
+                                alert('오직 회원만 스테이지를 만들 수 있습니다! (회원가입해주세요)')
+                              }
                             }}
-                            value="asfawefawe"
                             >만들기</button>
                             {wantToMake ? <MakeStage handleMakingStage={handleMakingStage} userId={userId}
                                 editStageName={editStageName}
