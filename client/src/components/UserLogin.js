@@ -122,9 +122,9 @@ class UserLogin extends Component {
                   <GoogleLogin
                     clientId="1037438704815-ih3s6v1brfb4p5oksifqvd881ss953kd.apps.googleusercontent.com"
                     render={renderProps => (
-                      <button id="socialLogin">
+                      <button id="socialLogin" onClick={renderProps.onClick} disabled={renderProps.disabled}>
                       <span style={{color:"white"}}>
-                      <i  className="fab fa-google-plus-g fa-2x" onClick={renderProps.onClick} disabled={renderProps.disabled}></i>
+                      <i  className="fab fa-google-plus-g fa-2x"></i>
                       </span>
                       구글 로그인</button>
                     )}
