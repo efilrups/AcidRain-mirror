@@ -32,7 +32,7 @@ class SelectStage extends Component {
             editStageName: '',
             editStageContents: ''
         })
-        
+
     }
 
     levelChange(obj) {
@@ -111,6 +111,11 @@ class SelectStage extends Component {
 
                     <fieldset>
                         <p className="description">스테이지를 선택하세요 !</p>
+                        <div style={{ textAlign: 'right' }}>
+                            스테이지 새로고침<input type='button' value='↺' onClick={() =>{
+                              this.setState({});
+                            }}/>
+                        </div>
                         <ul className="tree-view selectStage-treeview">
                             <table>
                                 <thead>
@@ -170,8 +175,8 @@ class SelectStage extends Component {
                             }}
                             >만들기</button>
                             {
-                            wantToMake 
-                              ? <MakeStage handleMakingStage={handleMakingStage} 
+                            wantToMake
+                              ? <MakeStage handleMakingStage={handleMakingStage}
                                 userId={userId}
                                 editStageName={editStageName}
                                 editStageContents={editStageContents}
