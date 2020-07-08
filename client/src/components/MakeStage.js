@@ -12,6 +12,10 @@ class MakeStage extends Component {
         }
         this.textInput = React.createRef();
     }
+
+    componentDidMount(){
+        document.getElementById('rankingFocus').focus()
+    }
     handleChange = (e) => {
         this.setState({ [e.target.className]: e.target.value })
     }
@@ -21,17 +25,17 @@ class MakeStage extends Component {
         if (e.key === 'Escape') {
             this.props.resetEditingHope()
             this.props.handleMakingStage()
-
+            document.getElementById('SelectStage-window').focus()
         }
     }
 
     render() {
-        const { handleMakingStage, userId, resetEditingHope } = this.props
+        const { handleMakingStage, userId, resetEditingHope, update } = this.props
         const { inputStageName, inputStageContents } = this.state
         return (
             <div>
                 <div>
-                    <div className="window Ranking-window" onKeyDown={this.onKeyPressed}>
+                    <div className="window Ranking-window" id="rankingFocus" onKeyDown={this.onKeyPressed}  tabindex="0">
 
                         <div className="window-body">
 
@@ -63,13 +67,13 @@ class MakeStage extends Component {
                                 <div className="field-row" style={{ justifyContent: 'center' }}>
                                     <button className="MakeStage-button" onClick={ async () => {
                                         //db에 저장하는 post요청, 창닫기
-                                        // console.log('inputStageName: ', inputStageName);
+                                        console.log(update)
                                         if(userId){
-
                                           await axios.post("http://localhost:5000/main/makestage", {
-                                              userId: userId,
-                                              stagename: inputStageName,
-                                              contents:  inputStageContents.split('\n').map(content=>content.trim())
+                                            userId: userId,
+                                            update: update,
+                                            stagename: inputStageName,
+                                            contents:  inputStageContents.split('\n').map(content=>content.trim())
                                           }).then(res => {
                                               alert(res.data.message)
                                           })

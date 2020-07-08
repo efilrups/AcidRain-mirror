@@ -17,10 +17,9 @@ body{
 
 .footerImg{
   position: fixed;
-     bottom:0%;
-   
-    width:100%;
-    height:9rem;
+    bottom:0%;
+    width:105%;
+    height:10rem;
     /* background-color:rgb(194, 194, 194); */
     background-repeat: no-repeat;
     background-size:100% ;

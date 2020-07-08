@@ -10,8 +10,14 @@ class GameOver extends Component {
     }
 
 
+    onKeyPressed=(e)=>{
+        if(e.key==="Enter"){
+            this.props.history.push('/ranking')
+        }
+    }
 
     async componentDidMount() {
+        document.getElementById('gameOverFocus').focus()
         //유저의 방금 게임 정보를 서버에 보내주기
         const { userId, selectedStageName,  score, missedCode } = this.props
      await axios.post('http://localhost:5000/main/gameover', {
@@ -25,7 +31,7 @@ class GameOver extends Component {
     render() {
         const { userId, selectedStageName, score, missedCode} = this.props
         return (
-             <div className={"window GameOver-window"}>
+             <div className="window GameOver-window" id="gameOverFocus" onKeyDown={this.onKeyPressed}  tabindex="0">
                 <div className="window-body">
                     <p className="GameOver-title" style={{ textAlign: "center" }}>게임 결과</p>
 

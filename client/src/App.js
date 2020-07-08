@@ -9,7 +9,7 @@ class App extends Component {
   state = {
     userId: '',
     //db에 저장된 제일 첫번째 스테이지를 보여줘서 첫리스트가 선택된 상태로 보여지도록
-    selectedStageName: 'test',
+    selectedStageName: 'JS연습편',
     stageContents: '',
     color: "#848484",
     // gameStart Flag
@@ -21,14 +21,14 @@ class App extends Component {
     isGuest: false,
     //makeStage컴포넌트의 노출 여부를 해당 state로 관리
     wantToMake: false,
+    update: false,
     themaPageIsOpen: false,
     socialLogin: false,
     modalOpened: false
   }
 
   // gameStart Toggle
-  gameStartToggle = () => {
-    console.log('Game Start');
+  gameStartEndToggle = () => {
     this.setState(current => ({
       gameStart: !current.gameStart
     }));
@@ -80,12 +80,18 @@ class App extends Component {
     this.setStage({ isSubmitedStage: true })
   }
 
-  getContents = (clickedStage) => {
-    this.setState({ stageContents: clickedStage })
+  getContents = (clickedStage, selectedLevel) => {
+    this.setState({
+      stageContents: clickedStage,
+      gameLevel: selectedLevel
+    })
   }
 
   handleMakingStage = () => {
     this.setState({ wantToMake: !this.state.wantToMake })
+  }
+  updateStage = (stagename) => {
+    this.setState({ update: stagename })
   }
 
   handleColorChange = color => {
@@ -100,7 +106,7 @@ class App extends Component {
     this.setState(current => ({
       modalOpened: !current.modalOpened
     }));
-  } 
+  }
 
 
 
@@ -110,7 +116,7 @@ class App extends Component {
 
   render() {
     const { userId, isGuest, selectedStageName, stageContents, gameStart,
-      wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin, modalOpened } = this.state
+      wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin, modalOpened, update } = this.state
 
 
       let footerState =
@@ -126,8 +132,8 @@ class App extends Component {
     return (
 
       <div className='app' style={{ backgroundColor: this.state.color }}>
-        
-        
+
+
 
         <Nav
           userId={userId}
@@ -142,7 +148,7 @@ class App extends Component {
           socialLogin={socialLogin}
           gameStart={gameStart}
           wantToMake={wantToMake}
-          gameStatus={this.gameStatusToFalse}
+          gameStartEndToggle={this.gameStartEndToggle}
         />
         <Login
           userId={userId}
@@ -156,9 +162,11 @@ class App extends Component {
           getContents={this.getContents}
           selectedStageName={selectedStageName}
           wantToMake={wantToMake}
+          update={update}
+          updateStage={this.updateStage}
           handleMakingStage={this.handleMakingStage}
           socialLogin={socialLogin}
-          gameStatusToFalse={this.gameStatusToFalse}
+          gameStartEndToggle={this.gameStartEndToggle}
         />
 
         <Route
@@ -179,11 +187,10 @@ class App extends Component {
               stageContents={stageContents}
               color={color}
               gameLevel={gameLevel}
-              gameStartToggle={this.gameStartToggle}
+              gameStartEndToggle={this.gameStartEndToggle}
               gameStart={gameStart}
               opendMobal={this.opendMobal}
               modalOpened={modalOpened}
-              gameStatus={this.gameStatusToFalse}
             />
           }></Route>
         <footer>
