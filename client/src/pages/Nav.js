@@ -14,7 +14,7 @@ class Nav extends Component {
 
     render() {
 
-      const { userId, isGuest, isLogin, changeUserId,  themaPageIsOpen, handleThemaPage, color, handleColorChange, logout, socialLogin, gameStart } =  this.props
+      const { userId, isGuest, isLogin, changeUserId,  themaPageIsOpen, handleThemaPage, color, handleColorChange, logout, socialLogin, gameStart, gameStatus } =  this.props
       console.log('isGuest: ', isGuest);
       // if(gameStart){
       //   return (
@@ -32,7 +32,7 @@ class Nav extends Component {
                       {
                         userId
                         ? `${userId}님이 입장하셨습니다.`
-                        : `로그인 후에 이용해주세요.`
+                        : `환상의 산성비 게임`
                       }
                     </div>
                     {
@@ -48,13 +48,13 @@ class Nav extends Component {
                     
                     {
                       gameStart
-                      ? <Link to='/selectStage' className="Link-ranking">나가기</Link>
+                      ? <div className="Link-ranking" onClick={gameStatus}>나가기</div>
                       : userId
                         ? socialLogin
                           ? <GoogleLogout
                               clientId="1037438704815-ih3s6v1brfb4p5oksifqvd881ss953kd.apps.googleusercontent.com"
                               render={renderProps => (
-                                <div className="social-login" id="socialLogin" onClick={renderProps.onClick} 
+                                <div className="Link-login" onClick={renderProps.onClick} 
                                 disabled={renderProps.disabled}>로그아웃</div>
                               )}
                               buttonText="Logout"

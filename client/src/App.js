@@ -115,49 +115,19 @@ class App extends Component {
 
       let footerState =
       !isLogin ? "로그인을 진행해주세요."
-      : (isLogin && !stageContents && !wantToMake) ? "스테이지를 고르고 엔터를 누르거나 M을 눌러 스테이지를 만들어보세요."
+      : (isLogin && !stageContents && !wantToMake) ? "스테이지를 고르고 엔터를 누르거나 'M'을 눌러 스테이지를 만들어보세요."
       : (stageContents && !gameStart) ? "게임을 시작하려면 엔터를 누르고 스테이지를 다시 선택하려면 ESC를 누르세요."
       : wantToMake ? "뒤로 돌아가려면 ESC를 누르세요."
       : !gameStart ? "엔터를 누르세요."
-      : gameStart ? "뒤로 돌아가려면 ESC버튼을 누르고 게임을 중지하려면 엔터를 누르세요."
+      : gameStart ? "게임을 중지하려면 ESC를 누르세요."
 
       : ''
-
-
-
 
     return (
 
       <div className='app' style={{ backgroundColor: this.state.color }}>
         
-        {
-          modalOpened
-          ? <div className='modal'> 
-              <div className="window Login-window">
-                <div className="title-bar">
-                  <div className="title-bar-controls">
-                    <div className="title-bar-text">Logout-check</div>
-                  </div>
-                </div>
-                <div className="window-body">
-                  <fieldset id="login">
-                    <p className="title" style={{ left:"34%", top: "25%", position: "absolute" }}>로그아웃 하시겠습니까?</p>
-                    
-                    {
-                      <button id="checkBtn" 
-                        // onClick={this.props.logout.bind(this)}
-                      >확인</button>
-                    }
-
-                    <button id="selectBtn" 
-                      onClick={this.opendMobal}
-                    >취소</button>
-                  </fieldset>
-                </div>
-              </div>
-            </div>
-          : null
-        }
+        
 
         <Nav
           userId={userId}
@@ -172,6 +142,7 @@ class App extends Component {
           socialLogin={socialLogin}
           gameStart={gameStart}
           wantToMake={wantToMake}
+          gameStatus={this.gameStatusToFalse}
         />
         <Login
           userId={userId}
@@ -212,6 +183,7 @@ class App extends Component {
               gameStart={gameStart}
               opendMobal={this.opendMobal}
               modalOpened={modalOpened}
+              gameStatus={this.gameStatusToFalse}
             />
           }></Route>
         <footer>

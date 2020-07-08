@@ -11,23 +11,11 @@ class PlayStage extends Component {
       start: false,
     }
     //이벤트 처리 함수들
-    this.enterkey = this.enterkey.bind(this);
     this.startToggle = this.startToggle.bind(this);
   }
   componentDidMount() {
     
     document.getElementById('playpage').focus()
-    // document.querySelector('#playpage').focus()
-    // if(this.inputStart) {
-    //   this.inputStart.focus();
-    // }
-  }
-
-  enterkey(event) {
-    if (event.key === 'Enter') {
-      console.log('--enter--');
-      this.startToggle();
-    }
   }
 
   startToggle() {
@@ -37,27 +25,37 @@ class PlayStage extends Component {
     }));
   }
 
-  onKey = (e) => {
-    console.log('playstage', e.key)
-    if(e.which === 13 && e.ctrlKey) {
-      alert('시작')
-      this.startToggle();
+  // onKey = (e) => {
+  //   if(!this.props.gameStart){
+  //     if(e.which === 13 && e.ctrlKey) {
+  //       this.startToggle();
+  //     }
+  //   }
+  //   else {
+  //     console.log('escape', this.props.modalOpened)
+  //     document.querySelector('.inputAnswer').focus()
+  //   } 
+  // }
+
+
+  onKeyPressed = (e) => {
+    if(!this.props.gameStart){
+      if(e.key==='Enter'){
+        this.startToggle();
+      }
+    if(e.key==='Escape'){
+      this.props.history.goBack()
     }
-    if(e.which === 27){
-      console.log('escape', this.props.modalOpened)
-      // this.gameStopRestartToggle()
-      this.props.opendMobal()
-    } 
+    }
   }
 
 
 
 
+
   render() {
-    // document.querySelector('#playpage').onKeyDown(this.onKey);
-    console.log('document.querySelector ', document.querySelector('#playpage'));
     const gameRule = (
-    <div className='gameRule'>
+    <div className='gameRule' id="gameRule-focus">
       <div className="playStage-description-box">
         <p className="playStage-description"> 산성비 게임에 오신 여러분, 환영합니다.</p>
         <p className="playStage-description">
@@ -74,25 +72,25 @@ class PlayStage extends Component {
       </div>
 
       <div className="field-row" style={{ justifyContent: 'center' }}>
-        <button
+        {/* <button
           className="startButton"
           ref={(btn) => {this.inputStart = btn;}}
           onMouseUp={this.startToggle}
           onKeyUp={this.enterkey} >시작</button>
-        <button onClick={this.props.history.goBack}>되돌아가기</button>
+        <button onClick={this.props.history.goBack}>되돌아가기</button> */}
       </div>
       
     </div>
     )
 
     const { isLogin, userId, stageContents, selectedStageName,
-       color, gameLevel, gameStart, gameStartToggle, modalOpened } = this.props
+       color, gameLevel, gameStart, gameStartToggle, opendMobal, modalOpened, gameStatus } = this.props
 
     return (
       <div 
         id="playpage"
         className="playStage-square"  
-        onKeyDown={this.onKey}
+        onKeyDown={this.onKeyPressed}
         tabindex="0"
       >
 
@@ -107,8 +105,10 @@ class PlayStage extends Component {
           (!stageContents && !this.state.start)  ? ''//this.props.history.goBack()
           : (stageContents &&  !this.state.start) ? gameRule
          : <Play
-           userId={userId} selectedStageName={selectedStageName} gameStart={gameStart}
-           stageContents={stageContents} gameStartToggle={gameStartToggle} color={color}  gameLevel={gameLevel}/>
+           userId={userId} selectedStageName={selectedStageName} gameStart={gameStart} 
+           stageContents={stageContents} gameStartToggle={gameStartToggle} color={color}  gameLevel={gameLevel}
+           opendMobal={opendMobal} modalOpened={modalOpened} onKey={this.onKey} gameStatus={gameStatus}
+          />
         }
       </div>
     )
