@@ -11,7 +11,9 @@ class Play extends Component {
       // 나오는 코드의 개수
       RAIN_MAX : 15,
       score : 0,
-      gameLevel: this.props.gameLevel
+      gameLevel: this.props.gameLevel,
+      correctComment: ['지우기 성공!', '올ㅋ 꽤하시네요', '정답', '난이도를 올려봐요', '멋지네'],
+      incorrectComment: ['ㅋ', '그것밖에 못합니까?', '다시 해보시죠', '에헤이 그러면쓰나', '타자 연습 더 하세요']
     }
 
     // canvas 관련 초기화
@@ -120,10 +122,10 @@ class Play extends Component {
     // 점수와 코멘트 피드백
     this.ctx.font = `30px ${fontName}`;
     this.ctx.fillStyle = 'black';
-    this.ctx.fillText(`점수 : ${this.score}`, this.canvas.width * 0.05, 50);
-    this.ctx.fillText(`난이도 : ${this.state.gameLevel}`, this.canvas.width * 0.2, 50);
-    this.ctx.fillStyle = 'rgb(31, 124, 247)';
-    this.ctx.fillText(this.comment, this.canvas.width * 0.8, 50);
+    this.ctx.fillText(`점수 : ${this.score}`, this.canvas.width * 0.05, 48);
+    this.ctx.fillText(`난이도 : ${this.state.gameLevel}`, this.canvas.width * 0.2, 48);
+    this.ctx.fillStyle = this.commentColor;
+    this.ctx.fillText(this.comment, this.canvas.width * 0.75, 48);
 
 
     // 내려가기 시작한 코드들을 하나씩 그리기
@@ -153,7 +155,7 @@ class Play extends Component {
     gra.addColorStop(1, 'rgb(14, 67, 201)');
 
     // ph바 그리기
-    this.ctx.font = `30px ${fontName}`;
+    this.ctx.font = `28px ${fontName}`;
     this.ctx.fillText(`ph.${this.currentLife + 1}`, this.canvas.width * 0.66, 45);
     this.ctx.fillRect(this.canvas.width * 0.345, 14, this.canvas.width * 0.31, 46);
     this.ctx.fillStyle = gra;
@@ -161,18 +163,23 @@ class Play extends Component {
   }
 
   deleteCode(event) {
+    const { correctComment, incorrectComment } = this.state
     if (event.key === 'Enter') {
       let targetIndex = this.randomArr.findIndex( obj => event.target.value === obj.code );
-      this.comment = '다시 해보시죠?!';
+
       if (targetIndex !== -1 && this.randomArr[targetIndex].code !== '') {
         this.randomArr[targetIndex].code = '';
-        this.comment = '지우기 성공!';
+        this.commentColor ='rgb(31, 124, 247)';
+        this.comment = correctComment[Math.floor(Math.random() * correctComment.length)];
         this.score++;
-        this.draw();
+      } else {
+        this.commentColor = 'rgb(143, 36, 2)';
+        this.comment = incorrectComment[Math.floor(Math.random() * incorrectComment.length)];
       }
+      this.draw();
       event.target.value = '';
     }
-  }
+}
 
   gameStopRestartToggle() {
     if (!this.state.stop) {
@@ -236,7 +243,7 @@ class Play extends Component {
                 type='text'
                 placeholder='산성비를 제거하세요'
                 style={{ textAlign: "center" }}
-                onKeyUp={this.deleteCode}
+                onKeyPress={this.deleteCode}
                 disabled={ this.state.stop ? true : false }
               />
               <div/>

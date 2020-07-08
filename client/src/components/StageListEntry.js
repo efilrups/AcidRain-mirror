@@ -43,6 +43,7 @@ render() {
                   stagename: stageName
                 })
                     .then(res => {
+                      console.log(res.data)
                         //해당 스테이지에 해당하는 컨텐츠를 담고 selectStage에 담아주기
                         this.props.handleEditStageContents(JSON.parse(res.data[0].contents))
                         //만들기 모달로 이동
