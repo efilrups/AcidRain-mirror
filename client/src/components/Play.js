@@ -43,6 +43,7 @@ class Play extends Component {
 
   // canvas에 그려질 내용들 설정
   componentDidMount() {
+    
     document.querySelector('.inputAnswer').focus();
     this.canvas = document.getElementById('canvas');
 
@@ -188,6 +189,7 @@ class Play extends Component {
 
   deleteCode(event) {
     const { correctComment, incorrectComment } = this.state
+    this.setState({text: ''})
     if (event.key === 'Enter') {
       let targetIndex = this.randomArr.findIndex( obj => event.target.value === obj.code );
       this.commentColor = 'rgb(14, 207, 23)';
@@ -262,18 +264,33 @@ class Play extends Component {
     this.baseScore = 10 + (2 * newLevel);
   }
 
+  // onKeyPressed = (e) => {
+  //   console.log(e.key)
+  //   if(e.key === 'Escape'){
+  //     console.log('escape')
+  //     this.props.history.push('/selectStage');
+  //   } else if (e.key === 'Enter'){
+  //     this.gameStopRestartToggle()
+  //   }
+  // }
   onKeyPressed = (e) => {
-    console.log(e.key)
-    if(e.key === 'Escape'){
-      console.log('escape')
-      this.props.history.push('/selectStage');
-    } else if (e.key === 'Enter'){
+    console.log('e: ', e);
+    console.log('playstage', e.nativeEvent.type)
+    if(e.which === 27 || e.nativeEvent.type === 'click'){
+  //   //   // console.log('escape', this.props.modalOpened)
       this.gameStopRestartToggle()
-    }
+      this.props.opendMobal()
+  //   //   // console.log(document.querySelector('.stop'))
+    } 
   }
 
+  inputText = (event) => {
+    this.setState({ text: event.target.value })
+  }
+  
+
   render() {
-    const {userId, selectedStageName, stageContents, gameStartToggle, gameLevel } = this.props
+    const {userId, selectedStageName, stageContents, gameStartToggle, gameLevel, modalOpened, gameStatus } = this.props
     const { score } = this.state
 
     const gameEnd = (
@@ -290,8 +307,42 @@ class Play extends Component {
       <div className='window-body gameBoard'>
         <iframe display="none" width="0" height="0" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/207946357&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
 
-        <canvas id='canvas'/>
+        {
+          modalOpened
+          ? <div className='modal'> 
+              <div className="window Login-window">
+                <div className="title-bar">
+                  <div className="title-bar-controls">
+                    <div className="title-bar-text">menu</div>
+                  </div>
+                </div>
+                <div className="window-body">
+                  <fieldset id="login">
+                    <div className="title" style={{ left:"35%", top: "20%", position: "absolute", fontSize: '20px'}}>그만하시겠습니까?</div>
+                    <div className="selectLevel" style={{ textAlign: 'center' }}>
+                      <div>난이도를 재설정 해보세요 (1 - 10)</div>
+                      <input type="range" id='gameLevel' defaultValue={this.state.gameLevel}  min={1} max={10} step={1} onChange={this.rangeChange}/>
+                      <div> 현재 난이도 : {this.state.gameLevel} </div>
+                    </div>
+                    <button id="continueBtn" onClick={this.onKeyPressed}
+                    >계속</button>
 
+                    <button id="gameoverBtn" 
+                      
+                      onClick={event => {
+                        gameStatus(); 
+                        this.onKeyPressed(event);
+                      }}
+                    >종료</button>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+          : null
+        }
+      
+        <canvas id='canvas'/>
+        <div id='typing'>{this.state.text}</div>
         <div>
           {
             !this.props.gameStart
@@ -304,22 +355,24 @@ class Play extends Component {
                 placeholder='산성비를 제거하세요'
                 style={{ textAlign: "center" }}
                 onKeyPress={this.deleteCode}
-                disabled={ this.state.stop ? true : false }
+                onChange={this.inputText}
+                // disabled={ this.state.stop ? true : false }
+                onKeyDown={this.onKeyPressed}
               />
               <div/>
 
-              <button
+              {/* <button
                 className="stop"
                 onClick={this.gameStopRestartToggle}>
                   { this.state.stop ? '재시작' : '멈춤' }
-              </button>
+              </button> */}
               {
                 this.state.stop
                 ? <div className="selectGameLevel" style={{ textAlign: 'center' }}>
-                    <div>난이도 재설정을 해보세요 (1 - 10)</div>
-                    <input type="range" id='gameLevel' defaultValue={this.state.gameLevel}  min={1} max={10} step={1} onChange={this.levelChange}/>
-                    <div> 현재 난이도 : {this.state.gameLevel} </div>
-                </div>
+                    {/* <div>난이도 재설정을 해보세요 (1 - 10)</div>
+                    <input type="range" id='gameLevel' defaultValue={this.state.gameLevel}  min={1} max={10} step={1} onChange={this.rangeChange}/>
+                    <div> 현재 난이도 : {this.state.gameLevel} </div> */}
+                  </div>
                 : ''
               }
             </div>
