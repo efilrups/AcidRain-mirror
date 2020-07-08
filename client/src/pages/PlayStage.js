@@ -15,7 +15,7 @@ class PlayStage extends Component {
     this.startToggle = this.startToggle.bind(this);
   }
   componentDidMount() {
-    
+
     document.getElementById('playpage').focus()
     // document.querySelector('#playpage').focus()
     // if(this.inputStart) {
@@ -31,7 +31,7 @@ class PlayStage extends Component {
   }
 
   startToggle() {
-    this.props.gameStartToggle();
+    this.props.gameStartEndToggle();
     this.setState(current => ({
       start: !current.start
     }));
@@ -49,7 +49,7 @@ class PlayStage extends Component {
       // this.gameStopRestartToggle()
       // this.props.opendMobal()
       document.querySelector('.inputAnswer').focus()
-    } 
+    }
   }
 
 
@@ -81,22 +81,22 @@ class PlayStage extends Component {
           onKeyUp={this.enterkey} >시작</button>
         <button onClick={this.props.history.goBack}>되돌아가기</button>
       </div>
-      
+
     </div>
     )
 
     const { isLogin, userId, stageContents, selectedStageName,
-       color, gameLevel, gameStart, gameStartToggle, opendMobal, modalOpened, gameStatus } = this.props
+       color, gameLevel, gameStart, gameStartEndToggle, opendMobal, modalOpened, gameStatus } = this.props
 
     return (
-      <div 
+      <div
         id="playpage"
-        className="playStage-square"  
+        className="playStage-square"
         onKeyDown={this.onKey}
-        tabindex="0"
+        tabIndex="0"
       >
 
-        
+
 
         {
 
@@ -107,8 +107,8 @@ class PlayStage extends Component {
           (!stageContents && !this.state.start)  ? ''//this.props.history.goBack()
           : (stageContents &&  !this.state.start) ? gameRule
          : <Play
-           userId={userId} selectedStageName={selectedStageName} gameStart={gameStart} 
-           stageContents={stageContents} gameStartToggle={gameStartToggle} color={color}  gameLevel={gameLevel}
+           userId={userId} selectedStageName={selectedStageName} gameStart={gameStart}
+           stageContents={stageContents} gameStartEndToggle={gameStartEndToggle} color={color}  gameLevel={gameLevel}
            opendMobal={opendMobal} modalOpened={modalOpened} onKey={this.onKey} gameStatus={gameStatus}
           />
         }

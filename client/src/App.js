@@ -28,8 +28,7 @@ class App extends Component {
   }
 
   // gameStart Toggle
-  gameStartToggle = () => {
-    console.log('Game Start');
+  gameStartEndToggle = () => {
     this.setState(current => ({
       gameStart: !current.gameStart
     }));
@@ -81,8 +80,11 @@ class App extends Component {
     this.setStage({ isSubmitedStage: true })
   }
 
-  getContents = (clickedStage) => {
-    this.setState({ stageContents: clickedStage })
+  getContents = (clickedStage, selectedLevel) => {
+    this.setState({
+      stageContents: clickedStage,
+      gameLevel: selectedLevel
+    })
   }
 
   handleMakingStage = () => {
@@ -104,7 +106,7 @@ class App extends Component {
     this.setState(current => ({
       modalOpened: !current.modalOpened
     }));
-  } 
+  }
 
 
 
@@ -133,8 +135,8 @@ class App extends Component {
     return (
 
       <div className='app' style={{ backgroundColor: this.state.color }}>
-        
-        
+
+
 
         <Nav
           userId={userId}
@@ -149,7 +151,7 @@ class App extends Component {
           socialLogin={socialLogin}
           gameStart={gameStart}
           wantToMake={wantToMake}
-          gameStatus={this.gameStatusToFalse}
+          gameStartEndToggle={this.gameStartEndToggle}
         />
         <Login
           userId={userId}
@@ -167,7 +169,7 @@ class App extends Component {
           updateStage={this.updateStage}
           handleMakingStage={this.handleMakingStage}
           socialLogin={socialLogin}
-          gameStatusToFalse={this.gameStatusToFalse}
+          gameStartEndToggle={this.gameStartEndToggle}
         />
 
         <Route
@@ -188,11 +190,10 @@ class App extends Component {
               stageContents={stageContents}
               color={color}
               gameLevel={gameLevel}
-              gameStartToggle={this.gameStartToggle}
+              gameStartEndToggle={this.gameStartEndToggle}
               gameStart={gameStart}
               opendMobal={this.opendMobal}
               modalOpened={modalOpened}
-              gameStatus={this.gameStatusToFalse}
             />
           }></Route>
         <footer>

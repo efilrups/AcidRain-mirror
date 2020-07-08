@@ -9,7 +9,9 @@ class Login extends Component {
 
 
     render() {
-        const { userId, isLogin, selectedStageName, handleStageButton , clickStage, getContents, stageContents, changeGuest, changeUserId,wantToMake, handleMakingStage, logout, gameStatusToFalse, updateStage, update } = this.props;
+
+        const { userId, isLogin, selectedStageName, handleStageButton , clickStage, getContents, stageContents, changeGuest, changeUserId,wantToMake, handleMakingStage, logout, updateStage, update } = this.props;
+
         return (
             <div className='Login-square'>
                 <Switch>
@@ -19,8 +21,8 @@ class Login extends Component {
                 </Switch>
 
                 <Route path='/selectstage' render={() => <SelectStage selectedStageName={selectedStageName} clickStage={clickStage}
-                   handleStageButton ={handleStageButton} getContents={getContents} stageContents={stageContents} update={update}
-                   wantToMake={wantToMake} updateStage={updateStage} handleMakingStage={handleMakingStage} userId={userId} gameStatusToFalse={gameStatusToFalse}
+                   handleStageButton ={handleStageButton} getContents={getContents} stageContents={stageContents}
+                   wantToMake={wantToMake} handleMakingStage={handleMakingStage} userId={userId}
                    />} />
 
             </div>
