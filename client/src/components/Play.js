@@ -337,7 +337,6 @@ class Play extends Component {
         }
 
         <canvas id='canvas'/>
-        <div id='typing'>{this.state.text}</div>
         <div>
           {
             !this.props.gameStart

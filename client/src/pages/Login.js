@@ -9,7 +9,9 @@ class Login extends Component {
 
 
     render() {
-        const { userId, isLogin, selectedStageName, handleStageButton , clickStage, getContents, stageContents, changeGuest, changeUserId,wantToMake, handleMakingStage, logout } = this.props;
+
+        const { userId, isLogin, selectedStageName, handleStageButton , clickStage, getContents, stageContents, changeGuest, changeUserId,wantToMake, handleMakingStage, logout, updateStage, update } = this.props;
+
         return (
             <div className='Login-square'>
                 <Switch>
