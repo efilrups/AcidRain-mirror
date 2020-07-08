@@ -32,6 +32,7 @@ class SelectStage extends Component {
             editStageName: '',
             editStageContents: ''
         })
+        
     }
 
     rangeChange(obj) {
