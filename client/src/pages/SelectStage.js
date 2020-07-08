@@ -146,8 +146,8 @@ class SelectStage extends Component {
                             <div > 현재 난이도 : {gameLevel} </div>
                         </div>
 
-                        <div className="field-row SelectStage-buttons" style={{ justifyContent: 'center' }}>
-                            <button onClick={() => {
+                        <div className="field-row SelectStage-row" style={{ justifyContent: 'center' }}>
+                            <button className="SelectStage-btn" onClick={() => {
                                 //버튼 누르면 서버에 현재 선택한 stageName을 post요청으로 보내고, 해당 stageName에 대한 content를 받아온다.
                                 ///playstage로 이동
                                 axios.post("http://localhost:5000/main/playstage", {
@@ -160,7 +160,7 @@ class SelectStage extends Component {
                                 this.props.history.push('/playstage')
 
                             }}>플레이</button>
-                            <button onClick={() => {
+                            <button className="SelectStage-btn" onClick={() => {
                                 //모달의 오픈,클로즈 여부를 관리하는 이벤트를 실행시킴
                                 handleMakingStage()
                             }}
