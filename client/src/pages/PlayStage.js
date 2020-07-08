@@ -15,7 +15,9 @@ class PlayStage extends Component {
     this.startToggle = this.startToggle.bind(this);
   }
   componentDidMount() {
-    document.querySelector('#playpage').focus()
+    
+    document.getElementById('playpage').focus()
+    // document.querySelector('#playpage').focus()
     // if(this.inputStart) {
     //   this.inputStart.focus();
     // }
@@ -36,18 +38,24 @@ class PlayStage extends Component {
   }
 
   onKey = (e) => {
-    console.log(e.key)
-    // if(e.key === 'Escape'){
-    //   console.log('escape')
-    //   this.props.history.push('/selectStage');
-    // } else if (e.key === 'Enter'){
-    //   this.gameStopRestartToggle()
-    // }
+    console.log('playstage', e.key)
+    if(e.which === 13 && e.ctrlKey) {
+      alert('시작')
+      this.startToggle();
+    }
+    if(e.which === 27){
+      console.log('escape', this.props.modalOpened)
+      // this.gameStopRestartToggle()
+      this.props.opendMobal()
+    } 
   }
 
 
-  render() {
 
+
+  render() {
+    // document.querySelector('#playpage').onKeyDown(this.onKey);
+    console.log('document.querySelector ', document.querySelector('#playpage'));
     const gameRule = (
     <div className='gameRule'>
       <div className="playStage-description-box">
@@ -73,18 +81,22 @@ class PlayStage extends Component {
           onKeyUp={this.enterkey} >시작</button>
         <button onClick={this.props.history.goBack}>되돌아가기</button>
       </div>
+      
     </div>
     )
 
     const { isLogin, userId, stageContents, selectedStageName,
-       color, gameLevel, gameStart, gameStartToggle } = this.props
+       color, gameLevel, gameStart, gameStartToggle, modalOpened } = this.props
 
     return (
       <div 
         id="playpage"
         className="playStage-square"  
         onKeyDown={this.onKey}
+        tabindex="0"
       >
+
+        
 
         {
 
@@ -98,8 +110,6 @@ class PlayStage extends Component {
            userId={userId} selectedStageName={selectedStageName} gameStart={gameStart}
            stageContents={stageContents} gameStartToggle={gameStartToggle} color={color}  gameLevel={gameLevel}/>
         }
-
-
       </div>
     )
   }

@@ -57,6 +57,7 @@ render() {
             }}></td>
             <td className="far fa-minus-square fa-lg" onClick={() => {
                 //마이너스 버튼 누르면 selectedStageName에 해당하는 db의 컨텐츠를 삭제 요청
+               ( window.confirm("정말 삭제하시겠습니까?")===true ) ?
                   axios.post('http://localhost:5000/main/confirm', {
                     delete: true,
                     userid: userId,
@@ -70,6 +71,8 @@ render() {
                     console.log(err)
                     alert('권한이 없습니다')
                   })
+                : console.log('삭제할맘없대')
+                  
                   
             }}></td>
         </tr>

@@ -22,7 +22,8 @@ class App extends Component {
     //makeStage컴포넌트의 노출 여부를 해당 state로 관리
     wantToMake: false,
     themaPageIsOpen: false,
-    socialLogin: false
+    socialLogin: false,
+    modalOpened: false
   }
 
   // gameStart Toggle
@@ -95,6 +96,12 @@ class App extends Component {
     this.setState({ themaPageIsOpen: !this.state.themaPageIsOpen })
   }
 
+  opendMobal = () => {
+    this.setState(current => ({
+      modalOpened: !current.modalOpened
+    }));
+  } 
+
 
 
   gameStatus = () => {
@@ -103,7 +110,7 @@ class App extends Component {
 
   render() {
     const { userId, isGuest, selectedStageName, stageContents, gameStart,
-      wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin } = this.state
+      wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin, modalOpened } = this.state
 
 
       let footerState =
@@ -122,6 +129,35 @@ class App extends Component {
     return (
 
       <div className='app' style={{ backgroundColor: this.state.color }}>
+        
+        {
+          modalOpened
+          ? <div className='modal'> 
+              <div className="window Login-window">
+                <div className="title-bar">
+                  <div className="title-bar-controls">
+                    <div className="title-bar-text">Logout-check</div>
+                  </div>
+                </div>
+                <div className="window-body">
+                  <fieldset id="login">
+                    <p className="title" style={{ left:"34%", top: "25%", position: "absolute" }}>로그아웃 하시겠습니까?</p>
+                    
+                    {
+                      <button id="checkBtn" 
+                        // onClick={this.props.logout.bind(this)}
+                      >확인</button>
+                    }
+
+                    <button id="selectBtn" 
+                      onClick={this.opendMobal}
+                    >취소</button>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+          : null
+        }
 
         <Nav
           userId={userId}
@@ -174,6 +210,8 @@ class App extends Component {
               gameLevel={gameLevel}
               gameStartToggle={this.gameStartToggle}
               gameStart={gameStart}
+              opendMobal={this.opendMobal}
+              modalOpened={modalOpened}
             />
           }></Route>
         <footer>

@@ -21,7 +21,7 @@ class MakeStage extends Component {
         if (e.key === 'Escape') {
             this.props.resetEditingHope()
             this.props.handleMakingStage()
-          
+
         }
     }
 
