@@ -21,7 +21,7 @@ class Ranking extends Component {
     //rank링크로 이동하면 db에 저장된 playlog를 받아온다.
     async componentDidMount() {
         const { userId } = this.props
-        await axios.get('http://13.125.33.38:5000/main/rank', {
+        await axios.get('http://localhost:5000/main/rank', {
             nickname: userId
         })
             // await axios.get('http://13.125.33.38:5000/main/rank')

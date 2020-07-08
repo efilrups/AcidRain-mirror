@@ -32,6 +32,7 @@ class SelectStage extends Component {
             editStageName: '',
             editStageContents: ''
         })
+        
     }
 
     rangeChange(obj) {
@@ -44,7 +45,7 @@ class SelectStage extends Component {
         this.props.gameStatusToFalse()
         document.getElementById('SelectStage-window').focus()
 
-        axios.get('http://13.125.33.38:5000/main/selectstage')
+        axios.get('http://localhost:5000/main/selectstage')
         .then(res => {
             this.setState({ savedStages: res.data })
         })
@@ -53,7 +54,7 @@ class SelectStage extends Component {
 
     componentDidUpdate(prevProps, prevState) {
       //selectStage 경로로 이동하면 stage테이블에 저장된 데이터를 모두 가져오고 stageNames에 담김
-      axios.get('http://13.125.33.38:5000/main/selectstage')
+      axios.get('http://localhost:5000/main/selectstage')
       .then(res => {
         if (prevState.savedStages.length !== res.data.length) {
           this.setState({ savedStages: res.data })
@@ -81,7 +82,7 @@ class SelectStage extends Component {
         if(e.key==='m'  && !this.props.wantToMake ){
             this.props.handleMakingStage()
         }if(e.key==='Enter' && !this.props.wantToMake ){
-            axios.post("http://13.125.33.38:5000/main/playstage", {
+            axios.post("http://localhost:5000/main/playstage", {
                 stagename: this.props.selectedStageName,
                 userid: this.props.userId
             })
@@ -100,7 +101,7 @@ class SelectStage extends Component {
 
 
     render() {
-        const { clickStage, selectedStageName, wantToMake, handleMakingStage, userId } = this.props
+        const { clickStage, selectedStageName, wantToMake, handleMakingStage, userId, updateStage, update } = this.props
         const { editStageContents, editStageName, gameLevel, cursor } = this.state
         return (
             <div className="window" id="SelectStage-window" onKeyDown={this.onKeyPressed} tabindex="0">
@@ -127,7 +128,7 @@ class SelectStage extends Component {
                                         <StageListEntry
 
                                             key={i}
-                                    //isSelected:선택한 stage이름과 현재 stage가 같다면
+                                        //isSelected:선택한 stage이름과 현재 stage가 같다면
                                             isSelected={(selectedStageName === savedStage.stagename)}
                                             stageName={savedStage.stagename}
                                             createdBy={savedStage.createdBy}
@@ -140,6 +141,7 @@ class SelectStage extends Component {
                                             handleEditStageName={this.handleEditStageName}
                                             handleMakingStage={handleMakingStage}
                                             userId={userId}
+                                            updateStage={updateStage}
                                             refresh={this.refresh}
                                         />
 
@@ -158,7 +160,7 @@ class SelectStage extends Component {
                             <button className="SelectStage-btn" onClick={() => {
                                 //버튼 누르면 서버에 현재 선택한 stageName을 post요청으로 보내고, 해당 stageName에 대한 content를 받아온다.
                                 ///playstage로 이동
-                                axios.post("http://13.125.33.38:5000/main/playstage", {
+                                axios.post("http://localhost:5000/main/playstage", {
                                     stagename: selectedStageName,
                                     userid: userId
                                 })
@@ -178,11 +180,16 @@ class SelectStage extends Component {
                               }
                             }}
                             >만들기</button>
-                            {wantToMake ? <MakeStage handleMakingStage={handleMakingStage} userId={userId}
+                            {
+                            wantToMake 
+                              ? <MakeStage handleMakingStage={handleMakingStage} 
+                                userId={userId}
                                 editStageName={editStageName}
                                 editStageContents={editStageContents}
-                                resetEditingHope={this.resetEditingHope} />
-                                : ''}
+                                resetEditingHope={this.resetEditingHope}
+                                update={update} />
+                              : ''
+                            }
                         </div>
                     </fieldset>
                 </div>

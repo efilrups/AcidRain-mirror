@@ -24,7 +24,7 @@ class MyPage extends Component {
 
     handleNicknameChange() {
         const { userId, changeUserId } = this.props
-        axios.post('http://13.125.33.38:5000/main/mypage', {
+        axios.post('http://localhost:5000/main/mypage', {
             // 기존 유저정보의 닉네임 (this.state에서 가지고 오기)
             nickname: userId,
             // 인풋 밸류로 수정할 닉네임을 받아주기
@@ -59,7 +59,7 @@ class MyPage extends Component {
 
     componentDidMount() {
         const { userId } = this.props
-        axios.post('http://13.125.33.38:5000/main/mypage', {
+        axios.post('http://localhost:5000/main/mypage', {
             nickname: userId
         })
             // state에 들어간 playlog를 화면에 표시하는 방법

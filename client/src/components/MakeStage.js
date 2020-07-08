@@ -26,7 +26,7 @@ class MakeStage extends Component {
     }
 
     render() {
-        const { handleMakingStage, userId, resetEditingHope } = this.props
+        const { handleMakingStage, userId, resetEditingHope, update } = this.props
         const { inputStageName, inputStageContents } = this.state
         return (
             <div>
@@ -63,13 +63,13 @@ class MakeStage extends Component {
                                 <div className="field-row" style={{ justifyContent: 'center' }}>
                                     <button className="MakeStage-button" onClick={ async () => {
                                         //db에 저장하는 post요청, 창닫기
-                                        // console.log('inputStageName: ', inputStageName);
+                                        console.log(update)
                                         if(userId){
-
-                                          await axios.post("http://13.125.33.38:5000/main/makestage", {
-                                              userId: userId,
-                                              stagename: inputStageName,
-                                              contents:  inputStageContents.split('\n').map(content=>content.trim())
+                                          await axios.post("http://localhost:5000/main/makestage", {
+                                            userId: userId,
+                                            update: update,
+                                            stagename: inputStageName,
+                                            contents:  inputStageContents.split('\n').map(content=>content.trim())
                                           }).then(res => {
                                               alert(res.data.message)
                                           })

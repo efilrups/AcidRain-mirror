@@ -38,7 +38,7 @@ render() {
             <td className="far fa-plus-square fa-lg" onClick={() => {
                 //플러스 버튼 누르면 selectedStageName에 해당하는 db의 컨텐츠를 가져오기
                 this.props.handleEditStageName(stageName)
-                axios.post("http://13.125.33.38:5000/main/confirm", {
+                axios.post("http://localhost:5000/main/confirm", {
                   userid: userId,
                   stagename: stageName
                 })
@@ -48,6 +48,7 @@ render() {
                         this.props.handleEditStageContents(JSON.parse(res.data[0].contents))
                         //만들기 모달로 이동
                         this.props.handleMakingStage()
+                        this.props.updateStage(stageName)
                     })
                     .catch(err => {
                       console.log(err)
@@ -58,7 +59,7 @@ render() {
             <td className="far fa-minus-square fa-lg" onClick={ async () => {
                 //마이너스 버튼 누르면 selectedStageName에 해당하는 db의 컨텐츠를 삭제 요청
                ( window.confirm("정말 삭제하시겠습니까?")===true ) ?
-                  await axios.post('http://13.125.33.38:5000/main/confirm', {
+                  await axios.post('http://localhost:5000/main/confirm', {
                     delete: true,
                     userid: userId,
                     stagename: stageName

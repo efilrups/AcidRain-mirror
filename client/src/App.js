@@ -21,6 +21,7 @@ class App extends Component {
     isGuest: false,
     //makeStage컴포넌트의 노출 여부를 해당 state로 관리
     wantToMake: false,
+    update: false,
     themaPageIsOpen: false,
     socialLogin: false,
     modalOpened: false
@@ -36,7 +37,7 @@ class App extends Component {
 
   // 로그인 유지
   async componentDidMount() {
-    let result = await axios.post('http://13.125.33.38:5000/main/login', {
+    let result = await axios.post('http://localhost:5000/main/login', {
       'session': cookie.load('sessionKey')
     })
     this.setState({ isLogin: true, userId: result.data })
@@ -87,6 +88,9 @@ class App extends Component {
   handleMakingStage = () => {
     this.setState({ wantToMake: !this.state.wantToMake })
   }
+  updateStage = (stagename) => {
+    this.setState({ update: stagename })
+  }
 
   handleColorChange = color => {
     this.setState({ color: color.hex });
@@ -110,7 +114,7 @@ class App extends Component {
 
   render() {
     const { userId, isGuest, selectedStageName, stageContents, gameStart,
-      wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin, modalOpened } = this.state
+      wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin, modalOpened, update } = this.state
 
 
       let footerState =
@@ -159,6 +163,8 @@ class App extends Component {
           getContents={this.getContents}
           selectedStageName={selectedStageName}
           wantToMake={wantToMake}
+          update={update}
+          updateStage={this.updateStage}
           handleMakingStage={this.handleMakingStage}
           socialLogin={socialLogin}
           gameStatusToFalse={this.gameStatusToFalse}
