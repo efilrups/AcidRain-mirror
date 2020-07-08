@@ -41,7 +41,6 @@ class SelectStage extends Component {
     }
 
     async componentDidMount  () {
-        this.props.gameStatusToFalse()
         document.getElementById('SelectStage-window').focus()
 
         axios.get('http://localhost:5000/main/selectstage')

@@ -95,7 +95,7 @@ class Play extends Component {
     this.draw();
     this.start();
   }
-
+// 페이지 나가면 (컴포넌트 지워지면) 인터벌 종료(게임 종료)
   componentWillUnmount () {
     console.log('The End');
     clearInterval(this.move);
@@ -121,11 +121,7 @@ class Play extends Component {
       let end = this.randomArr.every( obj => obj.code ==='');
       if (end || this.currentLife === 0) {
         console.log('stop!');
-        this.setState(state => ({
-          score : state.score + this.score,
-          // end : !state.end
-        }))
-        this.props.gameStartToggle();
+        this.props.gameStartEndToggle();
         clearInterval(this.move);
         }
     }.bind(this), 500 + (11 - gameLevel) * 100);
@@ -290,7 +286,7 @@ class Play extends Component {
 
 
   render() {
-    const {userId, selectedStageName, stageContents, gameStartToggle, gameLevel, modalOpened, gameStatus } = this.props
+    const {userId, selectedStageName, stageContents, gameStartEndToggle, gameLevel, modalOpened } = this.props
     const { score } = this.state
 
     const gameEnd = (
@@ -328,9 +324,8 @@ class Play extends Component {
                     >계속</button>
 
                     <button id="gameoverBtn"
-
                       onClick={event => {
-                        gameStatus();
+                        gameStartEndToggle();
                         this.onKeyPressed(event);
                       }}
                     >종료</button>
@@ -346,7 +341,7 @@ class Play extends Component {
         <div>
           {
             !this.props.gameStart
-            ? gameEnd
+            ? null
             :
             <div>
               <input
@@ -382,8 +377,8 @@ class Play extends Component {
         {
           !this.props.gameStart
           ? <GameOver userId={userId} selectedStageName={selectedStageName}
-            stageContents={stageContents} score={score} missedCode={this.missedCode}
-            gameStartToggle={gameStartToggle} />
+            stageContents={stageContents} score={this.score} missedCode={this.missedCode}
+            gameStartEndToggle={gameStartEndToggle} />
           : ''
         }
       </div>

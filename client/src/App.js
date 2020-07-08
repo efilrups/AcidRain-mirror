@@ -27,8 +27,7 @@ class App extends Component {
   }
 
   // gameStart Toggle
-  gameStartToggle = () => {
-    console.log('Game Start');
+  gameStartEndToggle = () => {
     this.setState(current => ({
       gameStart: !current.gameStart
     }));
@@ -148,7 +147,7 @@ class App extends Component {
           socialLogin={socialLogin}
           gameStart={gameStart}
           wantToMake={wantToMake}
-          gameStatus={this.gameStatusToFalse}
+          gameStartEndToggle={this.gameStartEndToggle}
         />
         <Login
           userId={userId}
@@ -164,7 +163,7 @@ class App extends Component {
           wantToMake={wantToMake}
           handleMakingStage={this.handleMakingStage}
           socialLogin={socialLogin}
-          gameStatusToFalse={this.gameStatusToFalse}
+          gameStartEndToggle={this.gameStartEndToggle}
         />
 
         <Route
@@ -185,11 +184,10 @@ class App extends Component {
               stageContents={stageContents}
               color={color}
               gameLevel={gameLevel}
-              gameStartToggle={this.gameStartToggle}
+              gameStartEndToggle={this.gameStartEndToggle}
               gameStart={gameStart}
               opendMobal={this.opendMobal}
               modalOpened={modalOpened}
-              gameStatus={this.gameStatusToFalse}
             />
           }></Route>
         <footer>
