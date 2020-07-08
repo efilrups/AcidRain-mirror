@@ -9,7 +9,7 @@ class Play extends Component {
       // end : false,
       stop: false,
       // 나오는 코드의 개수
-      RAIN_MAX : 15,
+      RAIN_MAX : 30,
       score : 0,
       gameLevel: this.props.gameLevel,
       correctComment: ['지우기 성공!', '올ㅋ 꽤하시네요', '정답', '난이도를 올려봐요', '멋지네'],
@@ -30,12 +30,15 @@ class Play extends Component {
     };
     this.missedCode = [];
     this.comment = '';
+    this.commentColor = 'black';
+    this.baseScore = 10;
     this.move = null;
     this.start = this.start.bind(this);
     this.draw = this.draw.bind(this);
     this.deleteCode = this.deleteCode.bind(this);
     this.gameStopRestartToggle = this.gameStopRestartToggle.bind(this);
-    this.rangeChange = this.rangeChange.bind(this);
+    this.levelChange = this.levelChange.bind(this);
+
   }
 
   // canvas에 그려질 내용들 설정
@@ -53,6 +56,11 @@ class Play extends Component {
     const { stageContents } = this.props
     const {  RAIN_MAX } = this.state;
 
+    let acc = 0
+    stageContents.forEach((code)=>{
+      return acc += code.length;
+    });
+
     // 내려 보내줄 개수 만큼, 내려보내줄 랜덤배열 만들기
     for (let i = 0; i < RAIN_MAX; i++) {
       let randomContent =  stageContents[Math.floor(Math.random() * 100) %  stageContents.length];
@@ -65,15 +73,24 @@ class Play extends Component {
         x -= (x + contentInfo.width - this.canvas.width);
       }
 
+      if(acc/RAIN_MAX < randomContent.length) {
+        if (Math.random() < 0.2 || Math.random() < 0.3) {
+          this.baseScore *= 2;
+        }
+      }
+
       // 내려보내줄 코드와 시작 위치가 담긴 객체
       let codeObj = {
         code: randomContent,
         x : x,
-        y : 61 + this.font.fontSize
+        y : 61 + this.font.fontSize,
+        score : this.baseScore
       };
-
       this.randomArr.push(codeObj);
+      this.baseScore = 10;
     }
+
+
     this.draw();
     this.start();
   }
@@ -143,7 +160,14 @@ class Play extends Component {
       }
 
       // 코드 그리기
+      // if(this.codeLengthAverage * 1.4 < this.randomArr[i].code.length) {
+      if(this.baseScore < this.randomArr[i].score) {
+        this.ctx.fillStyle = 'rgb(14, 207, 23)';
+      }
+
+      // 코드 그리고 색깔 초기화
       this.ctx.fillText(this.randomArr[i].code, this.randomArr[i].x , this.randomArr[i].y)
+      this.ctx.fillStyle = 'black';
     }
 
     // ph바 그라데이션 설정
@@ -167,11 +191,15 @@ class Play extends Component {
     if (event.key === 'Enter') {
       let targetIndex = this.randomArr.findIndex( obj => event.target.value === obj.code );
 
+
+      //맞추면 파랑, 틀리면 빨강 코멘트,  길이, 난이도에 따라서 점수
       if (targetIndex !== -1 && this.randomArr[targetIndex].code !== '') {
-        this.randomArr[targetIndex].code = '';
         this.commentColor ='rgb(31, 124, 247)';
         this.comment = correctComment[Math.floor(Math.random() * correctComment.length)];
-        this.score++;
+
+        this.score += this.randomArr[targetIndex].score;
+
+        this.randomArr[targetIndex].code = '';
       } else {
         this.commentColor = 'rgb(143, 36, 2)';
         this.comment = incorrectComment[Math.floor(Math.random() * incorrectComment.length)];
@@ -193,10 +221,20 @@ class Play extends Component {
     document.querySelector('.inputAnswer').focus();
   }
 
-  rangeChange (obj) {
-      this.setState({
-          gameLevel: document.getElementById('gameLevel').value
-      });
+  levelChange () {
+    let newLevel = document.getElementById('gameLevel').value
+    this.setState({
+    gameLevel: newLevel
+    });
+
+    this.randomArr.forEach((obj, i) => {
+      if (obj.score > this.baseScore) {
+        obj.score = 2 * (10 + (2 * newLevel))
+      } else {
+        obj.score = 10 + (2 * newLevel)
+      }
+    })
+    this.baseScore = 10 + (2 * newLevel);
   }
 
   onKeyPressed = (e) => {
@@ -210,10 +248,6 @@ class Play extends Component {
   }
 
   render() {
-    // window.onkeydown = function(e) {
-    //   console.log('play', e)
-    // }
-    
     const {userId, selectedStageName, stageContents, gameStartToggle, gameLevel } = this.props
     const { score } = this.state
 
@@ -228,8 +262,9 @@ class Play extends Component {
     );
 
     return (
-      <div className='window-body gameBoard' onKeyDown={this.onKeyPressed}>
-      
+      // <div className='window-body gameBoard' onKeyDown={this.onKeyPressed}>
+      <div className='window-body gameBoard'>
+
         <canvas id='canvas'/>
 
         <div>
@@ -257,7 +292,7 @@ class Play extends Component {
                 this.state.stop
                 ? <div className="selectGameLevel" style={{ textAlign: 'center' }}>
                     <div>난이도 재설정을 해보세요 (1 - 10)</div>
-                    <input type="range" id='gameLevel' defaultValue={this.state.gameLevel}  min={1} max={10} step={1} onChange={this.rangeChange}/>
+                    <input type="range" id='gameLevel' defaultValue={this.state.gameLevel}  min={1} max={10} step={1} onChange={this.levelChange}/>
                     <div> 현재 난이도 : {this.state.gameLevel} </div>
                 </div>
                 : ''
@@ -275,7 +310,7 @@ class Play extends Component {
         }
 
 
-      
+
       </div>
     )
   }
