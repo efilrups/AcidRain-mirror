@@ -110,10 +110,10 @@ class MyPage extends Component {
                                         headerStyle={{ 'fontStyle': 'black', 'borderBottom': 'black 0.05rem solid', 'marginBottom': '1rem', 'marginTop': '1rem', 'paddingBottom': '1rem' }}
                                         containerStyle={{ 'borderBottom': 'black solid 0.05rem', 'paddingBottom': '1rem' }}
                                     >
-                                        <TableHeaderColumn dataField='id' dataAlign='center' isKey={true} tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem', paddingLeft: '1rem', paddingRight: '3rem' }}>순위</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='stagename' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight: '3rem' }}>스테이지</TableHeaderColumn>
+                                        <TableHeaderColumn isKey={true} dataField='stagename' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight: '3rem' }}>스테이지</TableHeaderColumn>
                                         <TableHeaderColumn dataField='score' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight: '3rem' }}>점수</TableHeaderColumn>
-
+                                        <TableHeaderColumn dataField='missedcode' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight: '3rem' }}>놓친 코드</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='createdAt' dataAlign='center' tdStyle={{ 'fontSize': '1rem', paddingRight: '2rem' }} thStyle={{ 'fontSize': '1rem', paddingRight: '3rem' }}>날짜</TableHeaderColumn>
                                     </BootstrapTable>
                                 </div>
 
