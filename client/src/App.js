@@ -187,7 +187,7 @@ class App extends Component {
             />
           }></Route>
         <footer>
-
+<div className="footerImg"></div>
           <div className="footer">
             <p className="footer-text">{footerState}</p>
             <hr id="footer-bar"/>

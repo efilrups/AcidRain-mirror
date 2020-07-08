@@ -15,6 +15,21 @@ body{
 }
 
 
+.footerImg{
+  position: fixed;
+     bottom:0%;
+   
+    width:100%;
+    height:9rem;
+    /* background-color:rgb(194, 194, 194); */
+    background-repeat: no-repeat;
+    background-size:100% ;
+    background-image:url('./image/sea.png');
+    /* border-top: black;
+    border-style:solid;
+    border-width:0.2rem 0 0 0; */
+}
+
 
 div.footer{
     position: fixed;
