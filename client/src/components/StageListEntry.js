@@ -48,6 +48,7 @@ render() {
                         this.props.handleEditStageContents(JSON.parse(res.data[0].contents))
                         //만들기 모달로 이동
                         this.props.handleMakingStage()
+                        this.props.updateStage(stageName)
                     })
                     .catch(err => {
                       console.log(err)

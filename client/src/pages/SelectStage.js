@@ -101,7 +101,7 @@ class SelectStage extends Component {
 
 
     render() {
-        const { clickStage, selectedStageName, wantToMake, handleMakingStage, userId } = this.props
+        const { clickStage, selectedStageName, wantToMake, handleMakingStage, userId, updateStage, update } = this.props
         const { editStageContents, editStageName, gameLevel, cursor } = this.state
         return (
             <div className="window" id="SelectStage-window" onKeyDown={this.onKeyPressed} tabindex="0">
@@ -128,7 +128,7 @@ class SelectStage extends Component {
                                         <StageListEntry
 
                                             key={i}
-                                    //isSelected:선택한 stage이름과 현재 stage가 같다면
+                                        //isSelected:선택한 stage이름과 현재 stage가 같다면
                                             isSelected={(selectedStageName === savedStage.stagename)}
                                             stageName={savedStage.stagename}
                                             createdBy={savedStage.createdBy}
@@ -141,6 +141,7 @@ class SelectStage extends Component {
                                             handleEditStageName={this.handleEditStageName}
                                             handleMakingStage={handleMakingStage}
                                             userId={userId}
+                                            updateStage={updateStage}
                                             refresh={this.refresh}
                                         />
 
@@ -179,11 +180,16 @@ class SelectStage extends Component {
                               }
                             }}
                             >만들기</button>
-                            {wantToMake ? <MakeStage handleMakingStage={handleMakingStage} userId={userId}
+                            {
+                            wantToMake 
+                              ? <MakeStage handleMakingStage={handleMakingStage} 
+                                userId={userId}
                                 editStageName={editStageName}
                                 editStageContents={editStageContents}
-                                resetEditingHope={this.resetEditingHope} />
-                                : ''}
+                                resetEditingHope={this.resetEditingHope}
+                                update={update} />
+                              : ''
+                            }
                         </div>
                     </fieldset>
                 </div>
