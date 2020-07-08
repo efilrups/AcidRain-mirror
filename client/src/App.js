@@ -104,7 +104,7 @@ class App extends Component {
 
 
 
-  gameStatus = () => {
+  gameStatusToFalse = () => {
     this.setState({ gameStart: false });
   }
 
@@ -145,7 +145,7 @@ class App extends Component {
           socialLogin={socialLogin}
           gameStart={gameStart}
           wantToMake={wantToMake}
-          gameStatus={this.gameStatus}
+          gameStatus={this.gameStatusToFalse}
         />
         <Login
           userId={userId}
@@ -161,7 +161,7 @@ class App extends Component {
           wantToMake={wantToMake}
           handleMakingStage={this.handleMakingStage}
           socialLogin={socialLogin}
-          gameStatus={this.gameStatus}
+          gameStatusToFalse={this.gameStatusToFalse}
         />
 
         <Route
@@ -186,7 +186,7 @@ class App extends Component {
               gameStart={gameStart}
               opendMobal={this.opendMobal}
               modalOpened={modalOpened}
-              gameStatus={this.gameStatus}
+              gameStatus={this.gameStatusToFalse}
             />
           }></Route>
         <footer>

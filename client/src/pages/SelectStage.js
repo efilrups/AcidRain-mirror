@@ -18,7 +18,7 @@ class SelectStage extends Component {
         }
         this.rangeChange = this.rangeChange.bind(this);
     }
- 
+
     handleEditStageName = (stageName) => {
         this.setState({ editStageName: stageName })
     }
@@ -41,7 +41,7 @@ class SelectStage extends Component {
     }
 
     async componentDidMount  () {
-        this.props.gameStatus()
+        this.props.gameStatusToFalse()
         document.getElementById('SelectStage-window').focus()
 
         axios.get('http://localhost:5000/main/selectstage')
@@ -50,15 +50,16 @@ class SelectStage extends Component {
         })  
     }
 
-    // componentDidUpdate(prevState) {
-    //       //selectStage 경로로 이동하면 stage테이블에 저장된 데이터를 모두 가져오고 stageNames에 담김
-    //     if (this.state.savedStages !== prevState.savedStages) {
-    //         axios.get('http://localhost:5000/main/selectstage')
-    //         .then(res => {
-    //             this.setState({ savedStages: res.data })
-    //         })  
-    //     }
-    //   }
+    componentDidUpdate(prevState) {
+          //selectStage 경로로 이동하면 stage테이블에 저장된 데이터를 모두 가져오고 stageNames에 담김
+        if (this.state.savedStages !== prevState.savedStages) {
+            axios.get('http://localhost:5000/main/selectstage')
+            .then(res => {
+                this.setState({ savedStages: res.data })
+            })
+
+        }
+      }
 
 
     onKeyPressed = (e) => {
@@ -66,7 +67,7 @@ class SelectStage extends Component {
             this.props.clickStage(this.state.savedStages[this.state.cursor].stagename)
             this.setState ( prevState => ( {
                cursor : prevState.cursor + 1
-           }))   
+           }))
         //   console.log(this.state.savedStages[this.state.cursor].stagename)
         //   console.log(`${e.key} ${this.state.cursor}`)
         }
@@ -76,9 +77,9 @@ class SelectStage extends Component {
               cursor : prevState.cursor - 1
             }))
             // console.log(`${e.key} ${this.state.cursor}`)
-        }  
+        }
         if(e.key==='m'  && !this.props.wantToMake ){
-            this.props.handleMakingStage() 
+            this.props.handleMakingStage()
         }if(e.key==='Enter' && !this.props.wantToMake ){
             axios.post("http://localhost:5000/main/playstage", {
                 stagename: this.props.selectedStageName,
@@ -117,21 +118,21 @@ class SelectStage extends Component {
                                         <th >스테이지</th>
                                         <th >만든이</th>
                                         <th >수정/삭제</th>
-                        
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {this.state.savedStages.map((savedStage,i) => (
-                                         
+
                                         <StageListEntry
-                                           
+
                                             key={i}
                                     //isSelected:선택한 stage이름과 현재 stage가 같다면
                                             isSelected={(selectedStageName === savedStage.stagename)}
                                             stageName={savedStage.stagename}
                                             createdBy={savedStage.createdBy}
                                             clickStage={clickStage}
-                                            
+
                                             editStageName={editStageName}
                                             editStageContents={editStageContents}
                                             selectedStageName={selectedStageName}
@@ -139,8 +140,7 @@ class SelectStage extends Component {
                                             handleEditStageName={this.handleEditStageName}
                                             handleMakingStage={handleMakingStage}
                                             userId={userId}
-                                            
-                                       
+                                            refresh={this.refresh}
                                         />
 
                                     ))}
@@ -169,7 +169,7 @@ class SelectStage extends Component {
                                 this.props.history.push('/playstage')
 
                             }}>플레이</button>
-                            <button onClick={() => {
+                            <button className="SelectStage-btn" onClick={() => {
                               if(userId.indexOf('Guest_') + userId.indexOf('Google_') === -2){
                                 //모달의 오픈,클로즈 여부를 관리하는 이벤트를 실행시킴
                                 handleMakingStage()

@@ -9,7 +9,7 @@ class Play extends Component {
       // end : false,
       stop: false,
       // 나오는 코드의 개수
-      RAIN_MAX : 15,
+      RAIN_MAX : 30,
       score : 0,
       gameLevel: this.props.gameLevel,
       correctComment: ['지우기 성공!', '올ㅋ 꽤하시네요', '정답', '난이도를 올려봐요', '멋지네'],
@@ -30,12 +30,15 @@ class Play extends Component {
     };
     this.missedCode = [];
     this.comment = '';
+    this.commentColor = 'black';
+    this.baseScore = 10;
     this.move = null;
     this.start = this.start.bind(this);
     this.draw = this.draw.bind(this);
     this.deleteCode = this.deleteCode.bind(this);
     this.gameStopRestartToggle = this.gameStopRestartToggle.bind(this);
-    this.rangeChange = this.rangeChange.bind(this);
+    this.levelChange = this.levelChange.bind(this);
+
   }
 
   // canvas에 그려질 내용들 설정
@@ -54,6 +57,11 @@ class Play extends Component {
     const { stageContents } = this.props
     const {  RAIN_MAX } = this.state;
 
+    let acc = 0
+    stageContents.forEach((code)=>{
+      return acc += code.length;
+    });
+
     // 내려 보내줄 개수 만큼, 내려보내줄 랜덤배열 만들기
     for (let i = 0; i < RAIN_MAX; i++) {
       let randomContent =  stageContents[Math.floor(Math.random() * 100) %  stageContents.length];
@@ -66,15 +74,24 @@ class Play extends Component {
         x -= (x + contentInfo.width - this.canvas.width);
       }
 
+      if(acc/RAIN_MAX < randomContent.length) {
+        if (Math.random() < 0.2 || Math.random() < 0.3) {
+          this.baseScore *= 2;
+        }
+      }
+
       // 내려보내줄 코드와 시작 위치가 담긴 객체
       let codeObj = {
         code: randomContent,
         x : x,
-        y : 61 + this.font.fontSize
+        y : 61 + this.font.fontSize,
+        score : this.baseScore
       };
-
       this.randomArr.push(codeObj);
+      this.baseScore = 10;
     }
+
+
     this.draw();
     this.start();
   }
@@ -121,12 +138,12 @@ class Play extends Component {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     // 점수와 코멘트 피드백
-    this.ctx.font = `30px ${fontName}`;
+    this.ctx.font = `20px ${fontName}`;
     this.ctx.fillStyle = 'black';
     this.ctx.fillText(`점수 : ${this.score}`, this.canvas.width * 0.05, 48);
-    this.ctx.fillText(`난이도 : ${this.state.gameLevel}`, this.canvas.width * 0.2, 48);
+    this.ctx.fillText(`난이도 : ${this.state.gameLevel}`, this.canvas.width * 0.17, 48);
     this.ctx.fillStyle = this.commentColor;
-    this.ctx.fillText(this.comment, this.canvas.width * 0.75, 48);
+    this.ctx.fillText(this.comment, this.canvas.width * 0.68, 48);
 
 
     // 내려가기 시작한 코드들을 하나씩 그리기
@@ -144,7 +161,14 @@ class Play extends Component {
       }
 
       // 코드 그리기
+      // if(this.codeLengthAverage * 1.4 < this.randomArr[i].code.length) {
+      if(this.baseScore < this.randomArr[i].score) {
+        this.ctx.fillStyle = 'rgb(14, 207, 23)';
+      }
+
+      // 코드 그리고 색깔 초기화
       this.ctx.fillText(this.randomArr[i].code, this.randomArr[i].x , this.randomArr[i].y)
+      this.ctx.fillStyle = 'black';
     }
 
     // ph바 그라데이션 설정
@@ -156,8 +180,8 @@ class Play extends Component {
     gra.addColorStop(1, 'rgb(14, 67, 201)');
 
     // ph바 그리기
-    this.ctx.font = `28px ${fontName}`;
-    this.ctx.fillText(`ph.${this.currentLife + 1}`, this.canvas.width * 0.66, 45);
+    this.ctx.font = `24px ${fontName}`;
+    this.ctx.fillText(`ph.${this.currentLife + 1}`, this.canvas.width * 0.282, 45);
     this.ctx.fillRect(this.canvas.width * 0.345, 14, this.canvas.width * 0.31, 46);
     this.ctx.fillStyle = gra;
     this.ctx.fillRect(this.canvas.width * 0.35, 20, (this.canvas.width * 0.3) * (this.currentLife / this.life), 34);
@@ -168,16 +192,45 @@ class Play extends Component {
     this.setState({text: ''})
     if (event.key === 'Enter') {
       let targetIndex = this.randomArr.findIndex( obj => event.target.value === obj.code );
+      this.commentColor = 'rgb(14, 207, 23)';
 
+      //------------------corrent comment-------------------
       if (targetIndex !== -1 && this.randomArr[targetIndex].code !== '') {
-        this.randomArr[targetIndex].code = '';
         this.commentColor ='rgb(31, 124, 247)';
         this.comment = correctComment[Math.floor(Math.random() * correctComment.length)];
-        this.score++;
-      } else {
-        this.commentColor = 'rgb(143, 36, 2)';
-        this.comment = incorrectComment[Math.floor(Math.random() * incorrectComment.length)];
-      }
+
+        this.score += this.randomArr[targetIndex].score;
+
+        this.randomArr[targetIndex].code = '';
+      } //--------------------------------- Easter Egg comment --------
+      else if (event.target.value === 'acidrain') {
+        this.comment = '이스터 에그 발견! 추가 점수 100';
+        this.score += 100;
+      } else if (
+        event.target.value === 'PCHANUL' ||
+        event.target.value === 'iamnayeon' ||
+        event.target.value === 'efilrups' ||
+        event.target.value === 'oyeon-kwon'
+      ) {
+        this.comment = '만든 사람! 추가 점수 120';
+        this.score += 120;
+      } else if (
+        event.target.value === 'show me the money'
+      ) {
+        this.comment = '돈 대신 점수를 드릴게요';
+        this.score -= 1000;
+      } else if (
+        event.target.value === 'codestates'
+      ) {
+        this.comment = '이해되시면 1을 눌러주세요'
+        this.score += 1;
+      }//------------------incorrent comment-------------------
+      else {
+       this.commentColor = 'rgb(143, 36, 2)';
+       this.comment = incorrectComment[Math.floor(Math.random() * incorrectComment.length)];
+     }
+
+
       this.draw();
       event.target.value = '';
     }
@@ -195,10 +248,20 @@ class Play extends Component {
     document.querySelector('.inputAnswer').focus();
   }
 
-  rangeChange (obj) {
-      this.setState({
-          gameLevel: document.getElementById('gameLevel').value
-      });
+  levelChange () {
+    let newLevel = document.getElementById('gameLevel').value
+    this.setState({
+    gameLevel: newLevel
+    });
+
+    this.randomArr.forEach((obj, i) => {
+      if (obj.score > this.baseScore) {
+        obj.score = 2 * (10 + (2 * newLevel))
+      } else {
+        obj.score = 10 + (2 * newLevel)
+      }
+    })
+    this.baseScore = 10 + (2 * newLevel);
   }
 
   // onKeyPressed = (e) => {
@@ -241,11 +304,8 @@ class Play extends Component {
     );
 
     return (
-      <div 
-        id="stage"
-        className='window-body gameBoard'
-        
-      >
+      <div className='window-body gameBoard'>
+        <iframe display="none" width="0" height="0" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/207946357&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
 
         {
           modalOpened

@@ -11,6 +11,8 @@
   height: 100%;
 }
 
+.playStage-square:focus {outline:none}
+
 .gameBoard {
   text-align: center;
   height: 80%;
@@ -34,6 +36,8 @@
   height: 1% !important;
   font-size: 1rem;
 }
+
+.inputAnswer:focus {outline:none;}
 
 .stop {
   height: 100% !important;
