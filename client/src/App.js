@@ -19,7 +19,7 @@ class App extends Component {
     isLogin: false,
     //게스트가 로그인 했을 때, 회원이 로그인 했을 때로 나눠서 Nav의 마이페이지버튼 생성, 비생성 조절
     isGuest: false,
-    //makeStage컴포넌트의 노출 여부를 해당 state로 관리 
+    //makeStage컴포넌트의 노출 여부를 해당 state로 관리
     wantToMake: false,
     themaPageIsOpen: false,
     socialLogin: false
@@ -104,26 +104,26 @@ class App extends Component {
   render() {
     const { userId, isGuest, selectedStageName, stageContents, gameStart,
       wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin } = this.state
-    
-    
+
+
       let footerState =
       !isLogin ? "로그인을 진행해주세요."
       : (isLogin && !stageContents && !wantToMake) ? "스테이지를 고르고 엔터를 누르거나 M을 눌러 스테이지를 만들어보세요."
       : (stageContents && !gameStart) ? "게임을 시작하려면 엔터를 누르고 스테이지를 다시 선택하려면 ESC를 누르세요."
       : wantToMake ? "뒤로 돌아가려면 ESC를 누르세요."
-      : !gameStart ? "엔터를 누르세요." 
+      : !gameStart ? "엔터를 누르세요."
       : gameStart ? "뒤로 돌아가려면 ESC버튼을 누르고 게임을 중지하려면 엔터를 누르세요."
-     
+
       : ''
 
 
-   
-    
+
+
     return (
 
       <div className='app' style={{ backgroundColor: this.state.color }}>
 
-        <Nav 
+        <Nav
           userId={userId}
           isGuest={isGuest}
           isLogin={isLogin}
@@ -135,6 +135,7 @@ class App extends Component {
           logout={this.logout}
           socialLogin={socialLogin}
           gameStart={gameStart}
+          wantToMake={wantToMake}
         />
         <Login
           userId={userId}

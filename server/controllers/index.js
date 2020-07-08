@@ -1,5 +1,5 @@
 const { users, guests, playlogs, stages } = require("../models");
-const { Op } = require("sequelize");
+// const { Op } = require("sequelize");
 //const { noExtendLeft } = require("sequelize/types/lib/operators");
 
 module.exports = {
