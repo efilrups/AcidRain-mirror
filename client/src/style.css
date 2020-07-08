@@ -69,3 +69,8 @@ div.footer{
     color:black;
     font-size: 1.5rem;
   }
+
+.inputAnswer{
+  position: relative;
+  z-index: 1;
+}
