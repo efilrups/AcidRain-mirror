@@ -41,7 +41,7 @@ module.exports = {
                 'score': myplaylog.dataValues.score,
                 'stagename': myplaylog.dataValues.stagename,
                 'createdAt': date,
-                'missedcode': `${JSON.parse(myplaylog.dataValues.missedcode).length} 개`
+                'missedcode': `${Math.floor(((myplaylog.dataValues.missedcode.match(/"/g) || []).length)/2)} 개`
               })
             })
 
