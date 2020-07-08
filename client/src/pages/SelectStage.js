@@ -16,7 +16,7 @@ class SelectStage extends Component {
             gameLevel: 1,
             cursor:1
         }
-        this.rangeChange = this.rangeChange.bind(this);
+        this.levelChange = this.levelChange.bind(this);
     }
 
     handleEditStageName = (stageName) => {
@@ -34,7 +34,7 @@ class SelectStage extends Component {
         })
     }
 
-    rangeChange(obj) {
+    levelChange(obj) {
         this.setState({
             gameLevel: document.getElementById('gameLevel').value
         });
@@ -81,23 +81,23 @@ class SelectStage extends Component {
         if(e.key==='m'  && !this.props.wantToMake ){
             this.props.handleMakingStage()
         }if(e.key==='Enter' && !this.props.wantToMake ){
-            axios.post("http://localhost:5000/main/playstage", {
-                stagename: this.props.selectedStageName,
-                userid: this.props.userId
-            })
-                .then(res => {
-                    this.props.getContents(JSON.parse(res.data[0].contents), this.state.gameLevel)
-                })
-            this.props.history.push('/playstage')
+            this.getSelectedStageContents();
         }if(e.key==='Escape' && !this.props.wantToMake ){
             this.props.history.goBack()
         }
     }
 
-    refresh(){
-      this.props.history.push('/selectStage')
+//현재 선택한 stageName을 post요청으로 보내고, 해당 stageName에 대한 content를 받아오고 playstage로 이동
+    getSelectedStageContents = () => {
+      axios.post("http://localhost:5000/main/playstage", {
+          stagename: this.props.selectedStageName,
+          userid: this.props.userId
+      })
+          .then(res => {
+              this.props.getContents(JSON.parse(res.data[0].contents), this.state.gameLevel)
+          })
+      this.props.history.push('/playstage');
     }
-
 
     render() {
         const { clickStage, selectedStageName, wantToMake, handleMakingStage, userId } = this.props
@@ -140,7 +140,6 @@ class SelectStage extends Component {
                                             handleEditStageName={this.handleEditStageName}
                                             handleMakingStage={handleMakingStage}
                                             userId={userId}
-                                            refresh={this.refresh}
                                         />
 
                                     ))}
@@ -150,25 +149,14 @@ class SelectStage extends Component {
 
                         <div className="selectGameLevel" style={{ textAlign: 'center' }}>
                             <div>플레이 할 난이도를 선택하세요 (1 - 10)</div>
-                            <input type="range" id='gameLevel' defaultValue="1" min={1} max={10} step={1} onChange={this.rangeChange} />
+                            <input type="range" id='gameLevel' defaultValue="1" min={1} max={10} step={1} onChange={this.levelChange} />
                             <div > 현재 난이도 : {gameLevel} </div>
                         </div>
 
                         <div className="field-row SelectStage-row" style={{ justifyContent: 'center' }}>
-                            <button className="SelectStage-btn" onClick={() => {
-                                //버튼 누르면 서버에 현재 선택한 stageName을 post요청으로 보내고, 해당 stageName에 대한 content를 받아온다.
-                                ///playstage로 이동
-                                axios.post("http://localhost:5000/main/playstage", {
-                                    stagename: selectedStageName,
-                                    userid: userId
-                                })
-                                    .then(res => {
-                                        console.log('res: ', res);
-                                        this.props.getContents(JSON.parse(res.data[0].contents), gameLevel)
-                                    })
-                                this.props.history.push('/playstage')
-
-                            }}>플레이</button>
+                            <button className="SelectStage-btn" onClick={() => this.getSelectedStageContents()}>
+                              플레이
+                            </button>
                             <button className="SelectStage-btn" onClick={() => {
                               if(userId.indexOf('Guest_') + userId.indexOf('Google_') === -2){
                                 //모달의 오픈,클로즈 여부를 관리하는 이벤트를 실행시킴

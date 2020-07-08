@@ -43,7 +43,7 @@ class Play extends Component {
 
   // canvas에 그려질 내용들 설정
   componentDidMount() {
-    
+
     document.querySelector('.inputAnswer').focus();
     this.canvas = document.getElementById('canvas');
 
@@ -281,13 +281,13 @@ class Play extends Component {
       this.gameStopRestartToggle()
       this.props.opendMobal()
   //   //   // console.log(document.querySelector('.stop'))
-    } 
+    }
   }
 
   inputText = (event) => {
     this.setState({ text: event.target.value })
   }
-  
+
 
   render() {
     const {userId, selectedStageName, stageContents, gameStartToggle, gameLevel, modalOpened, gameStatus } = this.props
@@ -309,7 +309,7 @@ class Play extends Component {
 
         {
           modalOpened
-          ? <div className='modal'> 
+          ? <div className='modal'>
               <div className="window Login-window">
                 <div className="title-bar">
                   <div className="title-bar-controls">
@@ -321,16 +321,16 @@ class Play extends Component {
                     <div className="title" style={{ left:"35%", top: "20%", position: "absolute", fontSize: '20px'}}>그만하시겠습니까?</div>
                     <div className="selectLevel" style={{ textAlign: 'center' }}>
                       <div>난이도를 재설정 해보세요 (1 - 10)</div>
-                      <input type="range" id='gameLevel' defaultValue={this.state.gameLevel}  min={1} max={10} step={1} onChange={this.rangeChange}/>
+                      <input type="range" id='gameLevel' defaultValue={this.state.gameLevel}  min={1} max={10} step={1} onChange={this.levelChange}/>
                       <div> 현재 난이도 : {this.state.gameLevel} </div>
                     </div>
                     <button id="continueBtn" onClick={this.onKeyPressed}
                     >계속</button>
 
-                    <button id="gameoverBtn" 
-                      
+                    <button id="gameoverBtn"
+
                       onClick={event => {
-                        gameStatus(); 
+                        gameStatus();
                         this.onKeyPressed(event);
                       }}
                     >종료</button>
@@ -340,7 +340,7 @@ class Play extends Component {
             </div>
           : null
         }
-      
+
         <canvas id='canvas'/>
         <div id='typing'>{this.state.text}</div>
         <div>
@@ -370,7 +370,7 @@ class Play extends Component {
                 this.state.stop
                 ? <div className="selectGameLevel" style={{ textAlign: 'center' }}>
                     {/* <div>난이도 재설정을 해보세요 (1 - 10)</div>
-                    <input type="range" id='gameLevel' defaultValue={this.state.gameLevel}  min={1} max={10} step={1} onChange={this.rangeChange}/>
+                    <input type="range" id='gameLevel' defaultValue={this.state.gameLevel}  min={1} max={10} step={1} onChange={this.levelChange}/>
                     <div> 현재 난이도 : {this.state.gameLevel} </div> */}
                   </div>
                 : ''

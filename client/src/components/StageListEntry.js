@@ -16,7 +16,7 @@ class  StageListEntry extends Component {
 
 render() {
 
-    const { createdBy, stageName, clickStage, isSelected, selectedStageName, userId, refresh, resetEditingHope } = this.props
+    const { createdBy, stageName, clickStage, isSelected, selectedStageName, userId, resetEditingHope } = this.props
     // console.log(`stageName is ${stageName} ${isSelected}`)
 
 

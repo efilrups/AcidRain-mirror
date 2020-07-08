@@ -80,8 +80,11 @@ class App extends Component {
     this.setStage({ isSubmitedStage: true })
   }
 
-  getContents = (clickedStage) => {
-    this.setState({ stageContents: clickedStage })
+  getContents = (clickedStage, selectedLevel) => {
+    this.setState({
+      stageContents: clickedStage,
+      gameLevel: selectedLevel
+    })
   }
 
   handleMakingStage = () => {
@@ -100,7 +103,7 @@ class App extends Component {
     this.setState(current => ({
       modalOpened: !current.modalOpened
     }));
-  } 
+  }
 
 
 
@@ -129,8 +132,8 @@ class App extends Component {
     return (
 
       <div className='app' style={{ backgroundColor: this.state.color }}>
-        
-        
+
+
 
         <Nav
           userId={userId}
