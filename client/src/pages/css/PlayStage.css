@@ -28,8 +28,10 @@
 }
 
 .inputAnswer {
-  width: 40%;
-  height: 100% !important;
+  position: absolute;
+  bottom: 0%;
+  width: 1%;
+  height: 1% !important;
   font-size: 1rem;
 }
 
@@ -56,4 +58,33 @@ button{
 }
 .hidden{
   visibility: hidden;
+}
+.selectLevel{
+  position: absolute;
+  top: 6rem;
+  left: 8rem;
+  font-size: 1rem;
+
+}
+.selectLevel > div{
+  margin-top: 18px;
+  margin-bottom: 10px;
+}
+#continueBtn{
+  position: absolute;
+  width: 10rem;
+  height: 2rem;
+  left: 35%;
+  top: 65%;
+}
+#gameoverBtn{
+  position: absolute;
+  width: 10rem;
+  height: 2rem;
+  left: 35%;
+  top: 77%;
+}
+#typing{
+  margin-top: 10px;
+  font-size: 2.5rem;
 }

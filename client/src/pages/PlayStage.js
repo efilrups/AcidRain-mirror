@@ -39,14 +39,16 @@ class PlayStage extends Component {
 
   onKey = (e) => {
     console.log('playstage', e.key)
-    if(e.which === 13 && e.ctrlKey) {
-      alert('시작')
-      this.startToggle();
+    if(!this.props.gameStart){
+      if(e.which === 13 && e.ctrlKey) {
+        this.startToggle();
+      }
     }
-    if(e.which === 27){
+    else {
       console.log('escape', this.props.modalOpened)
       // this.gameStopRestartToggle()
-      this.props.opendMobal()
+      // this.props.opendMobal()
+      document.querySelector('.inputAnswer').focus()
     } 
   }
 
@@ -54,8 +56,6 @@ class PlayStage extends Component {
 
 
   render() {
-    // document.querySelector('#playpage').onKeyDown(this.onKey);
-    console.log('document.querySelector ', document.querySelector('#playpage'));
     const gameRule = (
     <div className='gameRule'>
       <div className="playStage-description-box">
@@ -86,7 +86,7 @@ class PlayStage extends Component {
     )
 
     const { isLogin, userId, stageContents, selectedStageName,
-       color, gameLevel, gameStart, gameStartToggle, modalOpened } = this.props
+       color, gameLevel, gameStart, gameStartToggle, opendMobal, modalOpened, gameStatus } = this.props
 
     return (
       <div 
@@ -107,8 +107,10 @@ class PlayStage extends Component {
           (!stageContents && !this.state.start)  ? ''//this.props.history.goBack()
           : (stageContents &&  !this.state.start) ? gameRule
          : <Play
-           userId={userId} selectedStageName={selectedStageName} gameStart={gameStart}
-           stageContents={stageContents} gameStartToggle={gameStartToggle} color={color}  gameLevel={gameLevel}/>
+           userId={userId} selectedStageName={selectedStageName} gameStart={gameStart} 
+           stageContents={stageContents} gameStartToggle={gameStartToggle} color={color}  gameLevel={gameLevel}
+           opendMobal={opendMobal} modalOpened={modalOpened} onKey={this.onKey} gameStatus={gameStatus}
+          />
         }
       </div>
     )

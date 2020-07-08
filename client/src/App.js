@@ -130,34 +130,7 @@ class App extends Component {
 
       <div className='app' style={{ backgroundColor: this.state.color }}>
         
-        {
-          modalOpened
-          ? <div className='modal'> 
-              <div className="window Login-window">
-                <div className="title-bar">
-                  <div className="title-bar-controls">
-                    <div className="title-bar-text">Logout-check</div>
-                  </div>
-                </div>
-                <div className="window-body">
-                  <fieldset id="login">
-                    <p className="title" style={{ left:"34%", top: "25%", position: "absolute" }}>로그아웃 하시겠습니까?</p>
-                    
-                    {
-                      <button id="checkBtn" 
-                        // onClick={this.props.logout.bind(this)}
-                      >확인</button>
-                    }
-
-                    <button id="selectBtn" 
-                      onClick={this.opendMobal}
-                    >취소</button>
-                  </fieldset>
-                </div>
-              </div>
-            </div>
-          : null
-        }
+        
 
         <Nav
           userId={userId}
@@ -172,6 +145,7 @@ class App extends Component {
           socialLogin={socialLogin}
           gameStart={gameStart}
           wantToMake={wantToMake}
+          gameStatus={this.gameStatus}
         />
         <Login
           userId={userId}
@@ -212,6 +186,7 @@ class App extends Component {
               gameStart={gameStart}
               opendMobal={this.opendMobal}
               modalOpened={modalOpened}
+              gameStatus={this.gameStatus}
             />
           }></Route>
         <footer>
