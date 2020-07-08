@@ -52,6 +52,7 @@ class SelectStage extends Component {
     }
 
     onKeyPressed = (e) => {
+      
         if(e.key==='ArrowDown' && this.state.cursor < this.state.savedStages.length  ){
             this.props.clickStage(this.state.savedStages[this.state.cursor].stagename)
             this.setState ( prevState => ( {
@@ -67,9 +68,10 @@ class SelectStage extends Component {
             }))
             // console.log(`${e.key} ${this.state.cursor}`)
         }  
-        if(e.key==='m'){
+        if(e.which === 77 && e.ctrlKey){
             this.props.handleMakingStage() 
-        }if(e.key==='Enter'){
+        }
+        if(e.key==='Enter'){
             axios.post("http://localhost:5000/main/playstage", {
                 stagename: this.props.selectedStageName,
                 userid: this.props.userId
@@ -78,9 +80,14 @@ class SelectStage extends Component {
                     this.props.getContents(JSON.parse(res.data[0].contents), this.state.gameLevel)
                 })
             this.props.history.push('/playstage')
-        }if(e.key==='Escape'){
+        }
+        if(e.key==='Escape'){
             this.props.history.goBack()
         }
+    }
+
+    refresh(){
+      this.props.history.push('/selectStage')
     }
 
 
@@ -125,7 +132,7 @@ class SelectStage extends Component {
                                             handleEditStageName={this.handleEditStageName}
                                             handleMakingStage={handleMakingStage}
                                             userId={userId}
-                                            refresh={this.refresh}
+                                            
                                        
                                         />
 
@@ -149,6 +156,7 @@ class SelectStage extends Component {
                                     userid: userId
                                 })
                                     .then(res => {
+                                        console.log('res: ', res);
                                         this.props.getContents(JSON.parse(res.data[0].contents), gameLevel)
                                     })
                                 this.props.history.push('/playstage')

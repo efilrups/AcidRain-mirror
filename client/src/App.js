@@ -175,16 +175,6 @@ class App extends Component {
               gameStart={gameStart}
             />
           }></Route>
-
-
-        <PlayStage userId={userId}
-          selectedStageName={selectedStageName}
-          stageContents={stageContents}
-          handleGameEnd={this.handleGameEnd}
-          color={color}
-          gameLevel={gameLevel}
-        />
-
         <footer>
 
           <div className="footer">
