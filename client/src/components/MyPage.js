@@ -109,7 +109,7 @@ class MyPage extends Component {
                                             ref="changeNickname"
                                             value={this.state.nickname}
                                         />
-                                        <button className="changeNameBtn" onClick={this.handleNicknameChange}>변경</button>
+                                        <button className="changeNameBtn" onClick={this.handleNicknameChange}>닉네임변경</button>
                                     
                                 </div>
                                  
