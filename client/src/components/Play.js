@@ -131,7 +131,7 @@ class Play extends Component {
     const { fontSize, fontName } = this.font;
     //canvas 배경
     this.ctx.fillStyle = this.props.color;
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     // 점수와 코멘트 피드백
     this.ctx.font = `20px ${fontName}`;

@@ -14,20 +14,83 @@ body{
     /* background-color:lightgray; */
 }
 
-
 .footerImg{
-  position: fixed;
-    bottom:0%;
-    width:105%;
+  /* z-index: -1; */
+    position: fixed;
+    bottom:4%;
+    width:3000px;
     height:10rem;
     /* background-color:rgb(194, 194, 194); */
-    background-repeat: no-repeat;
-    background-size:100% ;
-    background-image:url('./image/sea.png');
+    background-size: 100% ;
+    background-image: url('./image/sea.png');
+    background-repeat: repeat-x;
     /* border-top: black;
     border-style:solid;
     border-width:0.2rem 0 0 0; */
 }
+@media screen and ( max-width: 2100px ) {
+  .footerImg{
+    position: fixed;
+      bottom:4%;
+      width:2500px;
+      height:10rem;
+      /* background-color:rgb(194, 194, 194); */
+      background-size: 100% ;
+      background-image: url('./image/sea.png');
+      background-repeat: repeat-x;
+      /* border-top: black;
+      border-style:solid;
+      border-width:0.2rem 0 0 0; */
+  }
+
+}
+
+.footer-title{
+  text-align: right;
+  float: left;
+  width: 25%;
+  margin: 0px;
+  margin-top: 10px;
+  margin-left: 10px;
+  font-family: 'Nanum Myeongjo', serif;
+  font-size: 1vw;
+}
+
+div.footer-text{
+  float: left;
+  width: 70%;
+  margin: 0px;
+  margin-top: 10px;
+  margin-left: 10px;
+  /* position:absolute;
+  bottom:-50%; */
+  /* left:3%; */
+  color:black;
+  font-size: 1vw;
+}
+@media screen and ( max-width: 1650px ) {
+  .footer-title{
+    text-align: right;
+    float: left;
+    width: 25%;
+    margin: 0px;
+    margin-top: 10px;
+    margin-left: 10px;
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 1.5vw;
+  }
+  div.footer-text{
+    float: left;
+    width: 70%;
+    margin: 0px;
+    margin-top: 10px;
+    margin-left: 30px;
+    color:black;
+    font-size: 1.5vw;
+  }
+}
+
+
 
 
 div.footer{
@@ -54,21 +117,6 @@ div.footer{
 }
 
 
-.footer-title{
-    position:absolute;
-    right:3%;
-    bottom:-50%;
-    font-family: 'Nanum Myeongjo', serif;
-    font-size: 1.5rem;
-}
-
-  p.footer-text{
-    position:absolute;
-    bottom:-50%;
-    left:3%;
-    color:black;
-    font-size: 1.5rem;
-  }
 
 .inputAnswer{
   position: relative;

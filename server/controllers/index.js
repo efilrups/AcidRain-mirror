@@ -30,10 +30,12 @@ module.exports = {
               attributes: ['missedcode', 'stagename', 'score', 'createdAt'],
               where: {
                 nickname: req.body.nickname
-              }
+              },
+              order: [
+                ['createdAt', 'DESC'],
+              ]
             })
             let result = []
-            console.log(`???????${myplaylogs[4].dataValues.missedcode}???????`)
             myplaylogs.forEach(myplaylog => {
               let date = JSON.stringify(myplaylog.dataValues.createdAt).split('').splice(3,8).join('').split('-').join('.');
               
@@ -41,7 +43,7 @@ module.exports = {
                 'score': myplaylog.dataValues.score,
                 'stagename': myplaylog.dataValues.stagename,
                 'createdAt': date,
-                'missedcode': `${Math.floor(((myplaylog.dataValues.missedcode.match(/"/g) || []).length)/2)} 개`
+                'missedcode': `${JSON.parse(myplaylog.dataValues.missedcode).length} 개`
               })
             })
 
@@ -256,6 +258,7 @@ module.exports = {
     // 만약에 게임하지 않고 데이터를 보낸다면?
     gameover: {
       post: async function (req, res){
+        console.log('---------------')
         if(req.body.userid){
           console.log('회원입니다')
         }
