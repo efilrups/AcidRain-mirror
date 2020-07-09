@@ -14,7 +14,7 @@ const port = 5000;
 
 app.use(
     session({
-      secret: "",
+      secret: "@acid-rain",
       resave: false,
       saveUninitialized: false
     })
@@ -30,7 +30,7 @@ app.use(cookieParser());
 
 app.use(
     cors({
-      origin: ['http://acidrain.s3-website.ap-northeast-2.amazonaws.com/'],
+      origin: ['http://acidrain.s3-website.ap-northeast-2.amazonaws.com'],
       methods: ['GET', 'POST'],
       credentials: true
     })
