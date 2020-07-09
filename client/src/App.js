@@ -11,7 +11,7 @@ class App extends Component {
     //db에 저장된 제일 첫번째 스테이지를 보여줘서 첫리스트가 선택된 상태로 보여지도록
     selectedStageName: 'JS연습편',
     stageContents: '',
-    color: "#848484",
+    color: "#EFEFC0",
     // gameStart Flag
     gameStart: false,
     gameLevel: 0,
@@ -217,7 +217,9 @@ resetStageContents = () => {
             />
           }></Route>
         <footer>
-<div className="footerImg"></div>
+<div className="footerImg">     
+<img src={require('./image/sea.png')}/>
+</div>  
           <div className="footer">
             <p className="footer-text">{footerState}</p>
             <hr id="footer-bar"/>
