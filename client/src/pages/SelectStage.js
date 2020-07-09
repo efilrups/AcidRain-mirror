@@ -10,6 +10,7 @@ class SelectStage extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            a:0,
             savedStages: [],
             editStageName: '',
             editStageContents: '',
@@ -48,10 +49,10 @@ class SelectStage extends Component {
         .then(res => {
             this.setState({ savedStages: res.data })
         })
-
     }
 
     componentDidUpdate(prevProps, prevState) {
+      console.log('awefawefawef')
       //selectStage 경로로 이동하면 stage테이블에 저장된 데이터를 모두 가져오고 stageNames에 담김
       axios.get('http://13.125.33.38:5000/main/selectstage')
       .then(res => {
@@ -100,6 +101,10 @@ class SelectStage extends Component {
       this.props.history.push('/playstage');
     }
 
+    refresh = async () => {
+        await this.setState({a : this.state.a + 1});
+    }
+
     render() {
         const { clickStage, selectedStageName, wantToMake, handleMakingStage, userId, updateStage, update } = this.props
         const { editStageContents, editStageName, gameLevel, cursor } = this.state
@@ -113,9 +118,7 @@ class SelectStage extends Component {
                     <fieldset>
                         <p className="description">스테이지를 선택하세요 !</p>
                         <div style={{ textAlign: 'right' }}>
-                            스테이지 새로고침<input type='button' value='↺' onClick={() =>{
-                              this.setState({});
-                            }}/>
+                            스테이지 새로고침<input type='button' value='↺' onClick={this.refresh}/>
                         </div>
                         <ul className="tree-view selectStage-treeview">
                             <table>

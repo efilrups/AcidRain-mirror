@@ -3,6 +3,7 @@ import { Nav, Login, PlayStage } from './pages'
 import { Route, Redirect } from 'react-router-dom'
 import { Play, Mypage } from './components'
 import cookie from 'react-cookies'
+import sea from './image/sea.png'
 const axios = require('axios');
 
 class App extends Component {
@@ -11,7 +12,7 @@ class App extends Component {
     //db에 저장된 제일 첫번째 스테이지를 보여줘서 첫리스트가 선택된 상태로 보여지도록
     selectedStageName: 'JS연습편',
     stageContents: '',
-    color: "#848484",
+    color: "#EFEFC0",
     // gameStart Flag
     gameStart: false,
     gameLevel: 0,
@@ -134,8 +135,6 @@ resetStageContents = () => {
   render() {
     const { userId, isGuest, selectedStageName, stageContents, gameStart,
       wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin, modalOpened, update } = this.state
-
-
       let footerState =
       !isLogin ? "로그인을 진행해주세요."
       : (isLogin && !stageContents && !wantToMake) ? "스테이지를 고르고 엔터를 누르거나 'M'을 눌러 스테이지를 만들어보세요."
@@ -143,7 +142,6 @@ resetStageContents = () => {
       : wantToMake ? "뒤로 돌아가려면 ESC를 누르세요."
       : !gameStart ? "엔터를 누르세요."
       : gameStart ? "게임을 중지하려면 ESC를 누르세요."
-
       : ''
 
     return (
@@ -217,11 +215,12 @@ resetStageContents = () => {
             />
           }></Route>
         <footer>
-<div className="footerImg"></div>
+          <img className="footerImg" src={sea} />
+          {/* <div className="footerImg" ></div> */}
           <div className="footer">
-            <p className="footer-text">{footerState}</p>
+            <div className="footer-text">{footerState}</div>
             <hr id="footer-bar"/>
-            <p className="footer-title">산성비</p>
+            <div className="footer-title">산성비</div>
           </div>
 
         </footer>
