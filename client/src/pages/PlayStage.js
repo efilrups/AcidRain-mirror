@@ -29,13 +29,14 @@ class PlayStage extends Component {
 
   onKeyPressed = (e) => {
     if(!this.props.gameStart){
-      if(e.key==='Enter'){
+      if(e.which === 13 && e.ctrlKey){
         this.startToggle();
       }
-    if(e.key==='Escape'){
-      this.props.history.goBack()
+      if(e.key==='Escape'){
+        this.props.history.goBack()
+      }
+    } else {
       document.querySelector('.inputAnswer').focus()
-    }
     }
   
   }
