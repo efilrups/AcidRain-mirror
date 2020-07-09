@@ -109,8 +109,9 @@ class MyPage extends Component {
                                             ref="changeNickname"
                                             value={this.state.nickname}
                                         />
-                                        <button className="changeNameBtn" onClick={this.handleNicknameChange}>닉네임변경</button>
-                                    
+                                       { this.props.userId.slice(0,7) === 'Google_' ? ''
+                                      :  <button className="changeNameBtn" onClick={this.handleNicknameChange}>닉네임변경</button>
+                                     }
                                 </div>
                                  
                                 <p className="mypageTitle" style={{ textAlign: "center" }}>[내 게임 기록]</p>
@@ -129,10 +130,11 @@ class MyPage extends Component {
                                 </div>
 
                                 <div className="field-row Mypage-field-row-btn" style={{ justifyContent: 'center' }}>
-                                    <button
+                                   <button
                                         className="mypageBtn"
                                         onClick={() => this.props.history.push("/selectStage")}
                                     >확인</button>
+
                                 </div>
                             </fieldset>
                         </div>
