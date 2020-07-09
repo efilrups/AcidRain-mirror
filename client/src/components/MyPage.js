@@ -107,6 +107,7 @@ class MyPage extends Component {
                                             onChange={this.handleInputValueChange}
                                             size="40"
                                             ref="changeNickname"
+                                            value={this.state.nickname}
                                         />
                                         <button className="changeNameBtn" onClick={this.handleNicknameChange}>변경</button>
                                     
