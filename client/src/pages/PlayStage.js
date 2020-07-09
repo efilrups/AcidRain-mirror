@@ -74,7 +74,8 @@ class PlayStage extends Component {
     )
 
     const { isLogin, userId, stageContents, selectedStageName,
-       color, gameLevel, gameStart, gameStartEndToggle, opendMobal, modalOpened, gameStatus } = this.props
+       color, gameLevel, gameStart, gameStartEndToggle, opendMobal, modalOpened, gameStatus,
+      resetGameLevel, resetStageContents  } = this.props
 
     return (
       <div
@@ -98,6 +99,7 @@ class PlayStage extends Component {
            userId={userId} selectedStageName={selectedStageName} gameStart={gameStart}
            stageContents={stageContents} gameStartEndToggle={gameStartEndToggle} color={color}  gameLevel={gameLevel}
            opendMobal={opendMobal} modalOpened={modalOpened} onKey={this.onKey} gameStatus={gameStatus}
+          resetGameLevel={resetGameLevel} resetStageContents={resetStageContents}
           />
         }
       </div>
