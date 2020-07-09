@@ -181,41 +181,51 @@ module.exports = {
     },
     login: {
         post: async function (req, res){
-          // session
+          // session이 있다면
           if(req.body.session){
-            req.sessionStore.sessions[req.body.session]
             let session = JSON.parse(req.sessionStore.sessions[req.body.session])
-            res.send(session.nickname)
+            console.log('session: ', session);
+            res.send({
+              nickname: session.nickname,
+              socialLogin: session.socialLogin
+            })
             return
           } else {
-            let result = await users.findOne({
-                where: {
-                    email: req.body.email,
-                    password: req.body.password
-                }
-
-            })
-
-            if(result){
-              console.log('result: ', result.nickname);
-              // 세션 또는 토큰을 보내야 한다
-              req.session.isLogin = true
-              req.session.nickname = result.nickname
-              // req
-              console.log(req.sessionStore.sessions)
-              console.log('req: ', req.sessionID);
-
+            if(req.body.social){
+              console.log('req.body: ', req.body);
+              req.session.socialLogin = true
+              req.session.nickname = req.body.nickname
               res.status(200).send({
                 "session": req.sessionID,
-                "nickname": result.nickname,
+                "nickname": req.body.nickname,
                 "message": "로그인되었습니다"
               })
               res.end()
             } else {
-              res.status(404).send({
-                  "message": "로그인에 실패하였습니다"
+              //session이 없으면
+              let result = await users.findOne({
+                  where: {
+                      email: req.body.email,
+                      password: req.body.password
+                  }
               })
-              res.end()
+              if(result){
+                console.log('result: ', result.nickname);
+                // 세션 또는 토큰을 보내야 한다
+                req.session.isLogin = true
+                req.session.nickname = result.nickname
+                res.status(200).send({
+                  "session": req.sessionID,
+                  "nickname": result.nickname,
+                  "message": "로그인되었습니다"
+                })
+                res.end()
+              } else {
+                res.status(404).send({
+                    "message": "로그인에 실패하였습니다"
+                })
+                res.end()
+              }
             }
           }
         }
