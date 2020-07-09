@@ -5,6 +5,8 @@ input.inputStageName{
     font-family: 'Nanum Myeongjo', serif;
 }
 
+#rankingFocus:focus { outline: none;}
+
 textarea.inputStageContents{
     height:12rem;
     font-size:1rem;

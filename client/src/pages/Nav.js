@@ -9,30 +9,27 @@ class Nav extends Component {
     }
     navLogout = async() =>{
       console.log('logoutNav')
-      await this.props.logout()
+      await this.props.logout(true)
     }
 
     render() {
 
-      const { userId, isGuest, isLogin, changeUserId,  themaPageIsOpen, handleThemaPage, color, handleColorChange, logout, socialLogin, gameStart, gameStatus } =  this.props
-      console.log('isGuest: ', isGuest);
-      // if(gameStart){
-      //   return (
-      //     <button><Link to='/selectStage' className="">나가기</Link></button>
-      //   )
-      // } else {
+      const { userId, isGuest, isLogin, changeUserId,  themaPageIsOpen, handleThemaPage,
+        color, handleColorChange, logout, socialLogin, gameStart, gameStartEndToggle } =  this.props
+        
+        console.log('changeUserId: ', socialLogin);
         return (
             <div className="Nav-square" >
                 <div className="Nav-link">
                 <Route path="/mypage" render={()=><MyPage changeUserId={changeUserId} userId={userId}/>}/>
-                    <div className="Nav-userId" 
-                    // onClick={()=>{ 
+                    <div className="Nav-userId"
+                    // onClick={()=>{
                     //   this.props.history.push('/')}}
                       >
                       {
                         userId
                         ? `${userId}님이 입장하셨습니다.`
-                        : `로그인 후에 이용해주세요.`
+                        : `환상의 산성비 게임`
                       }
                     </div>
                     {
@@ -45,16 +42,16 @@ class Nav extends Component {
                       ? null
                       : <span className="Link-makeThema" onClick={handleThemaPage}>배경색</span>
                     }
-                    
+
                     {
                       gameStart
-                      ? <div className="Link-ranking" onClick={gameStatus}>나가기</div>
+                      ? <div className="Link-ranking" onClick={gameStartEndToggle}>나가기</div>
                       : userId
                         ? socialLogin
                           ? <GoogleLogout
                               clientId="1037438704815-ih3s6v1brfb4p5oksifqvd881ss953kd.apps.googleusercontent.com"
                               render={renderProps => (
-                                <div className="Link-login" onClick={renderProps.onClick} 
+                                <div className="Link-login" onClick={renderProps.onClick}
                                 disabled={renderProps.disabled}>로그아웃</div>
                               )}
                               buttonText="Logout"
@@ -62,21 +59,21 @@ class Nav extends Component {
                             ></GoogleLogout>
                           : <Link to='/login' className="Link-login" onClick={logout}>로그아웃</Link>
                         : <Link to='/login' className="Link-login">로그인</Link>
-                        
+
                     }
                     {
                       gameStart
                       ? null
                       : userId
                         ? isGuest
-                          ? null 
+                          ? null
                           : <Link to='/mypage' className="Link-mypage">마이페이지</Link>
                         : null
                     }
-                    
-                   { themaPageIsOpen ?  
+
+                   { themaPageIsOpen ?
                    <div className="makeThema-box">
-                   <MakeThema themaPageIsOpen={themaPageIsOpen} handleThemaPage={handleThemaPage} color={color} handleColorChange={handleColorChange} /> 
+                   <MakeThema themaPageIsOpen={themaPageIsOpen} handleThemaPage={handleThemaPage} color={color} handleColorChange={handleColorChange} />
                    </div>
                    : '' }
                     <Route path="/ranking" render={()=><Ranking isLogin={isLogin} />}/>

@@ -16,7 +16,7 @@ class  StageListEntry extends Component {
 
 render() {
 
-    const { createdBy, stageName, clickStage, isSelected, selectedStageName, userId, refresh, resetEditingHope } = this.props
+    const { createdBy, stageName, clickStage, isSelected, selectedStageName, userId, resetEditingHope } = this.props
     // console.log(`stageName is ${stageName} ${isSelected}`)
 
 
@@ -48,6 +48,7 @@ render() {
                         this.props.handleEditStageContents(JSON.parse(res.data[0].contents))
                         //만들기 모달로 이동
                         this.props.handleMakingStage()
+                        this.props.updateStage(stageName)
                     })
                     .catch(err => {
                       console.log(err)

@@ -15,6 +15,20 @@ body{
 }
 
 
+.footerImg{
+  position: fixed;
+    bottom:0%;
+    width:105%;
+    height:10rem;
+    /* background-color:rgb(194, 194, 194); */
+    background-repeat: no-repeat;
+    background-size:100% ;
+    background-image:url('./image/sea.png');
+    /* border-top: black;
+    border-style:solid;
+    border-width:0.2rem 0 0 0; */
+}
+
 
 div.footer{
     position: fixed;
@@ -29,6 +43,25 @@ div.footer{
   }
   
   
+#footer-bar{
+    position:fixed;
+    bottom:0%;
+    width:0;
+    height:2.5rem;
+    left:70%;
+    margin:0;
+    border:black solid 0.095rem;
+}
+
+
+.footer-title{
+    position:absolute;
+    right:3%;
+    bottom:-50%;
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 1.5rem;
+}
+
   p.footer-text{
     position:absolute;
     bottom:-50%;
@@ -36,3 +69,8 @@ div.footer{
     color:black;
     font-size: 1.5rem;
   }
+
+.inputAnswer{
+  position: relative;
+  z-index: 1;
+}

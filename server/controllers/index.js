@@ -181,41 +181,51 @@ module.exports = {
     },
     login: {
         post: async function (req, res){
-          // session
+          // session이 있다면
           if(req.body.session){
-            req.sessionStore.sessions[req.body.session]
             let session = JSON.parse(req.sessionStore.sessions[req.body.session])
-            res.send(session.nickname)
+            console.log('session: ', session);
+            res.send({
+              nickname: session.nickname,
+              socialLogin: session.socialLogin
+            })
             return
           } else {
-            let result = await users.findOne({
-                where: {
-                    email: req.body.email,
-                    password: req.body.password
-                }
-
-            })
-
-            if(result){
-              console.log('result: ', result.nickname);
-              // 세션 또는 토큰을 보내야 한다
-              req.session.isLogin = true
-              req.session.nickname = result.nickname
-              // req
-              console.log(req.sessionStore.sessions)
-              console.log('req: ', req.sessionID);
-
+            if(req.body.social){
+              console.log('req.body: ', req.body);
+              req.session.socialLogin = true
+              req.session.nickname = req.body.nickname
               res.status(200).send({
                 "session": req.sessionID,
-                "nickname": result.nickname,
+                "nickname": req.body.nickname,
                 "message": "로그인되었습니다"
               })
               res.end()
             } else {
-              res.status(404).send({
-                  "message": "로그인에 실패하였습니다"
+              //session이 없으면
+              let result = await users.findOne({
+                  where: {
+                      email: req.body.email,
+                      password: req.body.password
+                  }
               })
-              res.end()
+              if(result){
+                console.log('result: ', result.nickname);
+                // 세션 또는 토큰을 보내야 한다
+                req.session.isLogin = true
+                req.session.nickname = result.nickname
+                res.status(200).send({
+                  "session": req.sessionID,
+                  "nickname": result.nickname,
+                  "message": "로그인되었습니다"
+                })
+                res.end()
+              } else {
+                res.status(404).send({
+                    "message": "로그인에 실패하였습니다"
+                })
+                res.end()
+              }
             }
           }
         }
@@ -264,7 +274,6 @@ module.exports = {
 
     makestage: {
       post: async function (req, res) {
-        console.log(req.body)
         let find = await users.findOne({
           attributes: ['id'],
           where: {
@@ -272,25 +281,42 @@ module.exports = {
           }
         })
 
-        let conflict = await stages.findAll({
-          where: {
-            stagename: req.body.stagename
+        // 신규생성인지 업데이트인지 확인
+        if(!req.body.update){
+          let conflict = await stages.findAll({
+            where: {
+              stagename: req.body.stagename
+            }
+          })
+          // 같은이름 충돌확인
+          if(conflict.length === 0){
+            await stages.create({
+              userid: find.id,
+              stagename: req.body.stagename,
+              contents: JSON.stringify(req.body.contents)
+            })
+            res.status(200).send({
+              'message': '성공적으로 생성되었습니다.'
+            })
+          } else {
+            res.status(200).send({
+              'message': '이미 존재하는 스테이지 이름입니다'
+            })
           }
-        })
-
-        console.log('conflict: ', conflict);
-        if(conflict.length === 0){
-          await stages.create({
+        } else {
+          //업데이트인 경우
+          await stages.update({
             userid: find.id,
             stagename: req.body.stagename,
             contents: JSON.stringify(req.body.contents)
+          }, {
+            where: {
+              userid: find.id,
+              stagename: req.body.update
+            }
           })
           res.status(200).send({
-            'message': '성공적으로 생성되었습니다.'
-          })
-        } else {
-          res.status(200).send({
-            'message': '이미 존재하는 스테이지 이름입니다'
+            'message': '성공적으로 업데이트되었습니다.'
           })
         }
       }
@@ -341,49 +367,4 @@ module.exports = {
         });
       }
     }
-
-  //   playstage: {
-  //     post: async function (req, res){
-
-  //       if(req.body.userid){
-  //         let find = await users.findOne({
-  //           where: {
-  //             nickname: req.body.userid
-  //           }
-  //         })
-  //         console.log('find.id: ', find.id);
-  //         console.log('find.id: ', req.body.stagename);
-
-  //         // 삭제하는가
-  //         if(req.body.delete){
-  //           let result = await stages.destroy({
-  //             where:{
-  //               userid: find.id,
-  //               stagename: req.body.stagename
-  //             }
-  //           })
-  //           console.log('result: ', result);
-
-  //           if(result === 0){
-  //             res.status(404).send('다시 시도해주세요')
-  //           } else {
-  //             res.status(200).send('삭제되었습니다')
-  //           }
-  //         } else {
-  //           let result = await stages.findAll({
-  //             attributes: ['contents'],
-  //             where: {
-  //               stagename: req.body.stagename
-  //             }
-  //           })
-  //           if(result.length !== 0){
-  //             res.status(200).send(result)
-  //           }
-  //         }
-  //       }
-  //       res.status(404).send({
-  //         "message": "정보가 존재하지 않습니다"
-  //       });
-  //     },
-  // },
 }

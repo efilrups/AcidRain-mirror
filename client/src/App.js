@@ -9,7 +9,7 @@ class App extends Component {
   state = {
     userId: '',
     //db에 저장된 제일 첫번째 스테이지를 보여줘서 첫리스트가 선택된 상태로 보여지도록
-    selectedStageName: 'test',
+    selectedStageName: 'JS연습편',
     stageContents: '',
     color: "#848484",
     // gameStart Flag
@@ -21,14 +21,22 @@ class App extends Component {
     isGuest: false,
     //makeStage컴포넌트의 노출 여부를 해당 state로 관리
     wantToMake: false,
+    update: false,
     themaPageIsOpen: false,
     socialLogin: false,
     modalOpened: false
   }
 
+resetGameLevel = () => {
+  this.setState({gameLevel:0, gameStart:false})
+}
+resetStageContents = () => {
+  this.setState({stageContents:''})
+}
+
+
   // gameStart Toggle
-  gameStartToggle = () => {
-    console.log('Game Start');
+  gameStartEndToggle = () => {
     this.setState(current => ({
       gameStart: !current.gameStart
     }));
@@ -39,13 +47,17 @@ class App extends Component {
     let result = await axios.post('http://13.125.33.38:5000/main/login', {
       'session': cookie.load('sessionKey')
     })
-    this.setState({ isLogin: true, userId: result.data })
+    console.log('result: ', result);
+    if(result.data.socialLogin){
+      this.setState({ isLogin: true, socialLogin: true, userId: result.data.nickname })
+    } else {
+      this.setState({ isLogin: true, userId: result.data.nickname })
+    }
   }
   // 로그아웃
-  logout = () => {
-    this.setState({ isLogin: false, userId: '' })
+  logout = (social) => {
+    this.setState({ isLogin: false, userId: '', socialLogin: false })
     cookie.remove('sessionKey')
-    console.log('this.state: ', this.state.userId);
   }
 
 
@@ -60,9 +72,14 @@ class App extends Component {
     }
   }
   // 유저의 로그인
-  changeUserId = (user, social) => {
+  changeUserId = async (user, social) => {
     if(social){
+      let result = await axios.post('http://13.125.33.38:5000/main/login', {
+        nickname: user,
+        social: social
+      })
       this.setState({ userId: user, socialLogin: true, isLogin: true })
+      cookie.save('sessionKey', result.data.session)
     } else {
       this.setState({ userId: user, isLogin: true })
     }
@@ -80,12 +97,18 @@ class App extends Component {
     this.setStage({ isSubmitedStage: true })
   }
 
-  getContents = (clickedStage) => {
-    this.setState({ stageContents: clickedStage })
+  getContents = (clickedStage, selectedLevel) => {
+    this.setState({
+      stageContents: clickedStage,
+      gameLevel: selectedLevel
+    })
   }
 
   handleMakingStage = () => {
     this.setState({ wantToMake: !this.state.wantToMake })
+  }
+  updateStage = (stagename) => {
+    this.setState({ update: stagename })
   }
 
   handleColorChange = color => {
@@ -100,7 +123,7 @@ class App extends Component {
     this.setState(current => ({
       modalOpened: !current.modalOpened
     }));
-  } 
+  }
 
 
 
@@ -110,27 +133,24 @@ class App extends Component {
 
   render() {
     const { userId, isGuest, selectedStageName, stageContents, gameStart,
-      wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin, modalOpened } = this.state
+      wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin, modalOpened, update } = this.state
 
 
       let footerState =
       !isLogin ? "로그인을 진행해주세요."
-      : (isLogin && !stageContents && !wantToMake) ? "스테이지를 고르고 엔터를 누르거나 M을 눌러 스테이지를 만들어보세요."
-      : (stageContents && !gameStart) ? "게임을 시작하려면 엔터를 누르고 스테이지를 다시 선택하려면 ESC를 누르세요."
+      : (isLogin && !stageContents && !wantToMake) ? "스테이지를 고르고 엔터를 누르거나 'M'을 눌러 스테이지를 만들어보세요."
+      : (stageContents && !gameStart) ? "게임을 시작하려면 ctrl+엔터를 누르고 스테이지를 다시 선택하려면 ESC를 누르세요."
       : wantToMake ? "뒤로 돌아가려면 ESC를 누르세요."
       : !gameStart ? "엔터를 누르세요."
-      : gameStart ? "뒤로 돌아가려면 ESC버튼을 누르고 게임을 중지하려면 엔터를 누르세요."
+      : gameStart ? "게임을 중지하려면 ESC를 누르세요."
 
       : ''
-
-
-
 
     return (
 
       <div className='app' style={{ backgroundColor: this.state.color }}>
-        
-        
+
+
 
         <Nav
           userId={userId}
@@ -145,7 +165,8 @@ class App extends Component {
           socialLogin={socialLogin}
           gameStart={gameStart}
           wantToMake={wantToMake}
-          gameStatus={this.gameStatusToFalse}
+          gameStartEndToggle={this.gameStartEndToggle}
+        
         />
         <Login
           userId={userId}
@@ -159,9 +180,14 @@ class App extends Component {
           getContents={this.getContents}
           selectedStageName={selectedStageName}
           wantToMake={wantToMake}
+          update={update}
+          updateStage={this.updateStage}
           handleMakingStage={this.handleMakingStage}
           socialLogin={socialLogin}
-          gameStatusToFalse={this.gameStatusToFalse}
+          gameStartEndToggle={this.gameStartEndToggle}
+          resetGameLevel={this.resetGameLevel}
+          resetStageContents={this.resetStageContents}
+         
         />
 
         <Route
@@ -182,17 +208,20 @@ class App extends Component {
               stageContents={stageContents}
               color={color}
               gameLevel={gameLevel}
-              gameStartToggle={this.gameStartToggle}
+              gameStartEndToggle={this.gameStartEndToggle}
               gameStart={gameStart}
               opendMobal={this.opendMobal}
               modalOpened={modalOpened}
-              gameStatus={this.gameStatusToFalse}
+              resetGameLevel={this.resetGameLevel}
+              resetStageContents={this.resetStageContents}
             />
           }></Route>
         <footer>
-
+<div className="footerImg"></div>
           <div className="footer">
             <p className="footer-text">{footerState}</p>
+            <hr id="footer-bar"/>
+            <p className="footer-title">산성비</p>
           </div>
 
         </footer>

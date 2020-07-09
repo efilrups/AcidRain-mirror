@@ -25,8 +25,8 @@ class Play extends Component {
     this.life = 10;
     this.currentLife = this.life;
     this.font = {
-      fontSize : 25,
-      fontName : 'arial'
+      fontSize : 30,
+      fontName : 'Nanum Myeongjo'
     };
     this.missedCode = [];
     this.comment = '';
@@ -43,7 +43,7 @@ class Play extends Component {
 
   // canvas에 그려질 내용들 설정
   componentDidMount() {
-    
+
     document.querySelector('.inputAnswer').focus();
     this.canvas = document.getElementById('canvas');
 
@@ -55,7 +55,7 @@ class Play extends Component {
     this.ctx.font = `${this.font.fontSize}px ${this.font.fontName}`;
 
     const { stageContents } = this.props
-    const {  RAIN_MAX } = this.state;
+    const { RAIN_MAX } = this.state;
 
     let acc = 0
     stageContents.forEach((code)=>{
@@ -95,7 +95,7 @@ class Play extends Component {
     this.draw();
     this.start();
   }
-
+// 페이지 나가면 (컴포넌트 지워지면) 인터벌 종료(게임 종료)
   componentWillUnmount () {
     console.log('The End');
     clearInterval(this.move);
@@ -121,11 +121,7 @@ class Play extends Component {
       let end = this.randomArr.every( obj => obj.code ==='');
       if (end || this.currentLife === 0) {
         console.log('stop!');
-        this.setState(state => ({
-          score : state.score + this.score,
-          // end : !state.end
-        }))
-        this.props.gameStartToggle();
+        this.props.gameStartEndToggle();
         clearInterval(this.move);
         }
     }.bind(this), 500 + (11 - gameLevel) * 100);
@@ -141,7 +137,7 @@ class Play extends Component {
     this.ctx.font = `20px ${fontName}`;
     this.ctx.fillStyle = 'black';
     this.ctx.fillText(`점수 : ${this.score}`, this.canvas.width * 0.05, 48);
-    this.ctx.fillText(`난이도 : ${this.state.gameLevel}`, this.canvas.width * 0.17, 48);
+    this.ctx.fillText(`난이도 : ${this.state.gameLevel}`, this.canvas.width * 0.15, 48);
     this.ctx.fillStyle = this.commentColor;
     this.ctx.fillText(this.comment, this.canvas.width * 0.68, 48);
 
@@ -192,11 +188,11 @@ class Play extends Component {
     this.setState({text: ''})
     if (event.key === 'Enter') {
       let targetIndex = this.randomArr.findIndex( obj => event.target.value === obj.code );
-      this.commentColor = 'rgb(14, 207, 23)';
+      this.commentColor = '#000080';
 
       //------------------corrent comment-------------------
       if (targetIndex !== -1 && this.randomArr[targetIndex].code !== '') {
-        this.commentColor ='rgb(31, 124, 247)';
+        this.commentColor ='rgb(0,255,255)';
         this.comment = correctComment[Math.floor(Math.random() * correctComment.length)];
 
         this.score += this.randomArr[targetIndex].score;
@@ -281,16 +277,17 @@ class Play extends Component {
       this.gameStopRestartToggle()
       this.props.opendMobal()
   //   //   // console.log(document.querySelector('.stop'))
-    } 
+    }
   }
 
   inputText = (event) => {
     this.setState({ text: event.target.value })
   }
-  
+
 
   render() {
-    const {userId, selectedStageName, stageContents, gameStartToggle, gameLevel, modalOpened, gameStatus } = this.props
+    const {userId, selectedStageName, stageContents, gameStartEndToggle, gameLevel, modalOpened,
+    resetGameLevel, resetStageContents } = this.props
     const { score } = this.state
 
     const gameEnd = (
@@ -305,32 +302,31 @@ class Play extends Component {
 
     return (
       <div className='window-body gameBoard'>
-        <iframe display="none" width="0" height="0" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/207946357&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+        <iframe display="none" width="0" height="0" scrolling="no" frameBorder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/207946357&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
 
         {
           modalOpened
-          ? <div className='modal'> 
-              <div className="window Login-window">
+          ? <div className='modal'>
+              <div className="window Play-window">
                 <div className="title-bar">
                   <div className="title-bar-controls">
-                    <div className="title-bar-text">menu</div>
+                    <div className="title-bar-text">Game Over</div>
                   </div>
                 </div>
                 <div className="window-body">
                   <fieldset id="login">
                     <div className="title" style={{ left:"35%", top: "20%", position: "absolute", fontSize: '20px'}}>그만하시겠습니까?</div>
                     <div className="selectLevel" style={{ textAlign: 'center' }}>
-                      <div>난이도를 재설정 해보세요 (1 - 10)</div>
-                      <input type="range" id='gameLevel' defaultValue={this.state.gameLevel}  min={1} max={10} step={1} onChange={this.rangeChange}/>
+                      <div >난이도를 재설정 해보세요 (1 - 10)</div>
+                      <input type="range" id='gameLevel' defaultValue={this.state.gameLevel}  min={1} max={10} step={1} onChange={this.levelChange}/>
                       <div> 현재 난이도 : {this.state.gameLevel} </div>
                     </div>
                     <button id="continueBtn" onClick={this.onKeyPressed}
                     >계속</button>
 
-                    <button id="gameoverBtn" 
-                      
+                    <button id="gameoverBtn"
                       onClick={event => {
-                        gameStatus(); 
+                        gameStartEndToggle();
                         this.onKeyPressed(event);
                       }}
                     >종료</button>
@@ -340,13 +336,12 @@ class Play extends Component {
             </div>
           : null
         }
-      
+
         <canvas id='canvas'/>
-        <div id='typing'>{this.state.text}</div>
         <div>
           {
             !this.props.gameStart
-            ? gameEnd
+            ? null
             :
             <div>
               <input
@@ -370,7 +365,7 @@ class Play extends Component {
                 this.state.stop
                 ? <div className="selectGameLevel" style={{ textAlign: 'center' }}>
                     {/* <div>난이도 재설정을 해보세요 (1 - 10)</div>
-                    <input type="range" id='gameLevel' defaultValue={this.state.gameLevel}  min={1} max={10} step={1} onChange={this.rangeChange}/>
+                    <input type="range" id='gameLevel' defaultValue={this.state.gameLevel}  min={1} max={10} step={1} onChange={this.levelChange}/>
                     <div> 현재 난이도 : {this.state.gameLevel} </div> */}
                   </div>
                 : ''
@@ -378,13 +373,18 @@ class Play extends Component {
             </div>
           }
         </div>
-
+        {
+          !this.props.gameStart
+          ? clearInterval(this.move)
+          : null
+        }
         {
           !this.props.gameStart
           ? <GameOver userId={userId} selectedStageName={selectedStageName}
-            stageContents={stageContents} score={score} missedCode={this.missedCode}
-            gameStartToggle={gameStartToggle} />
-          : ''
+            stageContents={stageContents} score={this.score} missedCode={this.missedCode}
+            gameStartEndToggle={gameStartEndToggle}
+            resetGameLevel={resetGameLevel} resetStageContents={resetStageContents} />
+          : null
         }
       </div>
     )

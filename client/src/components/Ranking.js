@@ -18,8 +18,18 @@ class Ranking extends Component {
         }
     }
 
+    onKeyPressed=(e)=>{
+        if(e.key==='Enter'){
+            this.props.history.push('/selectstage')
+        }
+        if(e.key==='Escape'){
+            this.props.history.goBack()
+        }
+    }
+
     //rank링크로 이동하면 db에 저장된 playlog를 받아온다.
     async componentDidMount() {
+        document.getElementById('RankingFocus').focus()
         const { userId } = this.props
         await axios.get('http://13.125.33.38:5000/main/rank', {
             nickname: userId
@@ -35,7 +45,7 @@ class Ranking extends Component {
         const { isLogin } = this.props;
         return (
 
-            <div className="window Ranking-window">
+            <div className="window Ranking-window" id="RankingFocus" onKeyDown={this.onKeyPressed} tabindex="0">
                 <div className="title-bar">
                     <div className="title-bar-controls">
                         <div className="title-bar-text">Rank</div>
@@ -73,6 +83,10 @@ class Ranking extends Component {
                                     <button className="Ranking-button" onClick={() => {
                                         //스테이지 선택 버튼을 누르면 스테이지 선택 페이지로 이동
                                         this.props.history.push('/selectStage')
+                                        if( document.getElementById('SelectStage-window')){
+                                            document.getElementById('SelectStage-window').focus()
+                                        }
+                                      
                                     }}>스테이지 선택</button>
                                     : ''
                             }
