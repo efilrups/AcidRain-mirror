@@ -10,7 +10,7 @@ class Login extends Component {
 
     render() {
 
-        const { userId, isLogin, selectedStageName, handleStageButton , clickStage, getContents, stageContents, changeGuest, changeUserId,wantToMake, 
+        const { userId, isLogin, selectedStageName, handleStageButton , clickStage, getContents, stageContents, changeGuest, changeUserId,wantToMake,
             handleMakingStage, logout, updateStage, update } = this.props;
 
         return (
