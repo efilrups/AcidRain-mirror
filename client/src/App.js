@@ -27,6 +27,14 @@ class App extends Component {
     modalOpened: false
   }
 
+resetGameLevel = () => {
+  this.setState({gameLevel:0, gameStart:false})
+}
+resetStageContents = () => {
+  this.setState({stageContents:''})
+}
+
+
   // gameStart Toggle
   gameStartEndToggle = () => {
     this.setState(current => ({
@@ -149,6 +157,7 @@ class App extends Component {
           gameStart={gameStart}
           wantToMake={wantToMake}
           gameStartEndToggle={this.gameStartEndToggle}
+        
         />
         <Login
           userId={userId}
@@ -167,6 +176,9 @@ class App extends Component {
           handleMakingStage={this.handleMakingStage}
           socialLogin={socialLogin}
           gameStartEndToggle={this.gameStartEndToggle}
+          resetGameLevel={this.resetGameLevel}
+          resetStageContents={this.resetStageContents}
+         
         />
 
         <Route
@@ -191,6 +203,8 @@ class App extends Component {
               gameStart={gameStart}
               opendMobal={this.opendMobal}
               modalOpened={modalOpened}
+              resetGameLevel={this.resetGameLevel}
+              resetStageContents={this.resetStageContents}
             />
           }></Route>
         <footer>

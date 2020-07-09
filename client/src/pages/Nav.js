@@ -15,7 +15,8 @@ class Nav extends Component {
     render() {
 
       const { userId, isGuest, isLogin, changeUserId,  themaPageIsOpen, handleThemaPage,
-        color, handleColorChange, logout, socialLogin, gameStart, gameStartEndToggle } =  this.props
+        color, handleColorChange, logout, socialLogin, gameStart, gameStartEndToggle,
+       } =  this.props
 
         return (
             <div className="Nav-square" >

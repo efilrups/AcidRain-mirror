@@ -29,7 +29,7 @@ class GameOver extends Component {
     }
 
     render() {
-        const { userId, selectedStageName, score, missedCode} = this.props
+        const { userId, selectedStageName, score, missedCode, resetGameLevel, resetStageContents } = this.props
         return (
              <div className="window GameOver-window" id="gameOverFocus" onKeyDown={this.onKeyPressed}  tabindex="0">
                 <div className="window-body">
@@ -43,6 +43,8 @@ class GameOver extends Component {
 
                         <div className="field-row" style={{ justifyContent: 'center' }}>
                             <button className="gameoverBtn"onClick={()=>{
+                                resetStageContents()
+                                resetGameLevel()
                                 this.props.history.push('/ranking') // 여기서 랭킹으로 이동
                             }}>확인</button>
                         </div>
