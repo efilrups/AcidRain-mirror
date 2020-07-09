@@ -32,12 +32,11 @@ class PlayStage extends Component {
       if(e.which === 13 && e.ctrlKey){
         this.startToggle();
       }
-    if(e.key==='Escape'){
-      this.props.history.goBack()
-      if(document.querySelector('.inputAnswer')){
-        document.querySelector('.inputAnswer').focus()
+      if(e.key==='Escape'){
+        this.props.history.goBack()
       }
-    }
+    } else {
+      document.querySelector('.inputAnswer').focus()
     }
   
   }
