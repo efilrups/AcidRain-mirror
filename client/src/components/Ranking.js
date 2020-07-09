@@ -31,7 +31,7 @@ class Ranking extends Component {
     async componentDidMount() {
         document.getElementById('RankingFocus').focus()
         const { userId } = this.props
-        await axios.get('http://localhost:5000/main/rank', {
+        await axios.get('http://13.125.33.38:5000/main/rank', {
             nickname: userId
         })
             // await axios.get('http://13.125.33.38:5000/main/rank')
