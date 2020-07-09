@@ -77,8 +77,8 @@ class UserLogin extends Component {
     }
    
     socialLoggedin = (response) => {
-      console.log('login', response)
       this.props.changeUserId(`Google_${response.Rt.Bd}`, true)
+      
     }
 
     render() {

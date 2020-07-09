@@ -39,13 +39,17 @@ class App extends Component {
     let result = await axios.post('http://localhost:5000/main/login', {
       'session': cookie.load('sessionKey')
     })
-    this.setState({ isLogin: true, userId: result.data })
+    console.log('result: ', result);
+    if(result.data.socialLogin){
+      this.setState({ isLogin: true, socialLogin: true, userId: result.data.nickname })
+    } else {
+      this.setState({ isLogin: true, userId: result.data.nickname })
+    }
   }
   // 로그아웃
-  logout = () => {
-    this.setState({ isLogin: false, userId: '' })
+  logout = (social) => {
+    this.setState({ isLogin: false, userId: '', socialLogin: false })
     cookie.remove('sessionKey')
-    console.log('this.state: ', this.state.userId);
   }
 
 
@@ -60,9 +64,14 @@ class App extends Component {
     }
   }
   // 유저의 로그인
-  changeUserId = (user, social) => {
+  changeUserId = async (user, social) => {
     if(social){
+      let result = await axios.post('http://localhost:5000/main/login', {
+        nickname: user,
+        social: social
+      })
       this.setState({ userId: user, socialLogin: true, isLogin: true })
+      cookie.save('sessionKey', result.data.session)
     } else {
       this.setState({ userId: user, isLogin: true })
     }
