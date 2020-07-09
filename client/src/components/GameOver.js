@@ -5,13 +5,13 @@ import { withRouter } from 'react-router-dom'
 const axios = require('axios');
 
 class GameOver extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
     }
 
 
-    onKeyPressed=(e)=>{
-        if(e.key==="Enter"){
+    onKeyPressed = (e) => {
+        if (e.key === "Enter") {
             this.props.history.push('/ranking')
         }
     }
@@ -29,9 +29,13 @@ class GameOver extends Component {
     }
 
     render() {
-        const { userId, selectedStageName, score, missedCode} = this.props
+        const { userId, selectedStageName, score, missedCode, resetGameLevel, resetStageContents } = this.props
         return (
-             <div className="window GameOver-window" id="gameOverFocus" onKeyDown={this.onKeyPressed}  tabindex="0">
+            <div className="window GameOver-window" id="gameOverFocus" onKeyDown={(e) => {
+                this.onKeyPressed(e)
+                resetGameLevel()
+                resetStageContents()
+            }} tabindex="0">
                 <div className="window-body">
                     <p className="GameOver-title" style={{ textAlign: "center" }}>게임 결과</p>
 
@@ -42,7 +46,9 @@ class GameOver extends Component {
 
 
                         <div className="field-row" style={{ justifyContent: 'center' }}>
-                            <button className="gameoverBtn"onClick={()=>{
+                            <button className="gameoverBtn" onClick={() => {
+                                resetStageContents()
+                                resetGameLevel()
                                 this.props.history.push('/ranking') // 여기서 랭킹으로 이동
                             }}>확인</button>
                         </div>

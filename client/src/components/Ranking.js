@@ -83,6 +83,10 @@ class Ranking extends Component {
                                     <button className="Ranking-button" onClick={() => {
                                         //스테이지 선택 버튼을 누르면 스테이지 선택 페이지로 이동
                                         this.props.history.push('/selectStage')
+                                        if( document.getElementById('SelectStage-window')){
+                                            document.getElementById('SelectStage-window').focus()
+                                        }
+                                      
                                     }}>스테이지 선택</button>
                                     : ''
                             }

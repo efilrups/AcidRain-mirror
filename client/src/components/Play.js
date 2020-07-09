@@ -286,7 +286,8 @@ class Play extends Component {
 
 
   render() {
-    const {userId, selectedStageName, stageContents, gameStartEndToggle, gameLevel, modalOpened } = this.props
+    const {userId, selectedStageName, stageContents, gameStartEndToggle, gameLevel, modalOpened,
+    resetGameLevel, resetStageContents } = this.props
     const { score } = this.state
 
     const gameEnd = (
@@ -381,7 +382,8 @@ class Play extends Component {
           !this.props.gameStart
           ? <GameOver userId={userId} selectedStageName={selectedStageName}
             stageContents={stageContents} score={this.score} missedCode={this.missedCode}
-            gameStartEndToggle={gameStartEndToggle} />
+            gameStartEndToggle={gameStartEndToggle}
+            resetGameLevel={resetGameLevel} resetStageContents={resetStageContents} />
           : null
         }
       </div>
