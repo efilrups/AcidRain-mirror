@@ -41,7 +41,7 @@ class SelectStage extends Component {
         });
     }
 
-    async componentDidMount  () {
+    gcomponentDidMount  () {
         document.getElementById('SelectStage-window').focus()
 
         axios.get('http://localhost:5000/main/selectstage')
