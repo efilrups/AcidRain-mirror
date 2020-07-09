@@ -47,13 +47,17 @@ resetStageContents = () => {
     let result = await axios.post('http://localhost:5000/main/login', {
       'session': cookie.load('sessionKey')
     })
-    this.setState({ isLogin: true, userId: result.data })
+    console.log('result: ', result);
+    if(result.data.socialLogin){
+      this.setState({ isLogin: true, socialLogin: true, userId: result.data.nickname })
+    } else {
+      this.setState({ isLogin: true, userId: result.data.nickname })
+    }
   }
   // 로그아웃
-  logout = () => {
-    this.setState({ isLogin: false, userId: '' })
+  logout = (social) => {
+    this.setState({ isLogin: false, userId: '', socialLogin: false })
     cookie.remove('sessionKey')
-    console.log('this.state: ', this.state.userId);
   }
 
 
@@ -68,9 +72,14 @@ resetStageContents = () => {
     }
   }
   // 유저의 로그인
-  changeUserId = (user, social) => {
+  changeUserId = async (user, social) => {
     if(social){
+      let result = await axios.post('http://localhost:5000/main/login', {
+        nickname: user,
+        social: social
+      })
       this.setState({ userId: user, socialLogin: true, isLogin: true })
+      cookie.save('sessionKey', result.data.session)
     } else {
       this.setState({ userId: user, isLogin: true })
     }
@@ -130,7 +139,7 @@ resetStageContents = () => {
       let footerState =
       !isLogin ? "로그인을 진행해주세요."
       : (isLogin && !stageContents && !wantToMake) ? "스테이지를 고르고 엔터를 누르거나 'M'을 눌러 스테이지를 만들어보세요."
-      : (stageContents && !gameStart) ? "게임을 시작하려면 엔터를 누르고 스테이지를 다시 선택하려면 ESC를 누르세요."
+      : (stageContents && !gameStart) ? "게임을 시작하려면 ctrl+엔터를 누르고 스테이지를 다시 선택하려면 ESC를 누르세요."
       : wantToMake ? "뒤로 돌아가려면 ESC를 누르세요."
       : !gameStart ? "엔터를 누르세요."
       : gameStart ? "게임을 중지하려면 ESC를 누르세요."

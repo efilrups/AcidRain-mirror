@@ -9,15 +9,15 @@ class Nav extends Component {
     }
     navLogout = async() =>{
       console.log('logoutNav')
-      await this.props.logout()
+      await this.props.logout(true)
     }
 
     render() {
 
       const { userId, isGuest, isLogin, changeUserId,  themaPageIsOpen, handleThemaPage,
-        color, handleColorChange, logout, socialLogin, gameStart, gameStartEndToggle,
-       } =  this.props
-
+        color, handleColorChange, logout, socialLogin, gameStart, gameStartEndToggle } =  this.props
+        
+        console.log('changeUserId: ', socialLogin);
         return (
             <div className="Nav-square" >
                 <div className="Nav-link">
