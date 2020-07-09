@@ -55,7 +55,8 @@ class SelectStage extends Component {
       //selectStage 경로로 이동하면 stage테이블에 저장된 데이터를 모두 가져오고 stageNames에 담김
       axios.get('http://localhost:5000/main/selectstage')
       .then(res => {
-        if (prevState.savedStages.length !== res.data.length) {
+        if (JSON.stringify(res.data) !== JSON.stringify(prevState.savedStages)) {
+
           this.setState({ savedStages: res.data })
         }
       })
