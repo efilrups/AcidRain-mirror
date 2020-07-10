@@ -94,15 +94,15 @@ Repository 다운로드 없이 다음 링크에서 바로 플레이할 수 있�
 </br>
 ![Alt text](./stack.png)
 </br>
-Client - react, google api
-Server - express, mysql, sequelize, session-cookie, node
+Client - react, google api</br>
+Server - express, mysql, sequelize, session-cookie, node</br>
 Deploy - S3, EC2, RDS
 </br>
 
 ## :busts_in_silhouette: Author
 
 </br>
-Front-end : 김나연 / 이건민
+Front-end : 김나연 / 이건민</br>
 Back-end : 권오연 / 박찬울
 </br>
 
