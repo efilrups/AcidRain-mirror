@@ -92,7 +92,7 @@ Repository 다운로드 없이 다음 링크에서 바로 플레이할 수 있�
 ## :notebook: Used Stack
 
 </br>
-![Alt text](./stack.gif)
+![Alt text](./stack.png)
 </br>
 Client - react, google api
 Server - express, mysql, sequelize, session-cookie, node
