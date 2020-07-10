@@ -65,7 +65,7 @@ class Nav extends Component {
                       gameStart
                       ? null
                       : userId
-                        ? isGuest
+                        ? isGuest || socialLogin
                           ? null
                           : <Link to='/mypage' className="Link-mypage">마이페이지</Link>
                         : null
