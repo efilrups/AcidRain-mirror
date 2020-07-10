@@ -18,10 +18,16 @@ module.exports = {
                   nickname: req.body.nickname
               }
             })
-            if(result[0] === 0){
+	    req.session.isLogin = true
+	    req.session.nickname = req.body.newnickname
+		  console.log('--------------', req.sessionStore.sessions[req.body.session])
+	    if(result[0] === 0){
               res.status(404).send("이미 존재하는 닉네임입니다");
             } else {
-              res.status(200).send({ nickname: req.body.nickname });
+              res.status(200).send({ 
+		      nickname: req.body.nickname,
+	      	      session: req.sessionID
+	      });
             }
 
             // componentDidMount() 로 mypage 불러오는 화면이라면?
@@ -30,18 +36,20 @@ module.exports = {
               attributes: ['missedcode', 'stagename', 'score', 'createdAt'],
               where: {
                 nickname: req.body.nickname
-              }
+              },
+	      order: [
+                ['createdAt', 'DESC'],
+              ]
             })
             let result = []
-            console.log(`???????${myplaylogs[4].dataValues.missedcode}???????`)
+      
             myplaylogs.forEach(myplaylog => {
               let date = JSON.stringify(myplaylog.dataValues.createdAt).split('').splice(3,8).join('').split('-').join('.');
-              
               result.push({
                 'score': myplaylog.dataValues.score,
                 'stagename': myplaylog.dataValues.stagename,
                 'createdAt': date,
-                'missedcode': `${Math.floor(((myplaylog.dataValues.missedcode.match(/"/g) || []).length)/2)} 개`
+                'missedcode': `${JSON.parse(myplaylog.dataValues.missedcode).length} 개`
               })
             })
 
