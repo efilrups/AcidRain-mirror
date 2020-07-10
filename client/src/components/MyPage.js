@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import "./css/MyPage.css"
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import cookie from 'react-cookies'
 
 const axios = require('axios')
 
@@ -31,20 +32,26 @@ class MyPage extends Component {
         }
     }
 
-    handleNicknameChange() {
+    handleNicknameChange = async () => {
         const { userId, changeUserId } = this.props
         axios.post('http://localhost:5000/main/mypage', {
             // 기존 유저정보의 닉네임 (this.state에서 가지고 오기)
             nickname: userId,
             // 인풋 밸류로 수정할 닉네임을 받아주기
-            newnickname: this.state.nickname
+            newnickname: this.state.nickname,
+            // 세션키를 보내어 해당 세션의 값을 바꾼다
+            'session': cookie.load('sessionKey')
+        }).then(res=>{
+            cookie.save('sessionKey', res.data.session)
         })
+       
+        
         // Nav바에 보이는 닉네임 바꾸기
         changeUserId(this.state.nickname)
         // * 이제 확인해봐야할 것은 플레이스 홀더가 다시 초기화로 바뀌는지
         // * alert 메시지에 이미 존재하는 닉네임입니다 뜰 수 있게 변경
-        //alert("닉네임이 수정되었습니다.")
-
+        // alert("닉네임이 수정되었습니다.")
+        
         this.setState({
             placeholder: "수정할 닉네임을 입력하세요"
         }, () => alert("닉네임이 수정되었습니다."))

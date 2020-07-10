@@ -1,13 +1,13 @@
 let rainPassword = process.env.RAIN_PASSWORD
 module.exports = {
-  server: {
-    username: 'root',
+  development: {
+    username: 'username',
     password: rainPassword,
     database: 'acidrain',
     host: '127.0.0.1',
     dialect: 'mysql'
   },
-  development: {
+  service: {
     username: 'master',
     password: rainPassword,
     database: 'acidrain',
