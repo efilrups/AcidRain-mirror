@@ -18,6 +18,8 @@ module.exports = {
                   nickname: req.body.nickname
               }
             })
+            req.session.isLogin = true
+            req.session.nickname = req.body.newnickname
             if(result[0] === 0){
               res.status(404).send("이미 존재하는 닉네임입니다");
             } else {

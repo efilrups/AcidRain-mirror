@@ -45,7 +45,7 @@ resetStageContents = () => {
 
   // 로그인 유지
   async componentDidMount() {
-    let result = await axios.post('http://13.125.33.38:5000/main/login', {
+    let result = await axios.post('http://localhost:5000/main/login', {
       'session': cookie.load('sessionKey')
     })
     console.log('result: ', result);
@@ -75,7 +75,7 @@ resetStageContents = () => {
   // 유저의 로그인
   changeUserId = async (user, social) => {
     if(social){
-      let result = await axios.post('http://13.125.33.38:5000/main/login', {
+      let result = await axios.post('http://localhost:5000/main/login', {
         nickname: user,
         social: social
       })
