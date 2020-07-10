@@ -33,6 +33,7 @@ class PlayStage extends Component {
         this.startToggle();
       }
       if(e.key==='Escape'){
+        this.props.resetStageContents()
         this.props.history.goBack()
       }
     } else {
@@ -40,10 +41,6 @@ class PlayStage extends Component {
     }
   
   }
-
-
-
-
 
   render() {
     const gameRule = (

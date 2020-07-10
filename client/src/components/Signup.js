@@ -59,7 +59,7 @@ class Signup extends Component {
       }
       // 입력창에 모두 올바르게 입력완료
       else {
-        let result = await axios.post('http://localhost:5000/main/signup', {
+        let result = await axios.post('http://13.125.33.38:5000/main/signup', {
           email : this.state.email,
           password: this.state.password,
           nickname: this.state.nickname

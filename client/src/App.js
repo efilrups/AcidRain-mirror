@@ -3,6 +3,7 @@ import { Nav, Login, PlayStage } from './pages'
 import { Route, Redirect } from 'react-router-dom'
 import { Play, Mypage } from './components'
 import cookie from 'react-cookies'
+import sea from './image/sea.png'
 const axios = require('axios');
 
 class App extends Component {
@@ -44,7 +45,7 @@ resetStageContents = () => {
 
   // 로그인 유지
   async componentDidMount() {
-    let result = await axios.post('http://localhost:5000/main/login', {
+    let result = await axios.post('http://13.125.33.38:5000/main/login', {
       'session': cookie.load('sessionKey')
     })
     console.log('result: ', result);
@@ -74,7 +75,7 @@ resetStageContents = () => {
   // 유저의 로그인
   changeUserId = async (user, social) => {
     if(social){
-      let result = await axios.post('http://localhost:5000/main/login', {
+      let result = await axios.post('http://13.125.33.38:5000/main/login', {
         nickname: user,
         social: social
       })
@@ -134,8 +135,6 @@ resetStageContents = () => {
   render() {
     const { userId, isGuest, selectedStageName, stageContents, gameStart,
       wantToMake, isLogin, themaPageIsOpen, color, gameLevel, socialLogin, modalOpened, update } = this.state
-
-
       let footerState =
       !isLogin ? "로그인을 진행해주세요."
       : (isLogin && !stageContents && !wantToMake) ? "스테이지를 고르고 엔터를 누르거나 'M'을 눌러 스테이지를 만들어보세요."
@@ -143,7 +142,6 @@ resetStageContents = () => {
       : wantToMake ? "뒤로 돌아가려면 ESC를 누르세요."
       : !gameStart ? "엔터를 누르세요."
       : gameStart ? "게임을 중지하려면 ESC를 누르세요."
-
       : ''
 
     return (
@@ -217,13 +215,12 @@ resetStageContents = () => {
             />
           }></Route>
         <footer>
-<div className="footerImg">     
-<img src={require('./image/sea.png')}/>
-</div>  
+          <img className="footerImg" src={sea} />
+          {/* <div className="footerImg" ></div> */}
           <div className="footer">
-            <p className="footer-text">{footerState}</p>
+            <div className="footer-text">{footerState}</div>
             <hr id="footer-bar"/>
-            <p className="footer-title">산성비</p>
+            <div className="footer-title">산성비</div>
           </div>
 
         </footer>
