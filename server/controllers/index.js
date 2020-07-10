@@ -20,7 +20,6 @@ module.exports = {
             })
 	    req.session.isLogin = true
 	    req.session.nickname = req.body.newnickname
-		  console.log('--------------', req.sessionStore.sessions[req.body.session])
 	    if(result[0] === 0){
               res.status(404).send("이미 존재하는 닉네임입니다");
             } else {
@@ -37,12 +36,11 @@ module.exports = {
               where: {
                 nickname: req.body.nickname
               },
-	      order: [
+              order: [
                 ['createdAt', 'DESC'],
               ]
             })
             let result = []
-      
             myplaylogs.forEach(myplaylog => {
               let date = JSON.stringify(myplaylog.dataValues.createdAt).split('').splice(3,8).join('').split('-').join('.');
               result.push({
@@ -264,6 +262,7 @@ module.exports = {
     // 만약에 게임하지 않고 데이터를 보낸다면?
     gameover: {
       post: async function (req, res){
+        console.log('---------------')
         if(req.body.userid){
           console.log('회원입니다')
         }
