@@ -14,7 +14,7 @@ const port = 5000;
 
 app.use(
     session({
-      secret: "@acid-rain",
+      secret: "",
       resave: false,
       saveUninitialized: false
     })
