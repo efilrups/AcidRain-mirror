@@ -80,16 +80,30 @@ NOTE: 이 server는 5000 포트에서 작동합니다. </br>
 
 </br>
 
-## :notebook: Used Stack
+## :gem: Deploy
 
 </br>
 
+Repository 다운로드 없이 다음 링크에서 바로 플레이할 수 있습니다.  </br>
+* http://acidrain.s3-website.ap-northeast-2.amazonaws.com/
 
+</br>
+
+## :notebook: Used Stack
+
+</br>
+![Alt text](./stack.gif)
+</br>
+Client - react, google api
+Server - express, mysql, sequelize, session-cookie, node
+Deploy - S3, EC2, RDS
+</br>
 
 ## :busts_in_silhouette: Author
 
 </br>
-권오연 / 김나연 / 박찬울 / 이건민
+Front-end : 김나연 / 이건민
+Back-end : 권오연 / 박찬울
 </br>
 
 
@@ -99,4 +113,5 @@ NOTE: 이 server는 5000 포트에서 작동합니다. </br>
 
 MIT © 2020 Acid-rain/codestates
 
+</br></br>
 
