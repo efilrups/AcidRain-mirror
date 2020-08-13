@@ -30,7 +30,7 @@ app.use(cookieParser());
 
 app.use(
     cors({
-      origin: ['http://acidrain.s3-website.ap-northeast-2.amazonaws.com'],
+      origin: ['http://localhost:3000'],
       methods: ['GET', 'POST'],
       credentials: true
     })

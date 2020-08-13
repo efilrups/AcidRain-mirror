@@ -34,15 +34,17 @@ class MyPage extends Component {
 
     handleNicknameChange = async () => {
         const { userId, changeUserId } = this.props
-        let result = await axios.post('http://13.125.33.38:5000/main/mypage', {
+        axios.post('http://localhost:5000/main/mypage', {
             // 기존 유저정보의 닉네임 (this.state에서 가지고 오기)
             nickname: userId,
             // 인풋 밸류로 수정할 닉네임을 받아주기
             newnickname: this.state.nickname,
             // 세션키를 보내어 해당 세션의 값을 바꾼다
             'session': cookie.load('sessionKey')
+        }).then(res=>{
+            cookie.save('sessionKey', res.data.session)
         })
-        cookie.save('sessionKey', result.data.session)
+       
         
         // Nav바에 보이는 닉네임 바꾸기
         changeUserId(this.state.nickname)
@@ -74,7 +76,7 @@ class MyPage extends Component {
     componentDidMount() {
         document.getElementById('MypageFocus').focus()
         const { userId } = this.props
-        axios.post('http://13.125.33.38:5000/main/mypage', {
+        axios.post('http://localhost:5000/main/mypage', {
             nickname: userId
         })
             // state에 들어간 playlog를 화면에 표시하는 방법

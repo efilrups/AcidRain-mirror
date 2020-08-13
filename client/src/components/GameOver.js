@@ -20,7 +20,7 @@ class GameOver extends Component {
         document.getElementById('gameOverFocus').focus()
         //유저의 방금 게임 정보를 서버에 보내주기
       const { userId, selectedStageName,  score, missedCode } = this.props
-      await axios.post('http://13.125.33.38:5000/main/gameover', {
+      await axios.post('http://localhost:5000/main/gameover', {
         missedcode:JSON.stringify(missedCode),
         score: score,
         nickname: userId,

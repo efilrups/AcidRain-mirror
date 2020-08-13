@@ -69,7 +69,7 @@ class MakeStage extends Component {
                                         //db에 저장하는 post요청, 창닫기
                                         console.log(update)
                                         if(userId){
-                                          await axios.post("http://13.125.33.38:5000/main/makestage", {
+                                          await axios.post("http://localhost:5000/main/makestage", {
                                             userId: userId,
                                             update: update,
                                             stagename: inputStageName,

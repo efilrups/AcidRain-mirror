@@ -18,15 +18,12 @@ module.exports = {
                   nickname: req.body.nickname
               }
             })
-	    req.session.isLogin = true
-	    req.session.nickname = req.body.newnickname
-	    if(result[0] === 0){
+            req.session.isLogin = true
+            req.session.nickname = req.body.newnickname
+            if(result[0] === 0){
               res.status(404).send("이미 존재하는 닉네임입니다");
             } else {
-              res.status(200).send({ 
-		      nickname: req.body.nickname,
-	      	      session: req.sessionID
-	      });
+              res.status(200).send({ nickname: req.body.nickname, session: req.sessionID });
             }
 
             // componentDidMount() 로 mypage 불러오는 화면이라면?
